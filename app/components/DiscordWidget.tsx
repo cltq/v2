@@ -99,10 +99,10 @@ export default function DiscordWidget({
             <img
               src={normalizeDiscordCdnUrl(presence.avatar)}
               alt={`${presence.username}'s avatar`}
-              width={compact ? 44 : 56}
-              height={compact ? 44 : 56}
+              width={compact ? 44 : 64}
+              height={compact ? 44 : 64}
               className="rounded-full object-cover"
-              style={{ width: compact ? 44 : 56, height: compact ? 44 : 56 }}
+              style={{ width: compact ? 44 : 64, height: compact ? 44 : 64 }}
             />
             <span className="absolute -bottom-0.5 -right-0.5">
               <StatusBadge
