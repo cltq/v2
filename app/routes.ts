@@ -12,13 +12,5 @@ export const appRoutes: AppRoute[] = [
   {
     name: "Music",
     href: "/music",
-  },
-  {
-    name: "Projects",
-    href: "/projects",
-  },
-  {
-    name: "GitHub",
-    href: "/github",
-  },
+  }
 ];

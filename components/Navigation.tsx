@@ -29,7 +29,7 @@ export default function Navbar() {
               }`}
             >
               {active ? (
-                <span>一 [ </span>
+                <span>一 </span>
               ) : (
                 <span className="text-zinc-500">—</span>
               )}
