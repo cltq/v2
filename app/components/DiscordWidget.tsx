@@ -101,6 +101,7 @@ export default function DiscordWidget({
               alt={`${presence.username}'s avatar`}
               width={compact ? 44 : 64}
               height={compact ? 44 : 64}
+              loading="lazy"
               className="rounded-full object-cover"
               style={{ width: compact ? 44 : 64, height: compact ? 44 : 64 }}
             />

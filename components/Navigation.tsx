@@ -73,9 +73,9 @@ export default function Navbar() {
       )}
 
       <aside
-        className={`${GeistMono.variable} fixed left-0 top-0 z-50 flex h-screen w-[180px] flex-col items-start justify-center bg-transparent px-4 font-mono transition-transform duration-300 max-md:${
+        className={`${GeistMono.variable} fixed left-0 top-0 z-50 flex h-screen w-[180px] flex-col items-start justify-center bg-transparent px-4 font-mono transition-transform duration-300 md:translate-x-0 ${
           open ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0`}
+        }`}
       >
         {links}
       </aside>
