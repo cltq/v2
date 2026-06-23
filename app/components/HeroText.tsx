@@ -5,6 +5,12 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const roles = ["Developer", "Photographer", "Normal Person"];
 
+const charWidth = 9.6;
+
+function textWidth(text: string): number {
+  return text.length * charWidth + 8;
+}
+
 export default function HeroText() {
   const [index, setIndex] = useState(0);
 
@@ -19,7 +25,11 @@ export default function HeroText() {
     <div className="flex items-center justify-center">
       <p className="text-base text-zinc-400">
         I&apos;m a{" "}
-        <span className="relative inline-flex items-center justify-center min-w-[140px] h-[1.5em] align-middle">
+        <motion.span
+          className="relative inline-flex items-center justify-center h-[1.5em] align-middle overflow-hidden"
+          animate={{ width: textWidth(roles[index]) }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+        >
           <AnimatePresence mode="wait">
             <motion.span
               key={roles[index]}
@@ -32,7 +42,7 @@ export default function HeroText() {
               {roles[index]}
             </motion.span>
           </AnimatePresence>
-        </span>
+        </motion.span>
       </p>
     </div>
   );
