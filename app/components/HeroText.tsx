@@ -43,18 +43,21 @@ export default function HeroText() {
       </motion.p>
 
       <div className="h-8 flex items-center justify-center">
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={roles[index]}
-            className="text-xl text-zinc-400"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-          >
-            {roles[index]}
-          </motion.p>
-        </AnimatePresence>
+        <p className="text-xl text-zinc-400">
+          I&apos;m a{" "}
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={roles[index]}
+              className="inline-block text-white"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+            >
+              {roles[index]}
+            </motion.span>
+          </AnimatePresence>
+        </p>
       </div>
 
       <motion.div

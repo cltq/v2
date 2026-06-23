@@ -103,30 +103,7 @@ export function StatusBadge({
       >
         {StatusIcon?.(iconSize)}
       </motion.span>
-      {status === "online" && (
-        <motion.span
-          className="absolute rounded-full"
-          style={{
-            backgroundColor: color,
-            width: size,
-            height: size,
-            top: "50%",
-            left: "50%",
-            x: "-50%",
-            y: "-50%",
-            opacity: 0.4,
-          }}
-          animate={{
-            scale: [1, 1.8],
-            opacity: [0.4, 0],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeOut",
-          }}
-        />
-      )}
+
     </span>
   );
 }
