@@ -12,9 +12,17 @@ export async function OPTIONS() {
   return NextResponse.json(null, { headers: corsHeaders });
 }
 
+function lastfmUrl(method: string, apiKey: string, extra: Record<string, string> = {}) {
+  const params = new URLSearchParams({ method, api_key: apiKey, format: "json", ...extra });
+  return `${LASTFM_API}?${params}`;
+}
+
+function isAlbumPlaceholder(url: string) {
+  return url.includes("2a96cbd8b46e442fc41c2b86b821562f");
+}
+
 export async function GET(request: NextRequest) {
   const headers = { ...corsHeaders };
-
   const { searchParams } = new URL(request.url);
 
   if (searchParams.has("img")) {
@@ -47,16 +55,73 @@ export async function GET(request: NextRequest) {
 
   const method = searchParams.get("method") || "user.gettoptracks";
   const period = searchParams.get("period") || "1month";
-  const limit = searchParams.get("limit") || "5";
+  const limit = Number(searchParams.get("limit")) || 5;
 
-  const url = `${LASTFM_API}?method=${method}&user=${user}&period=${period}&limit=${limit}&api_key=${apiKey}&format=json`;
+  const dataUrl = lastfmUrl(method, apiKey, { user, period, limit: String(limit) });
 
   try {
-    const res = await fetch(url);
+    const res = await fetch(dataUrl);
     if (!res.ok) {
       return NextResponse.json({ error: "Last.fm API error" }, { status: res.status, headers });
     }
     const data = await res.json();
+
+    if (method === "user.gettoptracks" && data.toptracks?.track) {
+      const enriched = await Promise.all(
+        data.toptracks.track.map(async (track: any) => {
+          try {
+            const infoRes = await fetch(
+              lastfmUrl("track.getInfo", apiKey, {
+                artist: track.artist.name,
+                track: track.name,
+                user,
+              })
+            );
+            if (infoRes.ok) {
+              const info = await infoRes.json();
+              const album = info.track?.album;
+              if (album?.image) {
+                const realImages = album.image.filter(
+                  (i: any) => i["#text"] && !isAlbumPlaceholder(i["#text"])
+                );
+                if (realImages.length > 0) {
+                  return { ...track, image: album.image };
+                }
+              }
+            }
+          } catch {}
+          return track;
+        })
+      );
+      data.toptracks.track = enriched;
+    }
+
+    if (method === "user.gettopartists" && data.topartists?.artist) {
+      const enriched = await Promise.all(
+        data.topartists.artist.map(async (artist: any) => {
+          try {
+            const infoRes = await fetch(
+              lastfmUrl("artist.getInfo", apiKey, { artist: artist.name, user })
+            );
+            if (infoRes.ok) {
+              const info = await infoRes.json();
+              const artistInfo = info.artist;
+              if (artistInfo?.image) {
+                const realImages = artistInfo.image.filter(
+                  (i: any) => i["#text"] && !isAlbumPlaceholder(i["#text"])
+                );
+                if (realImages.length > 0) {
+                  return { ...artist, image: artistInfo.image };
+                }
+              }
+            }
+          } catch {}
+          return artist;
+        })
+      );
+      data.topartists.artist = enriched;
+    }
+
     return NextResponse.json(data, { headers });
   } catch {
     return NextResponse.json({ error: "Failed to fetch from Last.fm" }, { status: 500, headers });

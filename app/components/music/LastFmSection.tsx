@@ -6,17 +6,15 @@ import { fetchTopTracks, fetchTopArtists } from "@/app/lib/lastfm/api";
 import type { LastFmTrack, LastFmArtist, LastFmImage, TopItemType } from "@/app/lib/lastfm/types";
 
 function TrackImage({ images }: { images: LastFmImage[] }) {
-  if (!images || images.length === 0) return <div className="w-12 h-12 rounded bg-zinc-800 shrink-0" />;
-  const src = images.find((i) => i["#text"])?.["#text"];
+  const src = images?.find((i) => i["#text"])?.["#text"];
   if (!src) return <div className="w-12 h-12 rounded bg-zinc-800 shrink-0" />;
-  return <img src={`/api/lastfm?img=${encodeURIComponent(src)}`} alt="" className="w-12 h-12 rounded object-cover shrink-0" />;
+  return <img src={src} alt="" className="w-12 h-12 rounded object-cover shrink-0" />;
 }
 
 function ArtistImage({ images }: { images: LastFmImage[] }) {
-  if (!images || images.length === 0) return <div className="w-12 h-12 rounded-full bg-zinc-800 shrink-0" />;
-  const src = images.find((i) => i["#text"])?.["#text"];
+  const src = images?.find((i) => i["#text"])?.["#text"];
   if (!src) return <div className="w-12 h-12 rounded-full bg-zinc-800 shrink-0" />;
-  return <img src={`/api/lastfm?img=${encodeURIComponent(src)}`} alt="" className="w-12 h-12 rounded-full object-cover shrink-0" />;
+  return <img src={src} alt="" className="w-12 h-12 rounded-full object-cover shrink-0" />;
 }
 
 function TopTracksList({ tracks }: { tracks: LastFmTrack[] }) {
