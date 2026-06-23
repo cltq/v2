@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { GeistMono } from "geist/font/mono";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import Navbar from "@/components/Navigation";
 import GridBackground from "@/components/GridBackground";
 import PageTransition from "@/app/components/PageTransition";
@@ -26,6 +28,8 @@ export default function RootLayout({
         <div className="relative z-10">
           <PageTransition>{children}</PageTransition>
         </div>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
