@@ -18,6 +18,24 @@ function getBestImage(images: LastFmImage[]): string {
   return "";
 }
 
+function TrackImage({ images }: { images: LastFmImage[] }) {
+  const src = toHttps(getBestImage(images));
+  const [error, setError] = useState(false);
+  if (!src || error) return null;
+  return (
+    <img src={src} alt="" className="w-12 h-12 rounded object-cover shrink-0" onError={() => setError(true)} />
+  );
+}
+
+function ArtistImage({ images }: { images: LastFmImage[] }) {
+  const src = toHttps(getBestImage(images));
+  const [error, setError] = useState(false);
+  if (!src || error) return null;
+  return (
+    <img src={src} alt="" className="w-12 h-12 rounded-full object-cover shrink-0" onError={() => setError(true)} />
+  );
+}
+
 function TopTracksList({ tracks }: { tracks: LastFmTrack[] }) {
   return (
     <div className="space-y-2">
@@ -31,13 +49,7 @@ function TopTracksList({ tracks }: { tracks: LastFmTrack[] }) {
             className="flex items-center gap-3"
           >
             <span className="text-sm text-zinc-600 w-5 shrink-0 text-right">{i + 1}</span>
-            {track.image && (
-              <img
-                src={toHttps(getBestImage(track.image))}
-                alt=""
-                className="w-12 h-12 rounded object-cover shrink-0"
-              />
-            )}
+            <TrackImage images={track.image} />
             <div className="min-w-0 flex-1">
               <p className="text-base text-white truncate">{track.name}</p>
               <p className="text-sm text-zinc-500 truncate">{track.artist.name}</p>
@@ -63,13 +75,7 @@ function TopArtistsList({ artists }: { artists: LastFmArtist[] }) {
             className="flex items-center gap-3"
           >
             <span className="text-sm text-zinc-600 w-5 shrink-0 text-right">{i + 1}</span>
-            {artist.image && (
-              <img
-                src={toHttps(getBestImage(artist.image))}
-                alt=""
-                className="w-12 h-12 rounded-full object-cover shrink-0"
-              />
-            )}
+            <ArtistImage images={artist.image} />
             <div className="min-w-0 flex-1">
               <p className="text-base text-white truncate">{artist.name}</p>
             </div>
