@@ -3,6 +3,8 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useDiscordPresence } from "@/app/hooks/useDiscordPresence";
 import { StatusBadge } from "@/app/components/discord/StatusBadge";
+import { SpotifyCard } from "@/app/components/discord/SpotifyCard";
+import { ActivityCycle } from "@/app/components/discord/ActivityCard";
 import type { DiscordWidgetProps } from "@/app/lib/discord/types";
 import { normalizeDiscordCdnUrl } from "@/app/lib/discord/url";
 
@@ -74,25 +76,16 @@ export default function DiscordWidget({
     ? parseCustomStatus(presence.customStatus)
     : null;
 
-  const presenceSpotify = showSpotify && presence.spotify ? presence.spotify : null;
-  const presenceActivity = showActivities && presence.activities.length > 0 ? presence.activities[0] : null;
-
-  const activityLabel =
-    presenceActivity
-      ? ({
-          "0": "Playing",
-          "1": "Streaming",
-          "2": "Listening to",
-          "3": "Watching",
-          "5": "Competing",
-        }[String(presenceActivity.type)] ?? "Playing")
-      : null;
+  const showSpotifySection = showSpotify && presence.spotify;
+  const showActivitySection =
+    showActivities && presence.activities.length > 0;
+  const hasPresence = customStatus || showSpotifySection || showActivitySection;
 
   return (
     <AnimatePresence mode="wait">
       <motion.div
         key={presence.id}
-        className={`flex flex-col md:flex-row md:items-center gap-x-5 gap-y-1.5 ${className}`}
+        className={`flex flex-col md:flex-row md:items-center gap-x-6 gap-y-2 ${className}`}
         initial={animated ? { opacity: 0, y: 20 } : undefined}
         animate={animated ? { opacity: 1, y: 0 } : undefined}
         transition={
@@ -132,27 +125,43 @@ export default function DiscordWidget({
           </div>
         </div>
 
-        {presenceSpotify && (
-          <p className="text-[13px] text-zinc-400 truncate max-w-48">
-            <span className="text-zinc-500">Listening to </span>
-            <span className="text-white">{presenceSpotify.song}</span>
-            <span className="text-zinc-500"> by </span>
-            {presenceSpotify.artist}
-          </p>
-        )}
-
-        {!presenceSpotify && presenceActivity && (
-          <p className="text-[13px] text-zinc-400 truncate max-w-48">
-            <span className="text-zinc-500">{activityLabel} </span>
-            {presenceActivity.name}
-          </p>
-        )}
-
-        {customStatus && !presenceSpotify && !presenceActivity && (
-          <p className="text-[13px] text-zinc-400 truncate max-w-48">
-            {customStatus.emoji && <span className="mr-1">{customStatus.emoji}</span>}
-            {customStatus.text}
-          </p>
+        {hasPresence && (
+          <div className="flex flex-col gap-1 min-w-0 max-w-56">
+            {customStatus && (
+              <p className="text-[13px] text-zinc-400 leading-tight truncate">
+                {customStatus.emoji && <span className="mr-1">{customStatus.emoji}</span>}
+                {customStatus.text}
+              </p>
+            )}
+            <AnimatePresence mode="sync">
+              {showSpotifySection && (
+                <SpotifyCard
+                  key="spotify"
+                  spotify={presence.spotify!}
+                  animated={animated}
+                  compact
+                />
+              )}
+            </AnimatePresence>
+            <AnimatePresence mode="sync">
+              {showActivitySection && (
+                <motion.div
+                  key="activities"
+                  initial={animated ? { opacity: 0 } : undefined}
+                  animate={animated ? { opacity: 1 } : undefined}
+                  transition={
+                    animated ? { duration: 0.3, delay: 0.1 } : undefined
+                  }
+                >
+                  <ActivityCycle
+                    activities={presence.activities}
+                    animated={animated}
+                    compact
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         )}
       </motion.div>
     </AnimatePresence>

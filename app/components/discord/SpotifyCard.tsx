@@ -7,15 +7,20 @@ import { normalizeDiscordCdnUrl } from "@/app/lib/discord/url";
 interface SpotifyCardProps {
   spotify: SpotifyData;
   animated?: boolean;
+  compact?: boolean;
 }
 
-export function SpotifyCard({ spotify, animated = true }: SpotifyCardProps) {
+export function SpotifyCard({ spotify, animated = true, compact = false }: SpotifyCardProps) {
   const albumArtSrc = spotify.albumArt || spotify.cover || "";
   const albumArt = normalizeDiscordCdnUrl(albumArtSrc);
 
+  const iconSize = compact ? 28 : 64;
+
   const content = (
-    <div className="flex items-start gap-3">
-      <div className="relative w-16 h-16 shrink-0 rounded-lg overflow-hidden">
+    <div className={`flex items-start ${compact ? "gap-2" : "gap-3"}`}>
+      <div className={`relative shrink-0 rounded-lg overflow-hidden`}
+        style={{ width: iconSize, height: iconSize }}
+      >
         <img
             src={albumArt}
           alt={`${spotify.album} album art`}
@@ -26,15 +31,17 @@ export function SpotifyCard({ spotify, animated = true }: SpotifyCardProps) {
       </div>
 
       <div className="flex-1 min-w-0">
-        <p className="text-[15px] font-semibold text-white truncate">
+        <p className={`${compact ? "text-[13px]" : "text-[15px]"} font-semibold text-white truncate leading-tight`}>
           {spotify.song}
         </p>
-        <p className="text-[14px] text-zinc-400 truncate">
+        <p className={`${compact ? "text-[12px]" : "text-[14px]"} text-zinc-400 truncate leading-tight`}>
           {spotify.artist}
         </p>
-        <p className="text-[13px] text-zinc-500 truncate mt-0.5">
-          {spotify.album}
-        </p>
+        {!compact && (
+          <p className="text-[13px] text-zinc-500 truncate mt-0.5">
+            {spotify.album}
+          </p>
+        )}
       </div>
     </div>
   );
