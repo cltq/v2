@@ -6,6 +6,7 @@ import Navbar from "@/components/Navigation";
 import GridBackground from "@/components/GridBackground";
 import PageTransition from "@/app/components/PageTransition";
 import ContextMenuGuard from "@/app/components/ContextMenuGuard";
+import InfiniteMarquee from "@/app/components/InfiniteMarquee";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -27,8 +28,11 @@ export default function RootLayout({
       <body className="relative min-h-full bg-[#0b0b0f] font-sans text-[#9ca3af] md:pl-[200px]">
         <GridBackground />
         <Navbar />
-        <div className="relative z-10">
-          <PageTransition>{children}</PageTransition>
+        <div className="relative z-10 flex min-h-screen flex-col">
+          <div className="flex-1">
+            <PageTransition>{children}</PageTransition>
+          </div>
+          <InfiniteMarquee />
         </div>
         <Analytics />
         <SpeedInsights />
