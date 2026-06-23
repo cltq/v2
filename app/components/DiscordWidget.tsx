@@ -119,12 +119,12 @@ export default function DiscordWidget({
       >
         {presence.banner && (
           <div
-            className="relative -mx-5 -mt-5 mb-5 h-24 sm:h-28 bg-cover bg-center"
+            className="relative -mx-5 -mt-5 mb-5 h-24 sm:h-28 bg-cover bg-center bg-[#0b0b0f]"
             style={{
               backgroundImage: `url(${normalizeDiscordCdnUrl(presence.banner)})`,
             }}
           >
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/60" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0b0b0f]/60" />
           </div>
         )}
 
