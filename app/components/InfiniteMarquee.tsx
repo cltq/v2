@@ -59,7 +59,7 @@ function Items({ prefix }: { prefix: string }) {
 
 export default function InfiniteMarquee() {
   return (
-    <div className="group overflow-hidden pb-2 max-md:pl-14 w-screen md:-ml-[100px]">
+    <div className="group overflow-hidden pb-2 max-md:pl-14">
       <div
         className="flex items-center gap-6 animate-marquee group-hover:[animation-play-state:paused] whitespace-nowrap text-sm"
         style={{ width: "max-content" }}
