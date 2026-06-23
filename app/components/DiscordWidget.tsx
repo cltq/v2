@@ -99,10 +99,10 @@ export default function DiscordWidget({
             <img
               src={normalizeDiscordCdnUrl(presence.avatar)}
               alt={`${presence.username}'s avatar`}
-              width={compact ? 40 : 44}
-              height={compact ? 40 : 44}
+              width={compact ? 44 : 56}
+              height={compact ? 44 : 56}
               className="rounded-full object-cover"
-              style={{ width: compact ? 40 : 44, height: compact ? 40 : 44 }}
+              style={{ width: compact ? 44 : 56, height: compact ? 44 : 56 }}
             />
             <span className="absolute -bottom-0.5 -right-0.5">
               <StatusBadge
@@ -126,7 +126,7 @@ export default function DiscordWidget({
         </div>
 
         {hasPresence && (
-          <div className="flex flex-col gap-1 min-w-0 max-w-56">
+          <div className="flex flex-col gap-1 min-w-0">
             {customStatus && (
               <p className="text-[13px] text-zinc-400 leading-tight truncate">
                 {customStatus.emoji && <span className="mr-1">{customStatus.emoji}</span>}
@@ -139,7 +139,6 @@ export default function DiscordWidget({
                   key="spotify"
                   spotify={presence.spotify!}
                   animated={animated}
-                  compact
                 />
               )}
             </AnimatePresence>
@@ -156,7 +155,6 @@ export default function DiscordWidget({
                   <ActivityCycle
                     activities={presence.activities}
                     animated={animated}
-                    compact
                   />
                 </motion.div>
               )}
