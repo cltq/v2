@@ -57,7 +57,7 @@ const item = (
 
 export default function InfiniteMarquee() {
   return (
-    <div className="group relative overflow-hidden pb-2 max-md:pl-14">
+    <div className="group relative overflow-hidden pt-32 pb-2 max-md:pl-14">
       <div
         className="flex animate-marquee group-hover:[animation-play-state:paused]"
         style={{ width: "max-content" }}
