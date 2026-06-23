@@ -3,8 +3,11 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { fetchTopTracks, fetchTopArtists } from "@/app/lib/lastfm/api";
-import { normalizeDiscordCdnUrl } from "@/app/lib/discord/url";
 import type { LastFmTrack, LastFmArtist, LastFmImage, TopItemType } from "@/app/lib/lastfm/types";
+
+function toHttps(url: string): string {
+  return url.replace(/^http:\/\//i, "https://");
+}
 
 function getBestImage(images: LastFmImage[]): string {
   const sizes = ["extralarge", "large", "medium", "small"];
@@ -30,7 +33,7 @@ function TopTracksList({ tracks }: { tracks: LastFmTrack[] }) {
             <span className="text-xs text-zinc-600 w-4 shrink-0 text-right">{i + 1}</span>
             {track.image && (
               <img
-                src={normalizeDiscordCdnUrl(getBestImage(track.image))}
+                src={toHttps(getBestImage(track.image))}
                 alt=""
                 className="w-10 h-10 rounded object-cover shrink-0"
               />
@@ -62,7 +65,7 @@ function TopArtistsList({ artists }: { artists: LastFmArtist[] }) {
             <span className="text-xs text-zinc-600 w-4 shrink-0 text-right">{i + 1}</span>
             {artist.image && (
               <img
-                src={normalizeDiscordCdnUrl(getBestImage(artist.image))}
+                src={toHttps(getBestImage(artist.image))}
                 alt=""
                 className="w-10 h-10 rounded-full object-cover shrink-0"
               />
@@ -106,26 +109,24 @@ export default function LastFmSection() {
 
   return (
     <div>
-      <div className="flex items-center gap-3 mb-3">
-        <p className="text-sm text-zinc-500">Been listening to this month</p>
-        <div className="flex gap-1">
-          <button
-            onClick={() => setType("tracks")}
-            className={`text-xs px-2 py-0.5 rounded transition-colors duration-200 ${
-              type === "tracks" ? "text-white bg-zinc-800" : "text-zinc-500 hover:text-zinc-300"
-            }`}
-          >
-            tracks
-          </button>
-          <button
-            onClick={() => setType("artists")}
-            className={`text-xs px-2 py-0.5 rounded transition-colors duration-200 ${
-              type === "artists" ? "text-white bg-zinc-800" : "text-zinc-500 hover:text-zinc-300"
-            }`}
-          >
-            artists
-          </button>
-        </div>
+      <p className="text-sm text-zinc-500 mb-2">Been listening to this month</p>
+      <div className="flex gap-1 mb-3">
+        <button
+          onClick={() => setType("tracks")}
+          className={`text-xs px-2 py-0.5 rounded transition-colors duration-200 ${
+            type === "tracks" ? "text-white bg-zinc-800" : "text-zinc-500 hover:text-zinc-300"
+          }`}
+        >
+          tracks
+        </button>
+        <button
+          onClick={() => setType("artists")}
+          className={`text-xs px-2 py-0.5 rounded transition-colors duration-200 ${
+            type === "artists" ? "text-white bg-zinc-800" : "text-zinc-500 hover:text-zinc-300"
+          }`}
+        >
+          artists
+        </button>
       </div>
 
       {loading ? (
