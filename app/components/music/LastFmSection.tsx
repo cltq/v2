@@ -19,20 +19,26 @@ function getBestImage(images: LastFmImage[]): string {
 }
 
 function TrackImage({ images }: { images: LastFmImage[] }) {
-  const src = toHttps(getBestImage(images));
+  const raw = getBestImage(images);
+  const src = raw ? toHttps(raw) : "";
   const [error, setError] = useState(false);
-  if (!src || error) return null;
+  const [imgSrc, setImgSrc] = useState(src);
+  useEffect(() => { setImgSrc(src); setError(false); }, [src]);
+  if (!imgSrc || error) return <div className="w-12 h-12 rounded bg-zinc-800 shrink-0" />;
   return (
-    <img src={src} alt="" className="w-12 h-12 rounded object-cover shrink-0" onError={() => setError(true)} />
+    <img src={imgSrc} alt="" className="w-12 h-12 rounded object-cover shrink-0" onError={() => setError(true)} />
   );
 }
 
 function ArtistImage({ images }: { images: LastFmImage[] }) {
-  const src = toHttps(getBestImage(images));
+  const raw = getBestImage(images);
+  const src = raw ? toHttps(raw) : "";
   const [error, setError] = useState(false);
-  if (!src || error) return null;
+  const [imgSrc, setImgSrc] = useState(src);
+  useEffect(() => { setImgSrc(src); setError(false); }, [src]);
+  if (!imgSrc || error) return <div className="w-12 h-12 rounded-full bg-zinc-800 shrink-0" />;
   return (
-    <img src={src} alt="" className="w-12 h-12 rounded-full object-cover shrink-0" onError={() => setError(true)} />
+    <img src={imgSrc} alt="" className="w-12 h-12 rounded-full object-cover shrink-0" onError={() => setError(true)} />
   );
 }
 
