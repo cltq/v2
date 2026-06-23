@@ -51,9 +51,8 @@ export default function DiscordWidget({
   });
 
   const widgetClasses = [
-    "rounded-2xl border p-5 w-full max-w-lg",
-    "bg-primary border-default",
-    "shadow-[var(--dp-card-shadow)]",
+    "rounded-2xl p-5 w-full max-w-lg",
+    "bg-primary",
     className,
   ]
     .filter(Boolean)
@@ -136,7 +135,7 @@ export default function DiscordWidget({
               alt={`${presence.username}'s avatar`}
               width={compact ? 52 : 64}
               height={compact ? 52 : 64}
-              className="rounded-full object-cover"
+              className="rounded-full object-cover ring-0"
               style={{ width: compact ? 52 : 64, height: compact ? 52 : 64 }}
             />
             <span className="absolute -bottom-0.5 -right-0.5">
