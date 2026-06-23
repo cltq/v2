@@ -8,6 +8,20 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "*",
 };
 
+const cache = new Map<string, { data: any; expires: number }>();
+const CACHE_TTL = 5 * 60 * 1000;
+
+function cacheGet(key: string) {
+  const entry = cache.get(key);
+  if (entry && entry.expires > Date.now()) return entry.data;
+  cache.delete(key);
+  return null;
+}
+
+function cacheSet(key: string, data: any) {
+  cache.set(key, { data, expires: Date.now() + CACHE_TTL });
+}
+
 export async function OPTIONS() {
   return NextResponse.json(null, { headers: corsHeaders });
 }
@@ -27,16 +41,20 @@ export async function GET(request: NextRequest) {
 
   if (searchParams.has("img")) {
     const imgUrl = searchParams.get("img")!;
+    const cached = cacheGet(`img:${imgUrl}`);
+    if (cached) {
+      return new NextResponse(cached.buffer, {
+        headers: { ...headers, "Content-Type": cached.type, "Cache-Control": "public, max-age=86400" },
+      });
+    }
     try {
       const res = await fetch(imgUrl);
       if (!res.ok) return new NextResponse(null, { status: 404, headers });
+      const contentType = res.headers.get("Content-Type") || "image/jpeg";
       const buffer = await res.arrayBuffer();
+      cacheSet(`img:${imgUrl}`, { buffer: Buffer.from(buffer), type: contentType });
       return new NextResponse(buffer, {
-        headers: {
-          ...headers,
-          "Content-Type": res.headers.get("Content-Type") || "image/jpeg",
-          "Cache-Control": "public, max-age=86400",
-        },
+        headers: { ...headers, "Content-Type": contentType, "Cache-Control": "public, max-age=86400" },
       });
     } catch {
       return new NextResponse(null, { status: 404, headers });
@@ -56,6 +74,10 @@ export async function GET(request: NextRequest) {
   const method = searchParams.get("method") || "user.gettoptracks";
   const period = searchParams.get("period") || "1month";
   const limit = Number(searchParams.get("limit")) || 5;
+
+  const cacheKey = `${method}:${period}:${limit}`;
+  const cached = cacheGet(cacheKey);
+  if (cached) return NextResponse.json(cached, { headers });
 
   const dataUrl = lastfmUrl(method, apiKey, { user, period, limit: String(limit) });
 
@@ -122,6 +144,7 @@ export async function GET(request: NextRequest) {
       data.topartists.artist = enriched;
     }
 
+    cacheSet(cacheKey, data);
     return NextResponse.json(data, { headers });
   } catch {
     return NextResponse.json({ error: "Failed to fetch from Last.fm" }, { status: 500, headers });
