@@ -75,24 +75,21 @@ export default function LastFmSection() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const load = async () => {
-      setLoading(true);
+    (async () => {
       try {
-        if (type === "tracks") {
-          const res = await fetchTopTracks("1month", 5);
-          setTracks(res.toptracks.track);
-        } else {
-          const res = await fetchTopArtists("1month", 5);
-          setArtists(res.topartists.artist);
-        }
+        const [tracksRes, artistsRes] = await Promise.all([
+          fetchTopTracks("1month", 5),
+          fetchTopArtists("1month", 5),
+        ]);
+        setTracks(tracksRes.toptracks.track);
+        setArtists(artistsRes.topartists.artist);
       } catch {
         // ignore
       } finally {
         setLoading(false);
       }
-    };
-    load();
-  }, [type]);
+    })();
+  }, []);
 
   return (
     <div>

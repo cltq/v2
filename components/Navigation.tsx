@@ -34,7 +34,7 @@ export default function Navbar() {
                 <span className="text-zinc-500">—</span>
               )}
               {route.name}
-              {active && <span> ]</span>}
+              {active && <span></span>}
             </Link>
           </li>
         );
