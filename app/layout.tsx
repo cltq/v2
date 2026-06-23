@@ -10,6 +10,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "fumi",
   description: "Personal site",
+  icons: { icon: "/favicon.png" },
 };
 
 export default function RootLayout({
