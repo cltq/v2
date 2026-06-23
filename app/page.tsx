@@ -6,7 +6,7 @@ export default function Home() {
   const userId = process.env.DISCORD_USERID ?? "";
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-8">
+    <main className="flex min-h-screen items-center justify-center p-8 md:ml-[-100px]">
       <div className="flex flex-col items-center gap-6">
         <DiscordWidget userId={userId} showSpotify={false} />
         <HeroText />
