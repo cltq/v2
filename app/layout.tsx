@@ -24,7 +24,7 @@ export default function RootLayout({
       lang="en"
       className={`${GeistMono.variable} h-full antialiased`}
     >
-      <body className="relative min-h-full bg-[#0b0b0f] font-sans text-[#9ca3af] md:pl-[200px]">
+      <body className="relative min-h-full bg-[#0b0b0f] font-sans text-[#9ca3af] md:pl-[200px] max-md:pb-14">
         <GridBackground />
         <Navbar />
         <div className="relative z-10 flex min-h-screen flex-col">
