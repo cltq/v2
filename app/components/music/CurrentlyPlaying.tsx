@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { fetchDiscordSpotify } from "@/app/lib/discord/api";
+import { fetchDiscordPresence } from "@/app/lib/discord/api";
 import { SpotifyCard } from "@/app/components/discord/SpotifyCard";
 import type { SpotifyData } from "@/app/lib/discord/types";
 
@@ -19,8 +19,8 @@ export default function CurrentlyPlaying() {
 
     const fetch = async () => {
       try {
-        const data = await fetchDiscordSpotify(userId);
-        setSpotify(data);
+        const data = await fetchDiscordPresence(userId);
+        setSpotify(data.spotify ?? null);
       } catch {
         setSpotify(null);
       } finally {
