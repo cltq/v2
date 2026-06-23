@@ -114,11 +114,11 @@ export default function DiscordWidget({
           </div>
 
           <div>
-            <p className="text-[14px] font-medium text-white leading-tight">
+            <p className="text-[15px] font-semibold text-white leading-tight">
               {presence.displayName || presence.username}
             </p>
             {presence.displayName && presence.displayName !== presence.username && (
-              <p className="text-[12px] text-zinc-500 leading-tight">
+              <p className="text-[14px] text-zinc-500 leading-tight">
                 @{presence.username}
               </p>
             )}
