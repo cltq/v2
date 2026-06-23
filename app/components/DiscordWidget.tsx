@@ -51,8 +51,7 @@ export default function DiscordWidget({
   });
 
   const widgetClasses = [
-    "rounded-2xl p-5 w-full max-w-lg",
-    "bg-primary",
+    "p-0 w-full max-w-lg",
     className,
   ]
     .filter(Boolean)
