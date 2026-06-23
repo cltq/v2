@@ -9,8 +9,8 @@ import ContextMenuGuard from "@/app/components/ContextMenuGuard";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "fumi",
-  description: "Personal site",
+  title: "Fumi",
+  description: "Fumi's Portfolio/Personal Website",
   icons: { icon: "/favicon.png" },
 };
 
