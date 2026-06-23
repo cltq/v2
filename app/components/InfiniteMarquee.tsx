@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 
 const links = [
-  { label: "Instagram", handle: "uqfumi._", href: "https://instagram.com/uqfumi._" },
-  { label: "TikTok", handle: "w.fysk_fumi", href: "https://tiktok.com/@w.fysk_fumi" },
-  { label: "EasyDonate", handle: "ivnfumi", href: "https://easydonate.app/ivnfumi" },
+  { label: "Instagram", handle: "uqfumi._", href: "https://instagram.com/uqfumi._", hover: "hover:text-pink-400" },
+  { label: "TikTok", handle: "w.fysk_fumi", href: "https://tiktok.com/@w.fysk_fumi", hover: "hover:text-cyan-400" },
+  { label: "EasyDonate", handle: "ivnfumi", href: "https://easydonate.app/ivnfumi", hover: "hover:text-emerald-400" },
 ];
 
 function Clock() {
@@ -28,44 +28,53 @@ function Clock() {
     return () => clearInterval(id);
   }, []);
 
-  return <span className="text-white">{time}</span>;
+  return (
+    <span className="flex items-center gap-1.5">
+      <span>⏰</span>
+      <span className="font-mono text-white">{time}</span>
+      <span className="text-zinc-600">Bangkok</span>
+    </span>
+  );
 }
 
-function Items({ prefix }: { prefix: string }) {
+function Items() {
   return (
-    <>
-      <span key={`${prefix}-clock`} className="flex items-center gap-1.5">
-        <Clock />
-        <span className="text-zinc-600">Bangkok</span>
-      </span>
-      <span key={`${prefix}-s1`} className="text-zinc-700">//</span>
+    <span className="flex items-center gap-6 whitespace-nowrap">
+      <Clock />
+      <span className="text-zinc-700">//</span>
       {links.map((link) => (
-        <span key={`${prefix}-${link.label}`} className="flex items-center gap-1.5">
+        <span key={link.label} className="flex items-center gap-1.5">
           <span className="text-zinc-500">{link.label}:</span>
           <a
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-white hover:text-zinc-300 transition-colors duration-200"
+            className={`text-white ${link.hover} transition-colors duration-200`}
           >
             {link.handle}
           </a>
         </span>
       ))}
-      <span key={`${prefix}-star`} className="text-zinc-600 select-none">✦</span>
-    </>
+      <span className="text-zinc-700 text-xs">+</span>
+    </span>
   );
 }
 
 export default function InfiniteMarquee() {
   return (
-    <div className="group overflow-hidden pb-2 max-md:pl-14">
+    <div className="group overflow-hidden">
       <div
-        className="flex items-center gap-6 animate-marquee group-hover:[animation-play-state:paused] whitespace-nowrap text-sm"
+        className="flex items-center animate-marquee group-hover:[animation-play-state:paused] text-[13px]"
         style={{ width: "max-content" }}
       >
-        <Items prefix="a" />
-        <Items prefix="b" />
+        {Array.from({ length: 4 }).map((_, i) => (
+          <Items key={`a-${i}`} />
+        ))}
+        <span aria-hidden="true" className="contents">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Items key={`b-${i}`} />
+          ))}
+        </span>
       </div>
     </div>
   );
