@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import Navbar from "@/components/Navigation";
 import GridBackground from "@/components/GridBackground";
 import PageTransition from "@/app/components/PageTransition";
+import ContextMenuGuard from "@/app/components/ContextMenuGuard";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -31,6 +32,7 @@ export default function RootLayout({
         </div>
         <Analytics />
         <SpeedInsights />
+        <ContextMenuGuard />
       </body>
     </html>
   );
