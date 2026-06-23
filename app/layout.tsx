@@ -29,10 +29,10 @@ export default function RootLayout({
         <GridBackground />
         <Navbar />
         <div className="relative z-10 flex min-h-screen flex-col">
+          <InfiniteMarquee />
           <div className="flex-1">
             <PageTransition>{children}</PageTransition>
           </div>
-          <InfiniteMarquee />
         </div>
         <Analytics />
         <SpeedInsights />
