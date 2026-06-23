@@ -31,39 +31,41 @@ function Clock() {
   return <span className="text-white">{time}</span>;
 }
 
-const item = (
-  <div className="flex items-center gap-6 whitespace-nowrap text-sm">
-    <span className="flex items-center gap-2">
-      <Clock />
-      <span className="text-zinc-600">Bangkok</span>
-    </span>
-    <span className="text-zinc-700">//</span>
-    {links.map((link) => (
-      <span key={link.label} className="flex items-center gap-1.5">
-        <span className="text-zinc-500">{link.label}:</span>
-        <a
-          href={link.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-white hover:text-zinc-300 transition-colors duration-200"
-        >
-          {link.handle}
-        </a>
+function Items({ prefix }: { prefix: string }) {
+  return (
+    <>
+      <span key={`${prefix}-clock`} className="flex items-center gap-1.5">
+        <Clock />
+        <span className="text-zinc-600">Bangkok</span>
       </span>
-    ))}
-    <span className="text-zinc-600 select-none">✦</span>
-  </div>
-);
+      <span key={`${prefix}-s1`} className="text-zinc-700">//</span>
+      {links.map((link) => (
+        <span key={`${prefix}-${link.label}`} className="flex items-center gap-1.5">
+          <span className="text-zinc-500">{link.label}:</span>
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white hover:text-zinc-300 transition-colors duration-200"
+          >
+            {link.handle}
+          </a>
+        </span>
+      ))}
+      <span key={`${prefix}-star`} className="text-zinc-600 select-none">✦</span>
+    </>
+  );
+}
 
 export default function InfiniteMarquee() {
   return (
-    <div className="group relative overflow-hidden pt-32 pb-2 max-md:pl-14">
+    <div className="group overflow-hidden pb-2 max-md:pl-14 w-screen md:-ml-[100px]">
       <div
-        className="flex animate-marquee group-hover:[animation-play-state:paused]"
+        className="flex items-center gap-6 animate-marquee group-hover:[animation-play-state:paused] whitespace-nowrap text-sm"
         style={{ width: "max-content" }}
       >
-        <div className="flex shrink-0">{item}</div>
-        <div className="flex shrink-0">{item}</div>
+        <Items prefix="a" />
+        <Items prefix="b" />
       </div>
     </div>
   );
