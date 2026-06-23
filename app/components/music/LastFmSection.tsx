@@ -30,19 +30,19 @@ function TopTracksList({ tracks }: { tracks: LastFmTrack[] }) {
             transition={{ duration: 0.25, delay: i * 0.05 }}
             className="flex items-center gap-3"
           >
-            <span className="text-xs text-zinc-600 w-4 shrink-0 text-right">{i + 1}</span>
+            <span className="text-sm text-zinc-600 w-5 shrink-0 text-right">{i + 1}</span>
             {track.image && (
               <img
                 src={toHttps(getBestImage(track.image))}
                 alt=""
-                className="w-10 h-10 rounded object-cover shrink-0"
+                className="w-12 h-12 rounded object-cover shrink-0"
               />
             )}
             <div className="min-w-0 flex-1">
-              <p className="text-sm text-white truncate">{track.name}</p>
-              <p className="text-xs text-zinc-500 truncate">{track.artist.name}</p>
+              <p className="text-base text-white truncate">{track.name}</p>
+              <p className="text-sm text-zinc-500 truncate">{track.artist.name}</p>
             </div>
-            <span className="text-xs text-zinc-600 shrink-0">{track.playcount}</span>
+            <span className="text-sm text-zinc-600 shrink-0">{track.playcount}</span>
           </motion.div>
         ))}
       </AnimatePresence>
@@ -62,18 +62,18 @@ function TopArtistsList({ artists }: { artists: LastFmArtist[] }) {
             transition={{ duration: 0.25, delay: i * 0.05 }}
             className="flex items-center gap-3"
           >
-            <span className="text-xs text-zinc-600 w-4 shrink-0 text-right">{i + 1}</span>
+            <span className="text-sm text-zinc-600 w-5 shrink-0 text-right">{i + 1}</span>
             {artist.image && (
               <img
                 src={toHttps(getBestImage(artist.image))}
                 alt=""
-                className="w-10 h-10 rounded-full object-cover shrink-0"
+                className="w-12 h-12 rounded-full object-cover shrink-0"
               />
             )}
             <div className="min-w-0 flex-1">
-              <p className="text-sm text-white truncate">{artist.name}</p>
+              <p className="text-base text-white truncate">{artist.name}</p>
             </div>
-            <span className="text-xs text-zinc-600 shrink-0">{artist.playcount}</span>
+            <span className="text-sm text-zinc-600 shrink-0">{artist.playcount}</span>
           </motion.div>
         ))}
       </AnimatePresence>
@@ -109,11 +109,11 @@ export default function LastFmSection() {
 
   return (
     <div>
-      <p className="text-sm text-zinc-500 mb-2">Been listening to this month</p>
-      <div className="flex gap-1 mb-3">
+      <p className="text-base text-zinc-500 mb-3">Been listening to this month</p>
+      <div className="inline-flex rounded-lg border border-white/10 p-0.5 mb-4">
         <button
           onClick={() => setType("tracks")}
-          className={`text-xs px-2 py-0.5 rounded transition-colors duration-200 ${
+          className={`text-xs px-3 py-1 rounded-md transition-colors duration-200 ${
             type === "tracks" ? "text-white bg-zinc-800" : "text-zinc-500 hover:text-zinc-300"
           }`}
         >
@@ -121,7 +121,7 @@ export default function LastFmSection() {
         </button>
         <button
           onClick={() => setType("artists")}
-          className={`text-xs px-2 py-0.5 rounded transition-colors duration-200 ${
+          className={`text-xs px-3 py-1 rounded-md transition-colors duration-200 ${
             type === "artists" ? "text-white bg-zinc-800" : "text-zinc-500 hover:text-zinc-300"
           }`}
         >
