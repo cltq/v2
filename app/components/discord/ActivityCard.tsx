@@ -88,7 +88,7 @@ function ActivityIcon({ activity }: { activity: ActivityData }) {
           <img
             src={smallImage}
             alt={smallText}
-            className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full border-2 border-solid border-primary"
+            className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full border-2 border-solid border-zinc-700"
             loading="lazy"
           />
         )}
@@ -117,10 +117,10 @@ export function ActivityCard({ activity, animated = true }: ActivityCardProps) {
       <ActivityIcon activity={activity} />
 
       <div className="flex-1 min-w-0">
-        <p className="text-[12px] font-medium text-muted uppercase tracking-wider">
+        <p className="text-[12px] font-medium text-zinc-500 uppercase tracking-wider">
           {label}
         </p>
-        <p className="text-[15px] font-semibold text-primary truncate mt-0.5">
+        <p className="text-[15px] font-semibold text-white truncate mt-0.5">
           {activity.emoji && (
             <span className="mr-1">
               {activity.emoji.animated ? (
@@ -139,22 +139,22 @@ export function ActivityCard({ activity, animated = true }: ActivityCardProps) {
           {activity.name}
         </p>
         {activity.details && (
-          <p className="text-[14px] text-secondary truncate mt-0.5">
+          <p className="text-[14px] text-zinc-400 truncate mt-0.5">
             {activity.details}
           </p>
         )}
         {activity.state && (
-          <p className="text-[14px] text-secondary truncate">
+          <p className="text-[14px] text-zinc-400 truncate">
             {activity.state}
           </p>
         )}
         {activity.timestamps?.end && (
-          <p className="text-[13px] text-muted mt-0.5 tabular-nums">
+          <p className="text-[13px] text-zinc-500 mt-0.5 tabular-nums">
             {formatActivityTime(activity.timestamps.end)}
           </p>
         )}
         {activity.party && (
-          <p className="text-[13px] text-muted mt-0.5">
+          <p className="text-[13px] text-zinc-500 mt-0.5">
             {activity.party.size}/{activity.party.max}
           </p>
         )}
@@ -163,21 +163,15 @@ export function ActivityCard({ activity, animated = true }: ActivityCardProps) {
   );
 
   if (!animated) {
-    return (
-      <div className="rounded-xl p-3 bg-secondary border border-default">
-        {content}
-      </div>
-    );
+    return content;
   }
 
   return (
     <motion.div
-      className="rounded-xl p-3 bg-secondary border border-default"
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -12 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      layout
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
     >
       {content}
     </motion.div>

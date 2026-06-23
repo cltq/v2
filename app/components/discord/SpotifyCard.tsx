@@ -26,13 +26,13 @@ export function SpotifyCard({ spotify, animated = true }: SpotifyCardProps) {
       </div>
 
       <div className="flex-1 min-w-0">
-        <p className="text-[15px] font-semibold text-primary truncate">
+        <p className="text-[15px] font-semibold text-white truncate">
           {spotify.song}
         </p>
-        <p className="text-[14px] text-secondary truncate">
+        <p className="text-[14px] text-zinc-400 truncate">
           {spotify.artist}
         </p>
-        <p className="text-[13px] text-muted truncate mt-0.5">
+        <p className="text-[13px] text-zinc-500 truncate mt-0.5">
           {spotify.album}
         </p>
       </div>
@@ -40,31 +40,18 @@ export function SpotifyCard({ spotify, animated = true }: SpotifyCardProps) {
   );
 
   if (!animated) {
-    return (
-      <div className="rounded-xl p-3 bg-secondary border border-default">
-        {content}
-      </div>
-    );
+    return content;
   }
 
   return (
     <motion.div
-      className="rounded-xl p-3 bg-secondary border border-default"
-      initial={{ opacity: 0, y: 12, height: 0 }}
-      animate={{ opacity: 1, y: 0, height: "auto" }}
-      exit={{ opacity: 0, y: -12, height: 0 }}
-      transition={{ duration: 0.35, ease: "easeOut" }}
-      layout
+      key={`${spotify.song}-${spotify.artist}`}
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.3 }}
     >
-      <motion.div
-        key={`${spotify.song}-${spotify.artist}`}
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -8 }}
-        transition={{ duration: 0.3 }}
-      >
-        {content}
-      </motion.div>
+      {content}
     </motion.div>
   );
 }
