@@ -17,7 +17,7 @@ export default function HeroText() {
 
   return (
     <div className="flex items-center justify-center">
-      <p className="text-sm text-zinc-400">
+      <p className="text-base text-zinc-400">
         I&apos;m a{" "}
         <AnimatePresence mode="wait">
           <motion.span

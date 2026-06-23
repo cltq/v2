@@ -3,8 +3,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useDiscordPresence } from "@/app/hooks/useDiscordPresence";
 import { StatusBadge } from "@/app/components/discord/StatusBadge";
-import { SpotifyCard } from "@/app/components/discord/SpotifyCard";
-import { ActivityCycle } from "@/app/components/discord/ActivityCard";
 import type { DiscordWidgetProps } from "@/app/lib/discord/types";
 import { normalizeDiscordCdnUrl } from "@/app/lib/discord/url";
 
@@ -76,16 +74,25 @@ export default function DiscordWidget({
     ? parseCustomStatus(presence.customStatus)
     : null;
 
-  const showSpotifySection = showSpotify && presence.spotify;
-  const showActivitySection =
-    showActivities && presence.activities.length > 0;
-  const hasPresence = customStatus || showSpotifySection || showActivitySection;
+  const presenceSpotify = showSpotify && presence.spotify ? presence.spotify : null;
+  const presenceActivity = showActivities && presence.activities.length > 0 ? presence.activities[0] : null;
+
+  const activityLabel =
+    presenceActivity
+      ? ({
+          "0": "Playing",
+          "1": "Streaming",
+          "2": "Listening to",
+          "3": "Watching",
+          "5": "Competing",
+        }[String(presenceActivity.type)] ?? "Playing")
+      : null;
 
   return (
     <AnimatePresence mode="wait">
       <motion.div
         key={presence.id}
-        className={`flex flex-col md:flex-row gap-6 ${className}`}
+        className={`flex flex-col md:flex-row md:items-center gap-x-5 gap-y-1.5 ${className}`}
         initial={animated ? { opacity: 0, y: 20 } : undefined}
         animate={animated ? { opacity: 1, y: 0 } : undefined}
         transition={
@@ -99,73 +106,53 @@ export default function DiscordWidget({
             <img
               src={normalizeDiscordCdnUrl(presence.avatar)}
               alt={`${presence.username}'s avatar`}
-              width={compact ? 52 : 56}
-              height={compact ? 52 : 56}
+              width={compact ? 40 : 44}
+              height={compact ? 40 : 44}
               className="rounded-full object-cover"
-              style={{ width: compact ? 52 : 56, height: compact ? 52 : 56 }}
+              style={{ width: compact ? 40 : 44, height: compact ? 40 : 44 }}
             />
             <span className="absolute -bottom-0.5 -right-0.5">
               <StatusBadge
                 status={presence.status}
                 animated={animated}
-                size={compact ? 14 : 16}
+                size={compact ? 12 : 13}
               />
             </span>
           </div>
 
           <div>
-            <p className="text-[15px] font-medium text-white">
+            <p className="text-[14px] font-medium text-white leading-tight">
               {presence.displayName || presence.username}
             </p>
             {presence.displayName && presence.displayName !== presence.username && (
-              <p className="text-[13px] text-zinc-500">
+              <p className="text-[12px] text-zinc-500 leading-tight">
                 @{presence.username}
               </p>
             )}
           </div>
         </div>
 
-        {hasPresence && (
-          <div className="flex flex-col gap-2 min-w-0">
-            {customStatus && (
-              <p className="text-[13px] text-zinc-400 leading-snug">
-                {customStatus.emoji && (
-                  <span className="mr-1">{customStatus.emoji}</span>
-                )}
-                {customStatus.text}
-              </p>
-            )}
+        {presenceSpotify && (
+          <p className="text-[13px] text-zinc-400 truncate max-w-48">
+            <span className="text-zinc-500">Listening to </span>
+            <span className="text-white">{presenceSpotify.song}</span>
+            <span className="text-zinc-500"> by </span>
+            {presenceSpotify.artist}
+          </p>
+        )}
 
-            <div className="space-y-1.5">
-              <AnimatePresence mode="sync">
-                {showSpotifySection && (
-                  <SpotifyCard
-                    key="spotify"
-                    spotify={presence.spotify!}
-                    animated={animated}
-                  />
-                )}
-              </AnimatePresence>
+        {!presenceSpotify && presenceActivity && (
+          <p className="text-[13px] text-zinc-400 truncate max-w-48">
+            <span className="text-zinc-500">{activityLabel} </span>
+            {presenceActivity.name}
+          </p>
+        )}
 
-              <AnimatePresence mode="sync">
-                {showActivitySection && (
-                  <motion.div
-                    key="activities"
-                    initial={animated ? { opacity: 0 } : undefined}
-                    animate={animated ? { opacity: 1 } : undefined}
-                    transition={
-                      animated ? { duration: 0.3, delay: 0.1 } : undefined
-                    }
-                  >
-                    <ActivityCycle
-                      activities={presence.activities}
-                      animated={animated}
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
+        {customStatus && !presenceSpotify && !presenceActivity && (
+          <p className="text-[13px] text-zinc-400 truncate max-w-48">
+            {customStatus.emoji && <span className="mr-1">{customStatus.emoji}</span>}
+            {customStatus.text}
+          </p>
         )}
       </motion.div>
     </AnimatePresence>
