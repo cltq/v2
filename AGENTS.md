@@ -67,16 +67,20 @@ export interface AppRoute {
 - **Alignment**: Vertically centered (`justify-center`), no profile section
 - **Border**: none (separator removed)
 - **Mobile**: Hamburger button at top-left, sidebar slides in/out, dark overlay
-- **Active state**: `[ PageName ]` — brackets wrapped around the name, `text-white`
-- **Inactive state**: `— PageName` — em dash prefix, `text-zinc-500`
+- **Active state**: `— PageName` — em dash prefix (desktop), `text-white`
+- **Inactive state**: `- PageName` — hyphen prefix (desktop), `text-zinc-500`
+- **Mobile**: No prefix dash shown on mobile bottom nav
 - **Hover**: `text-zinc-300`, only `transition-colors duration-200`
 
 ```tsx
-// Active link renders as:
-<span>[ </span>PageName<span> ]</span>
+// Desktop — active:
+<span className="inline-block w-4 text-center">—</span>PageName
 
-// Inactive link renders as:
-<span className="text-zinc-500">—</span>PageName
+// Desktop — inactive:
+<span className="inline-block w-4 text-center">-</span>PageName
+
+// Mobile — no prefix:
+PageName
 ```
 
 ## Layout (app/layout.tsx)
@@ -128,6 +132,17 @@ Exposed globally via `next.config.ts` `env` block.
 3. Opens SSE connection to `/api/discord/users/{id}/live` for real-time updates
 4. Polls every 5s as fallback
 5. Proxy rewrites `/api/discord/*` → `https://api.applefumi.xyz/v2/discord/*`
+
+## Mobile Safari Viewport
+
+- **Viewport meta**: `viewportFit: "cover"` exported from `app/layout.tsx` (Next.js `Viewport` type)
+- **All full-height layouts** use `h-svh` with `overflow-hidden` on root (never `vh`, `dvh`, or `min-*` variants)
+- **Page content** uses `h-full` (fills flex parent) — no min-height needed on children
+- **Safe areas**: Use `env(safe-area-inset-bottom,0px)` in arbitrary values for fixed bottom elements
+- **Body padding**: Mobile bottom nav accounted for with `max-md:pb-[calc(56px+env(safe-area-inset-bottom,0px))]`
+- **No `overflow-hidden` on root** — allows Safari toolbar to collapse/expand naturally
+- **Overscroll**: `overscroll-behavior: none` on body prevents bounce gesture without blocking toolbar resize
+- **CSS variables** in `:root` for safe-area values: `--safe-area-top`, `--safe-area-bottom`, `--safe-area-left`, `--safe-area-right`
 
 ## Styling Conventions
 

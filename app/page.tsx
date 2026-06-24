@@ -7,7 +7,7 @@ export default function Home() {
   const userId = process.env.DISCORD_USERID ?? "";
 
   return (
-    <main className="relative flex min-h-screen flex-col md:ml-[-100px]">
+    <main className="relative flex min-h-dvh flex-col md:ml-[-100px]">
       <div className="md:absolute md:left-[-100px] md:top-32 w-screen overflow-hidden pb-2 max-md:pt-16">
         <InfiniteMarquee />
       </div>

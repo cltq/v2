@@ -30,9 +30,8 @@ function Clock() {
 
   return (
     <span className="flex items-center gap-1.5">
-      <span>⏰</span>
       <span className="font-mono text-white">{time}</span>
-      <span className="text-zinc-600">Bangkok</span>
+      {/* <span className="text-zinc-600">Bangkok</span> */}
     </span>
   );
 }
@@ -64,17 +63,12 @@ export default function InfiniteMarquee() {
   return (
     <div className="group overflow-hidden">
       <div
-        className="flex items-center animate-marquee group-hover:[animation-play-state:paused] text-[13px]"
-        style={{ width: "max-content" }}
+        className="flex w-max items-center animate-marquee group-hover:[animation-play-state:paused] text-[13px]"
+        aria-hidden="true"
       >
-        {Array.from({ length: 4 }).map((_, i) => (
-          <Items key={`a-${i}`} />
+        {Array.from({ length: 8 }).map((_, i) => (
+          <Items key={i} />
         ))}
-        <span aria-hidden="true" className="contents">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <Items key={`b-${i}`} />
-          ))}
-        </span>
       </div>
     </div>
   );

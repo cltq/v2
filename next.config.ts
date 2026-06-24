@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
   env: {
     DISCORD_USERID: process.env.DISCORD_USERID,
   },
+  allowedDevOrigins: ['192.168.1.34'],
 };
 
 export default nextConfig;

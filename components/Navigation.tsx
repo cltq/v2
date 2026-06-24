@@ -16,7 +16,7 @@ export default function Navbar() {
   return (
     <>
       <aside
-        className={`${GeistMono.variable} fixed left-0 top-0 z-50 hidden h-screen w-[180px] flex-col items-start justify-center bg-transparent px-4 font-mono md:flex`}
+        className={`${GeistMono.variable} fixed left-0 top-0 z-50 hidden h-svh w-[180px] flex-col items-start justify-center bg-transparent px-4 font-mono md:flex`}
       >
         <ul className="space-y-1">
           {appRoutes.map((route) => (
@@ -29,6 +29,9 @@ export default function Navbar() {
                     : "text-zinc-500 hover:text-zinc-300"
                 }`}
               >
+                <span className="inline-block w-4 text-center">
+                  {shouldHighlight(route.href, pathname) ? "一" : "―"}
+                </span>{" "}
                 {route.name}
               </Link>
             </li>
@@ -37,7 +40,7 @@ export default function Navbar() {
       </aside>
 
       <nav
-        className={`${GeistMono.variable} fixed bottom-0 left-0 z-50 flex h-14 w-full items-center justify-center gap-8 bg-[#0b0b0f]/80 font-mono text-sm backdrop-blur-md md:hidden`}
+        className={`${GeistMono.variable} fixed bottom-0 left-0 z-50 flex h-14 w-full items-center justify-center gap-8 font-mono text-sm md:hidden pb-[env(safe-area-inset-bottom,0px)]`}
       >
         {appRoutes.map((route) => (
           <Link
