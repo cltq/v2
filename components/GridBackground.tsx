@@ -56,11 +56,17 @@ export default function GridBackground() {
   return (
     <div
       ref={ref}
-      className="pointer-events-none fixed inset-0 z-0 bg-[#0b0b0f]"
+      className="pointer-events-none fixed z-0 bg-[#0b0b0f]"
       style={{
         ["--x" as string]: "50%",
         ["--y" as string]: "50%",
         contain: "strict",
+        top: "-100px",
+        bottom: "-100px",
+        left: 0,
+        right: 0,
+        width: "100vw",
+        height: "auto",
       }}
     >
       <div

@@ -136,11 +136,13 @@ Exposed globally via `next.config.ts` `env` block.
 ## Mobile Safari Viewport
 
 - **Viewport meta**: `viewportFit: "cover"` exported from `app/layout.tsx` (Next.js `Viewport` type)
-- **All full-height layouts** use `h-svh` with `overflow-hidden` on root (never `vh`, `dvh`, or `min-*` variants)
+- **All full-height layouts** use `h-svh` on root (never `vh`, `dvh`, or `min-*` variants)
 - **Page content** uses `h-full` (fills flex parent) — no min-height needed on children
 - **Safe areas**: Use `env(safe-area-inset-bottom,0px)` in arbitrary values for fixed bottom elements
 - **Body padding**: Mobile bottom nav accounted for with `max-md:pb-[calc(56px+env(safe-area-inset-bottom,0px))]`
-- **No `overflow-hidden` on root** — allows Safari toolbar to collapse/expand naturally
+- **No `overflow-hidden`** on `html` — it clips fixed-position elements on Safari when combined with `viewport-fit: cover`
+- **`overflow-hidden`** goes on the content wrapper `<div>` instead — prevents page scroll without affecting the fixed-position GridBackground
+- **GridBackground**: Uses oversized bounds (`top: -100px; bottom: -100px`) to guarantee coverage behind Safari toolbar and notch areas regardless of viewport unit calculations
 - **Overscroll**: `overscroll-behavior: none` on body prevents bounce gesture without blocking toolbar resize
 - **CSS variables** in `:root` for safe-area values: `--safe-area-top`, `--safe-area-bottom`, `--safe-area-left`, `--safe-area-right`
 

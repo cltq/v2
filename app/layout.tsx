@@ -30,10 +30,10 @@ export default function RootLayout({
       lang="en"
       className={`${GeistMono.variable} h-svh overflow-hidden antialiased`}
     >
-      <body className="relative h-full bg-[#0b0b0f] font-sans text-[#9ca3af] md:pl-[200px] max-md:pb-[calc(56px+env(safe-area-inset-bottom,0px))]">
+      <body className="relative h-full overflow-hidden bg-[#0b0b0f] font-sans text-[#9ca3af] md:pl-[200px] max-md:pb-[calc(56px+env(safe-area-inset-bottom,0px))]">
         <GridBackground />
         <Navbar />
-        <div className="relative z-10 flex h-full flex-col">
+        <div className="relative z-10 flex h-full flex-col overflow-hidden">
           <div className="flex-1">
             <PageTransition>{children}</PageTransition>
           </div>
