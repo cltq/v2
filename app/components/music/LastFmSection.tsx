@@ -68,7 +68,7 @@ function TopArtistsList({ artists }: { artists: LastFmArtist[] }) {
   );
 }
 
-export default function LastFmSection() {
+export default function LastFmSection({ username }: { username: string }) {
   const [type, setType] = useState<TopItemType>("tracks");
   const [tracks, setTracks] = useState<LastFmTrack[]>([]);
   const [artists, setArtists] = useState<LastFmArtist[]>([]);
@@ -131,6 +131,15 @@ export default function LastFmSection() {
       ) : (
         <TopArtistsList artists={artists} />
       )}
+
+      <a
+        href={`https://www.last.fm/user/${username}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-4 inline-block text-xs text-zinc-600 hover:text-zinc-400 transition-colors duration-200"
+      >
+        tracked via last.fm
+      </a>
     </div>
   );
 }
