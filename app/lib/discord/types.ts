@@ -32,6 +32,7 @@ export interface SpotifyData {
   progressMs?: number;
   duration?: number;
   trackId?: string;
+  trackUrl?: string;
 }
 
 export interface ActivityTimestamps {

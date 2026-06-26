@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useDiscordPresence } from "@/app/hooks/useDiscordPresence";
+import { useSpotify } from "@/app/hooks/useSpotify";
 import { StatusBadge } from "@/app/components/discord/StatusBadge";
 import { SpotifyCard } from "@/app/components/discord/SpotifyCard";
 import { ActivityCycle } from "@/app/components/discord/ActivityCard";
@@ -37,6 +38,7 @@ export default function DiscordWidget({
   const { presence, loading, error } = useDiscordPresence(userId, {
     apiBaseUrl,
   });
+  const { spotify: spotifyData } = useSpotify();
 
   if (loading) {
     return (
@@ -76,7 +78,7 @@ export default function DiscordWidget({
     ? parseCustomStatus(presence.customStatus)
     : null;
 
-  const showSpotifySection = showSpotify && presence.spotify;
+  const showSpotifySection = showSpotify && spotifyData;
   const showActivitySection =
     showActivities && presence.activities.length > 0;
   const hasPresence = customStatus || showSpotifySection || showActivitySection;
@@ -138,7 +140,7 @@ export default function DiscordWidget({
               {showSpotifySection && (
                 <SpotifyCard
                   key="spotify"
-                  spotify={presence.spotify!}
+                  spotify={spotifyData!}
                   animated={animated}
                 />
               )}

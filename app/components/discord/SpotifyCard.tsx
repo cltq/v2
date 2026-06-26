@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import type { SpotifyData } from "@/app/lib/discord/types";
-import { normalizeDiscordCdnUrl } from "@/app/lib/discord/url";
 
 interface SpotifyCardProps {
   spotify: SpotifyData;
@@ -11,8 +10,7 @@ interface SpotifyCardProps {
 }
 
 export function SpotifyCard({ spotify, animated = true, compact = false }: SpotifyCardProps) {
-  const albumArtSrc = spotify.albumArt || spotify.cover || "";
-  const albumArt = normalizeDiscordCdnUrl(albumArtSrc);
+  const albumArt = spotify.albumArt || spotify.cover || "";
 
   const iconSize = compact ? 28 : 64;
 
@@ -47,10 +45,22 @@ export function SpotifyCard({ spotify, animated = true, compact = false }: Spoti
   );
 
   if (!animated) {
+    if (spotify.trackUrl) {
+      return (
+        <a
+          href={spotify.trackUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block"
+        >
+          {content}
+        </a>
+      );
+    }
     return content;
   }
 
-  return (
+  const motionCard = (
     <motion.div
       key={`${spotify.song}-${spotify.artist}`}
       initial={{ opacity: 0, y: 8 }}
@@ -61,4 +71,19 @@ export function SpotifyCard({ spotify, animated = true, compact = false }: Spoti
       {content}
     </motion.div>
   );
+
+  if (spotify.trackUrl) {
+    return (
+      <a
+        href={spotify.trackUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block hover:opacity-80 transition-opacity duration-200"
+      >
+        {motionCard}
+      </a>
+    );
+  }
+
+  return motionCard;
 }

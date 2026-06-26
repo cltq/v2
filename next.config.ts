@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
         source: "/api/discord/:path*",
         destination: "https://api.applefumi.xyz/v2/discord/:path*",
       },
+      {
+        source: "/api/spotify",
+        destination: "https://spotify.applefumi.xyz/api/spotify",
+      },
     ];
   },
   env: {
