@@ -5,13 +5,16 @@ import { useEffect, useRef } from "react";
 const SPACING = 48;
 const DOT_RADIUS = 1.2;
 const CONNECT_DISTANCE = SPACING * 1.5;
-const LEFT_ALPHA = 0.16;
-const RIGHT_ALPHA = 0.02;
-const LINE_ALPHA = 0.06;
+const BASE_ALPHA = 0.03;
+const PEAK_ALPHA = 0.2;
+const WAVE_WIDTH = 0.35;
+const LINE_ALPHA = 0.08;
+const SPEED = 0.06;
 
 export default function DotsBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef(0);
+  const timeRef = useRef(0);
   const dotsRef = useRef<{ x: number; y: number }[]>([]);
 
   useEffect(() => {
@@ -44,15 +47,17 @@ export default function DotsBackground() {
     resize();
     window.addEventListener("resize", resize);
 
-    function gradient(x: number, w: number) {
-      const t = x / w;
-      return LEFT_ALPHA + t * (RIGHT_ALPHA - LEFT_ALPHA);
+    function glow(dx: number, waveWidth: number) {
+      const t = 1 - Math.abs(dx) / waveWidth;
+      return t > 0 ? t * t : 0;
     }
 
-    function draw() {
+    function draw(t: number) {
       const w = window.innerWidth;
       const h = window.innerHeight;
       const dots = dotsRef.current;
+      const wavePos = ((t * SPEED) % (w + w * WAVE_WIDTH)) - w * WAVE_WIDTH * 0.5;
+      const waveWidth = w * WAVE_WIDTH;
 
       ctx!.clearRect(0, 0, w, h);
 
@@ -64,7 +69,8 @@ export default function DotsBackground() {
           const dy = a.y - b.y;
           if (dx * dx + dy * dy < CONNECT_DISTANCE * CONNECT_DISTANCE) {
             const midX = (a.x + b.x) / 2;
-            const alpha = gradient(midX, w) * LINE_ALPHA;
+            const g = glow(midX - wavePos, waveWidth);
+            const alpha = (BASE_ALPHA + g * (PEAK_ALPHA - BASE_ALPHA)) * LINE_ALPHA;
             ctx!.beginPath();
             ctx!.moveTo(a.x, a.y);
             ctx!.lineTo(b.x, b.y);
@@ -77,7 +83,8 @@ export default function DotsBackground() {
 
       for (let i = 0; i < dots.length; i++) {
         const { x, y } = dots[i];
-        const alpha = gradient(x, w);
+        const g = glow(x - wavePos, waveWidth);
+        const alpha = BASE_ALPHA + g * (PEAK_ALPHA - BASE_ALPHA);
         ctx!.beginPath();
         ctx!.arc(x, y, DOT_RADIUS, 0, Math.PI * 2);
         ctx!.fillStyle = `rgba(255,255,255,${alpha})`;
@@ -85,8 +92,9 @@ export default function DotsBackground() {
       }
     }
 
-    function animate() {
-      draw();
+    function animate(ts: number) {
+      timeRef.current = ts;
+      draw(ts);
       rafRef.current = requestAnimationFrame(animate);
     }
 
