@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 
 const SPACING = 48;
 const DOT_RADIUS = 1;
-const OUTER_RADIUS = 160;
+const OUTER_SIZE = 100;
 const INNER_RATIO = 0.7;
 const CONNECT_DISTANCE = SPACING * 1.5;
 const BASE_ALPHA = 0.04;
@@ -53,6 +53,10 @@ export default function DotsBackground() {
     resize();
     window.addEventListener("resize", resize);
 
+    function sqDist(x: number, y: number, cx: number, cy: number) {
+      return Math.max(Math.abs(x - cx), Math.abs(y - cy));
+    }
+
     function draw() {
       const w = window.innerWidth;
       const h = window.innerHeight;
@@ -62,15 +66,12 @@ export default function DotsBackground() {
 
       ctx!.clearRect(0, 0, w, h);
 
-      const innerR = OUTER_RADIUS * INNER_RATIO;
-      const outerRSq = OUTER_RADIUS * OUTER_RADIUS;
-      const fadeBand = OUTER_RADIUS - innerR;
+      const inner = OUTER_SIZE * INNER_RATIO;
+      const fadeBand = OUTER_SIZE - inner;
 
       const active: number[] = [];
       for (let i = 0; i < dots.length; i++) {
-        const dx = dots[i].x - cx;
-        const dy = dots[i].y - cy;
-        if (dx * dx + dy * dy < outerRSq) {
+        if (sqDist(dots[i].x, dots[i].y, cx, cy) < OUTER_SIZE) {
           active.push(i);
         }
       }
@@ -84,11 +85,10 @@ export default function DotsBackground() {
           if (dx * dx + dy * dy < CONNECT_DISTANCE * CONNECT_DISTANCE) {
             const midX = (a.x + b.x) / 2;
             const midY = (a.y + b.y) / 2;
-            const d = Math.sqrt((midX - cx) ** 2 + (midY - cy) ** 2);
+            const d = sqDist(midX, midY, cx, cy);
             let lineAlpha = LINE_ALPHA;
-            if (d > innerR) {
-              const t = Math.max(0, 1 - (d - innerR) / fadeBand);
-              lineAlpha *= t;
+            if (d > inner) {
+              lineAlpha *= Math.max(0, 1 - (d - inner) / fadeBand);
             }
             ctx!.beginPath();
             ctx!.moveTo(a.x, a.y);
@@ -102,20 +102,17 @@ export default function DotsBackground() {
 
       for (let i = 0; i < dots.length; i++) {
         const { x, y } = dots[i];
-        const dx = x - cx;
-        const dy = y - cy;
-        const distSq = dx * dx + dy * dy;
+        const d = sqDist(x, y, cx, cy);
 
         let alpha = BASE_ALPHA;
         let radius = DOT_RADIUS;
 
-        if (distSq < outerRSq) {
-          const dist = Math.sqrt(distSq);
+        if (d < OUTER_SIZE) {
           let t: number;
-          if (dist < innerR) {
+          if (d < inner) {
             t = 1;
           } else {
-            t = Math.max(0, 1 - (dist - innerR) / fadeBand);
+            t = Math.max(0, 1 - (d - inner) / fadeBand);
           }
           alpha = BASE_ALPHA + t * (ACTIVE_ALPHA - BASE_ALPHA);
           radius = DOT_RADIUS * (1 + t * 0.4);
