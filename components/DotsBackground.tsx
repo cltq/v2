@@ -2,32 +2,16 @@
 
 import { useEffect, useRef } from "react";
 
-const SPACING = 48;
-const DOT_RADIUS = 1;
-const OUTER_SIZE = 100;
-const INNER_RATIO = 0.7;
-const CONNECT_DISTANCE = SPACING * 1.5;
-const BASE_ALPHA = 0.04;
-const ACTIVE_ALPHA = 0.2;
-const LINE_ALPHA = 0.1;
-
 export default function DotsBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef(0);
-  const mouse = useRef({ x: 0, y: 0 });
-  const current = useRef({ x: 0, y: 0 });
-  const dotsRef = useRef<{ x: number; y: number }[]>([]);
+  const timeRef = useRef(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-
-    const initialX = window.innerWidth / 2;
-    const initialY = window.innerHeight / 2;
-    mouse.current = { x: initialX, y: initialY };
-    current.current = { x: initialX, y: initialY };
 
     function resize() {
       const dpr = window.devicePixelRatio || 1;
@@ -38,110 +22,38 @@ export default function DotsBackground() {
       canvas!.style.width = `${w}px`;
       canvas!.style.height = `${h}px`;
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-      const cols = Math.ceil(w / SPACING) + 1;
-      const rows = Math.ceil(h / SPACING) + 1;
-      const dots: { x: number; y: number }[] = [];
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          dots.push({ x: c * SPACING, y: r * SPACING });
-        }
-      }
-      dotsRef.current = dots;
     }
 
     resize();
     window.addEventListener("resize", resize);
 
-    function sqDist(x: number, y: number, cx: number, cy: number) {
-      return Math.max(Math.abs(x - cx), Math.abs(y - cy));
-    }
-
-    function draw() {
+    function draw(t: number) {
       const w = window.innerWidth;
       const h = window.innerHeight;
-      const cx = current.current.x;
-      const cy = current.current.y;
-      const dots = dotsRef.current;
-
       ctx!.clearRect(0, 0, w, h);
 
-      const inner = OUTER_SIZE * INNER_RATIO;
-      const fadeBand = OUTER_SIZE - inner;
+      const breathe = (Math.sin(t * 0.0008) + 1) / 2;
+      const centerX = breathe * w;
+      const glowWidth = w * 0.45;
 
-      const active: number[] = [];
-      for (let i = 0; i < dots.length; i++) {
-        if (sqDist(dots[i].x, dots[i].y, cx, cy) < OUTER_SIZE) {
-          active.push(i);
-        }
-      }
+      const grad = ctx!.createRadialGradient(centerX, h / 2, 0, centerX, h / 2, glowWidth);
+      grad.addColorStop(0, "rgba(255,255,255,0.045)");
+      grad.addColorStop(0.4, "rgba(255,255,255,0.015)");
+      grad.addColorStop(1, "rgba(255,255,255,0)");
 
-      for (let i = 0; i < active.length; i++) {
-        for (let j = i + 1; j < active.length; j++) {
-          const a = dots[active[i]];
-          const b = dots[active[j]];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          if (dx * dx + dy * dy < CONNECT_DISTANCE * CONNECT_DISTANCE) {
-            const midX = (a.x + b.x) / 2;
-            const midY = (a.y + b.y) / 2;
-            const d = sqDist(midX, midY, cx, cy);
-            let lineAlpha = LINE_ALPHA;
-            if (d > inner) {
-              lineAlpha *= Math.max(0, 1 - (d - inner) / fadeBand);
-            }
-            ctx!.beginPath();
-            ctx!.moveTo(a.x, a.y);
-            ctx!.lineTo(b.x, b.y);
-            ctx!.strokeStyle = `rgba(255,255,255,${lineAlpha})`;
-            ctx!.lineWidth = 1;
-            ctx!.stroke();
-          }
-        }
-      }
-
-      for (let i = 0; i < dots.length; i++) {
-        const { x, y } = dots[i];
-        const d = sqDist(x, y, cx, cy);
-
-        let alpha = BASE_ALPHA;
-        let radius = DOT_RADIUS;
-
-        if (d < OUTER_SIZE) {
-          let t: number;
-          if (d < inner) {
-            t = 1;
-          } else {
-            t = Math.max(0, 1 - (d - inner) / fadeBand);
-          }
-          alpha = BASE_ALPHA + t * (ACTIVE_ALPHA - BASE_ALPHA);
-          radius = DOT_RADIUS * (1 + t * 0.4);
-        }
-
-        ctx!.beginPath();
-        ctx!.arc(x, y, radius, 0, Math.PI * 2);
-        ctx!.fillStyle = `rgba(255,255,255,${alpha})`;
-        ctx!.fill();
-      }
+      ctx!.fillStyle = grad;
+      ctx!.fillRect(0, 0, w, h);
     }
 
-    function animate() {
-      current.current.x += (mouse.current.x - current.current.x) * 0.45;
-      current.current.y += (mouse.current.y - current.current.y) * 0.45;
-      draw();
+    function animate(ts: number) {
+      timeRef.current = ts;
+      draw(ts);
       rafRef.current = requestAnimationFrame(animate);
     }
 
-    const handleMove = (e: MouseEvent) => {
-      mouse.current.x = e.clientX;
-      mouse.current.y = e.clientY;
-    };
-
-    window.addEventListener("mousemove", handleMove, { passive: true });
     rafRef.current = requestAnimationFrame(animate);
 
     return () => {
-      window.removeEventListener("mousemove", handleMove);
       window.removeEventListener("resize", resize);
       cancelAnimationFrame(rafRef.current);
     };
