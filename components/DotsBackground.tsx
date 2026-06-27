@@ -4,11 +4,12 @@ import { useEffect, useRef } from "react";
 
 const SPACING = 48;
 const DOT_RADIUS = 1;
-const CURSOR_RADIUS = 150;
+const OUTER_RADIUS = 160;
+const INNER_RATIO = 0.7;
 const CONNECT_DISTANCE = SPACING * 1.5;
 const BASE_ALPHA = 0.04;
-const ACTIVE_ALPHA = 0.18;
-const LINE_ALPHA = 0.08;
+const ACTIVE_ALPHA = 0.2;
+const LINE_ALPHA = 0.1;
 
 export default function DotsBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -61,11 +62,15 @@ export default function DotsBackground() {
 
       ctx!.clearRect(0, 0, w, h);
 
+      const innerR = OUTER_RADIUS * INNER_RATIO;
+      const outerRSq = OUTER_RADIUS * OUTER_RADIUS;
+      const fadeBand = OUTER_RADIUS - innerR;
+
       const active: number[] = [];
       for (let i = 0; i < dots.length; i++) {
         const dx = dots[i].x - cx;
         const dy = dots[i].y - cy;
-        if (dx * dx + dy * dy < CURSOR_RADIUS * CURSOR_RADIUS) {
+        if (dx * dx + dy * dy < outerRSq) {
           active.push(i);
         }
       }
@@ -77,10 +82,18 @@ export default function DotsBackground() {
           const dx = a.x - b.x;
           const dy = a.y - b.y;
           if (dx * dx + dy * dy < CONNECT_DISTANCE * CONNECT_DISTANCE) {
+            const midX = (a.x + b.x) / 2;
+            const midY = (a.y + b.y) / 2;
+            const d = Math.sqrt((midX - cx) ** 2 + (midY - cy) ** 2);
+            let lineAlpha = LINE_ALPHA;
+            if (d > innerR) {
+              const t = Math.max(0, 1 - (d - innerR) / fadeBand);
+              lineAlpha *= t;
+            }
             ctx!.beginPath();
             ctx!.moveTo(a.x, a.y);
             ctx!.lineTo(b.x, b.y);
-            ctx!.strokeStyle = `rgba(255,255,255,${LINE_ALPHA})`;
+            ctx!.strokeStyle = `rgba(255,255,255,${lineAlpha})`;
             ctx!.lineWidth = 1;
             ctx!.stroke();
           }
@@ -96,8 +109,14 @@ export default function DotsBackground() {
         let alpha = BASE_ALPHA;
         let radius = DOT_RADIUS;
 
-        if (distSq < CURSOR_RADIUS * CURSOR_RADIUS) {
-          const t = 1 - Math.sqrt(distSq) / CURSOR_RADIUS;
+        if (distSq < outerRSq) {
+          const dist = Math.sqrt(distSq);
+          let t: number;
+          if (dist < innerR) {
+            t = 1;
+          } else {
+            t = Math.max(0, 1 - (dist - innerR) / fadeBand);
+          }
           alpha = BASE_ALPHA + t * (ACTIVE_ALPHA - BASE_ALPHA);
           radius = DOT_RADIUS * (1 + t * 0.4);
         }
