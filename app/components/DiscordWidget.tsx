@@ -38,7 +38,7 @@ export default function DiscordWidget({
   const { presence, loading, error } = useDiscordPresence(userId, {
     apiBaseUrl,
   });
-  const { spotify: spotifyData } = useSpotify();
+  const { spotify: spotifyData } = useSpotify(15000, showSpotify);
 
   if (loading) {
     return (

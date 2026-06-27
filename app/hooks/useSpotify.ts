@@ -10,12 +10,22 @@ interface UseSpotifyReturn {
   error: Error | null;
 }
 
-export function useSpotify(pollInterval = 15000): UseSpotifyReturn {
+export function useSpotify(
+  pollInterval = 15000,
+  enabled = true
+): UseSpotifyReturn {
   const [spotify, setSpotify] = useState<SpotifyData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
+    if (!enabled) {
+      setSpotify(null);
+      setLoading(false);
+      setError(null);
+      return;
+    }
+
     let cancelled = false;
     const abortController = new AbortController();
 
@@ -47,7 +57,7 @@ export function useSpotify(pollInterval = 15000): UseSpotifyReturn {
       abortController.abort();
       clearInterval(timer);
     };
-  }, [pollInterval]);
+  }, [pollInterval, enabled]);
 
   return { spotify, loading, error };
 }
