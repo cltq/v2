@@ -209,14 +209,15 @@ export function ActivityCycle({
 }) {
   if (activities.length === 0) return null;
 
-  if (activities.length === 1) {
-    return <ActivityCard activity={activities[0]} animated={animated} compact={compact} />;
-  }
-
   return (
-    <div className={compact ? "space-y-1" : "space-y-2"}>
-      {activities.map((activity) => (
-        <ActivityCard key={activity.id} activity={activity} animated={animated} compact={compact} />
+    <div className="flex flex-row flex-wrap gap-6">
+      {activities.map((activity, i) => (
+        <ActivityCard
+          key={activity.id || activity.name || i}
+          activity={activity}
+          animated={animated}
+          compact={compact}
+        />
       ))}
     </div>
   );

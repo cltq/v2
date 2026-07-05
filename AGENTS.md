@@ -58,34 +58,21 @@ export interface AppRoute {
 - Adding a new page = 1 entry in `appRoutes` + 1 `page.tsx` in a folder
 - No hardcoded routes anywhere else
 
-## Navbar (components/Navigation.tsx)
+## Navbar (components/Navigation.tsx) — Dynamic Island
 
-- **Position**: `fixed left-0 top-0`, full viewport height
-- **Width**: `w-[180px]`
-- **Background**: transparent (page background `#0b0b0f` shows through)
+- **Desktop**: `fixed left-1/2 top-4 -translate-x-1/2`, centered pill at top
+- **Mobile**: `fixed bottom-6 left-1/2 -translate-x-1/2`, centered pill at bottom
+- **Style**: `rounded-full` pill with `border border-white/10`, `bg-[#0b0b0f]/80`, `backdrop-blur-xl`
 - **Font**: Geist Mono (`font-mono`, set via `GeistMono.variable` CSS variable)
-- **Alignment**: Vertically centered (`justify-center`), no profile section
-- **Border**: none (separator removed)
-- **Mobile**: Hamburger button at top-left, sidebar slides in/out, dark overlay
-- **Active state**: `— PageName` — em dash prefix (desktop), `text-white`
-- **Inactive state**: `- PageName` — hyphen prefix (desktop), `text-zinc-500`
-- **Mobile**: No prefix dash shown on mobile bottom nav
-- **Hover**: `text-zinc-300`, only `transition-colors duration-200`
-
-```tsx
-// Desktop — active:
-<span className="inline-block w-4 text-center">—</span>PageName
-
-// Desktop — inactive:
-<span className="inline-block w-4 text-center">-</span>PageName
-
-// Mobile — no prefix:
-PageName
-```
+- **Active indicator**: Animated pill (`bg-white/10`) via framer-motion `layoutId` — `"nav-pill"` on desktop, `"nav-pill-mobile"` on mobile
+- **Active text**: `text-white`
+- **Inactive text**: `text-zinc-500`
+- **Hover**: `text-zinc-300`, `transition-colors duration-200`
+- **No dash prefixes** — active state shown by the animated background pill
 
 ## Layout (app/layout.tsx)
 
-- Body: `bg-[#0b0b0f] text-[#9ca3af] md:pl-[200px]`
+- Body: `bg-[#0b0b0f] text-[#9ca3af] md:pt-[72px]`
 - Render order: `GridBackground` → `Navbar` → content `<div>`
 - GridBackground at `z-0`, Navbar at `z-50`, content at `z-10`
 - Geist Mono variable applied at `<html>` level (global)

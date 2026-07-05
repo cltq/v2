@@ -87,7 +87,7 @@ export default function DiscordWidget({
     <AnimatePresence mode="wait">
       <motion.div
         key={presence.id}
-        className={`flex flex-col md:flex-row md:items-center gap-x-6 gap-y-2 ${className}`}
+        className={`flex flex-col items-center gap-4 ${className}`}
         initial={animated ? { opacity: 0, y: 20 } : undefined}
         animate={animated ? { opacity: 1, y: 0 } : undefined}
         transition={
@@ -96,7 +96,7 @@ export default function DiscordWidget({
             : undefined
         }
       >
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-3">
           <div className="relative">
             <img
               src={normalizeDiscordCdnUrl(presence.avatar)}
@@ -128,40 +128,43 @@ export default function DiscordWidget({
           </div>
         </div>
 
-        {hasPresence && (
-          <div className="flex flex-col gap-1 min-w-0">
-            {customStatus && (
-              <p className="text-[13px] text-zinc-400 leading-tight truncate">
-                {customStatus.emoji && <span className="mr-1">{customStatus.emoji}</span>}
-                {customStatus.text}
-              </p>
-            )}
-            <AnimatePresence mode="sync">
-              {showSpotifySection && (
-                <SpotifyCard
-                  key="spotify"
-                  spotify={spotifyData!}
-                  animated={animated}
-                />
-              )}
-            </AnimatePresence>
-            <AnimatePresence mode="sync">
-              {showActivitySection && (
-                <motion.div
-                  key="activities"
-                  initial={animated ? { opacity: 0 } : undefined}
-                  animate={animated ? { opacity: 1 } : undefined}
-                  transition={
-                    animated ? { duration: 0.3, delay: 0.1 } : undefined
-                  }
-                >
-                  <ActivityCycle
-                    activities={presence.activities}
+        {customStatus && (
+          <p className="text-[13px] text-zinc-400 leading-tight truncate text-center">
+            {customStatus.emoji && <span className="mr-1">{customStatus.emoji}</span>}
+            {customStatus.text}
+          </p>
+        )}
+
+        {(showSpotifySection || showActivitySection) && (
+          <div className="border border-white/10 rounded-xl p-4">
+            <div className="flex flex-row flex-wrap gap-6 justify-center items-start">
+              <AnimatePresence mode="sync">
+                {showSpotifySection && (
+                  <SpotifyCard
+                    key="spotify"
+                    spotify={spotifyData!}
                     animated={animated}
                   />
-                </motion.div>
-              )}
-            </AnimatePresence>
+                )}
+              </AnimatePresence>
+              <AnimatePresence mode="sync">
+                {showActivitySection && (
+                  <motion.div
+                    key="activities"
+                    initial={animated ? { opacity: 0 } : undefined}
+                    animate={animated ? { opacity: 1 } : undefined}
+                    transition={
+                      animated ? { duration: 0.3, delay: 0.1 } : undefined
+                    }
+                  >
+                    <ActivityCycle
+                      activities={presence.activities}
+                      animated={animated}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         )}
       </motion.div>

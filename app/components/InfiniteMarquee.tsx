@@ -63,10 +63,10 @@ export default function InfiniteMarquee() {
   return (
     <div className="group overflow-hidden">
       <div
-        className="flex w-max items-center animate-marquee group-hover:[animation-play-state:paused] text-[13px]"
+        className="flex w-max items-center animate-marquee group-hover:[animation-play-state:paused] text-[13px] will-change-transform"
         aria-hidden="true"
       >
-        {Array.from({ length: 8 }).map((_, i) => (
+        {Array.from({ length: 12 }).map((_, i) => (
           <Items key={i} />
         ))}
       </div>

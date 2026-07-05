@@ -7,11 +7,11 @@ export default function Home() {
   const userId = process.env.DISCORD_USERID ?? "";
 
   return (
-    <main className="relative flex min-h-dvh flex-col md:ml-[-100px]">
-      <div className="md:absolute md:left-[-100px] md:top-32 w-screen overflow-hidden pb-2 max-md:pt-16">
+    <main className="relative flex min-h-dvh flex-col">
+      <div className="w-screen overflow-hidden pb-2 pt-12 md:pt-16">
         <InfiniteMarquee />
       </div>
-      <div className="flex flex-1 flex-col items-center justify-center gap-6 p-8 md:pt-32">
+      <div className="flex flex-1 flex-col items-center justify-center gap-6 p-8">
         <DiscordWidget userId={userId} showSpotify={false} />
         <HeroText />
         <SocialIcons />
