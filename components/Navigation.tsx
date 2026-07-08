@@ -35,13 +35,11 @@ export default function Navbar() {
         className={`${GeistMono.variable} fixed left-1/2 top-4 z-50 hidden -translate-x-1/2 font-mono md:block`}
       >
         <div className="flex items-center gap-1 rounded-full border border-white/10 bg-[#0b0b0f]/80 pl-4 pr-2 py-1.5 backdrop-blur-xl">
-          <svg
-            viewBox="0 0 76 76"
-            fill="none"
-            className="shrink-0 self-center text-white mr-5 w-5 h-5"
-          >
-            <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="currentColor" />
-          </svg>
+          <img
+            src="/icon.png"
+            alt="Fumi"
+            className="shrink-0 self-center mr-5 w-8 h-8"
+          />
           {appRoutes.map((route) => {
             const active = shouldHighlight(route.href, pathname);
             return (
@@ -111,13 +109,34 @@ export default function Navbar() {
         </AnimatePresence>
 
         <div className="flex items-center gap-1 rounded-full border border-white/10 bg-[#0b0b0f]/80 pl-4 pr-2 py-1.5 backdrop-blur-xl">
-          <svg
-            viewBox="0 0 76 76"
-            fill="none"
-            className="shrink-0 self-center text-white mr-5 w-5 h-5"
-          >
-            <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="currentColor" />
-          </svg>
+          <img
+            src="/icon.png"
+            alt="Fumi"
+            className="shrink-0 self-center mr-2 w-8 h-8"
+          />
+          {appRoutes.slice(0, 1).map((route) => {
+            const active = shouldHighlight(route.href, pathname);
+            return (
+              <Link
+                key={route.href}
+                href={route.href}
+                className={`relative rounded-full px-3 py-1.5 text-sm transition-colors duration-200 ${
+                  active
+                    ? "text-white"
+                    : "text-zinc-500 hover:text-zinc-300"
+                }`}
+              >
+                {active && (
+                  <motion.span
+                    layoutId="nav-pill-mobile-home"
+                    className="absolute inset-0 rounded-full bg-white/10"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10">{route.name}</span>
+              </Link>
+            );
+          })}
           <button
             onClick={() => setOpen(!open)}
             className="relative rounded-full px-2.5 py-1.5 text-zinc-500 hover:text-zinc-300 transition-colors duration-200"
