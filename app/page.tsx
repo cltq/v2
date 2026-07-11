@@ -8,7 +8,7 @@ export default function Home() {
 
   return (
     <main className="relative flex h-full flex-col">
-      <div className="w-screen overflow-hidden pb-2 pt-12 md:pt-16">
+      <div className="absolute top-12 left-0 w-full overflow-hidden pb-2 md:top-16">
         <InfiniteMarquee />
       </div>
       <div className="flex flex-1 flex-col items-center justify-center gap-6 p-8">
