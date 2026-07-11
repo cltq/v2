@@ -7,7 +7,7 @@ export default function Home() {
   const userId = process.env.DISCORD_USERID ?? "";
 
   return (
-    <main className="relative flex min-h-170 flex-col">
+    <main className="relative flex h-full flex-col">
       <div className="w-screen overflow-hidden pb-2 pt-12 md:pt-16">
         <InfiniteMarquee />
       </div>

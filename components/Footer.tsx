@@ -26,7 +26,7 @@ export default function Footer() {
 
   return (
     <>
-      <footer className="grid grid-cols-3 items-center px-8 py-4 text-[12px] text-zinc-600">
+      <footer className="grid grid-cols-3 items-center px-8 py-4 text-[10px] text-zinc-600">
         <div className="hidden md:flex items-center gap-2 justify-self-start">
           <span className="text-zinc-700">//</span>
           {tech.map((t, i) => (
