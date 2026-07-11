@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
       if (!res.ok) return new NextResponse(null, { status: 404, headers });
       const contentType = res.headers.get("Content-Type") || "image/jpeg";
       const buffer = await res.arrayBuffer();
-      cacheSet(`img:${imgUrl}`, { buffer: Buffer.from(buffer), type: contentType });
+      cacheSet(`img:${imgUrl}`, { buffer: new Uint8Array(buffer), type: contentType });
       return new NextResponse(buffer, {
         headers: { ...headers, "Content-Type": contentType, "Cache-Control": "public, max-age=86400" },
       });

@@ -1,7 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { GeistMono } from "geist/font/mono";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import Navbar from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import DotsBackground from "@/components/DotsBackground";
@@ -40,8 +38,6 @@ export default function RootLayout({
           </div>
           <Footer />
         </div>
-        <Analytics />
-        <SpeedInsights />
         <ContextMenuGuard />
       </body>
     </html>
