@@ -70,7 +70,7 @@ export default function Footer() {
             onClick={() => setOpen(false)}
           >
             <motion.div
-              className="absolute flex flex-col gap-3 rounded-xl border border-white/10 bg-[#0b0b0f]/95 p-6 backdrop-blur-xl min-w-[260px] max-w-[320px] origin-bottom"
+              className="absolute flex flex-col gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 backdrop-blur-2xl min-w-[260px] max-w-[320px] origin-bottom shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06),0_8px_32px_rgba(0,0,0,0.4)]"
               style={{
                 left: typeof window !== "undefined" && window.innerWidth < 768
                   ? pos.left
@@ -82,14 +82,14 @@ export default function Footer() {
                   ? "translateX(-50%)"
                   : "none",
               }}
-              initial={{ opacity: 0, scale: 0, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0, y: 20 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
+              initial={{ opacity: 0, scale: 0.9, y: 12, filter: "blur(8px)" }}
+              animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, scale: 0.95, y: 8, filter: "blur(4px)" }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-1">
-                <span className="text-[13px] text-zinc-400">projects</span>
+                <span className="text-[13px] text-zinc-400">Credits</span>
                 <button
                   onClick={() => setOpen(false)}
                   className="text-zinc-600 hover:text-zinc-300 transition-colors duration-200"
