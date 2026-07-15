@@ -42,7 +42,7 @@ export default function DiscordWidget({
 
   if (loading) {
     return (
-      <div className={`flex flex-col md:flex-row gap-4 ${className}`}>
+      <div className={`flex items-center gap-4 ${className}`}>
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-full bg-zinc-800 animate-pulse shrink-0" />
           <div className="space-y-2">
@@ -56,7 +56,7 @@ export default function DiscordWidget({
 
   if (error || !presence) {
     return (
-      <div className={`flex flex-col md:flex-row gap-4 ${className}`}>
+      <div className={`flex items-center gap-4 ${className}`}>
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 text-lg shrink-0">
             ?
@@ -87,7 +87,7 @@ export default function DiscordWidget({
     <AnimatePresence mode="wait">
       <motion.div
         key={presence.id}
-        className={`flex flex-col items-center gap-4 ${className}`}
+        className={`flex items-center gap-4 ${className}`}
         initial={animated ? { opacity: 0, y: 20 } : undefined}
         animate={animated ? { opacity: 1, y: 0 } : undefined}
         transition={
@@ -96,48 +96,50 @@ export default function DiscordWidget({
             : undefined
         }
       >
-        <div className="flex items-center gap-3">
-          <div className="relative">
-            <img
-              src={normalizeDiscordCdnUrl(presence.avatar)}
-              alt={`${presence.username}'s avatar`}
-              width={compact ? 44 : 64}
-              height={compact ? 44 : 64}
-              loading="lazy"
-              className="rounded-full object-cover"
-              style={{ width: compact ? 44 : 64, height: compact ? 44 : 64 }}
-            />
-            <span className="absolute -bottom-0.5 -right-0.5">
-              <StatusBadge
-                status={presence.status}
-                animated={animated}
-                size={compact ? 12 : 13}
+        <div className="flex flex-col items-center gap-2">
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <img
+                src={normalizeDiscordCdnUrl(presence.avatar)}
+                alt={`${presence.username}'s avatar`}
+                width={compact ? 44 : 64}
+                height={compact ? 44 : 64}
+                loading="lazy"
+                className="rounded-full object-cover"
+                style={{ width: compact ? 44 : 64, height: compact ? 44 : 64 }}
               />
-            </span>
-          </div>
+              <span className="absolute -bottom-0.5 -right-0.5">
+                <StatusBadge
+                  status={presence.status}
+                  animated={animated}
+                  size={compact ? 12 : 13}
+                />
+              </span>
+            </div>
 
-          <div>
-            <p className="text-[15px] font-semibold text-white leading-tight">
-              {presence.displayName || presence.username}
-            </p>
-            {presence.displayName && presence.displayName !== presence.username && (
-              <p className="text-[14px] text-zinc-500 leading-tight">
-                @{presence.username}
+            <div>
+              <p className="text-[15px] font-semibold text-white leading-tight">
+                {presence.displayName || presence.username}
               </p>
-            )}
+              {presence.displayName && presence.displayName !== presence.username && (
+                <p className="text-[14px] text-zinc-500 leading-tight">
+                  @{presence.username}
+                </p>
+              )}
+            </div>
           </div>
-        </div>
 
-        {customStatus && (
-          <p className="text-[13px] text-zinc-400 leading-tight truncate text-center">
-            {customStatus.emoji && <span className="mr-1">{customStatus.emoji}</span>}
-            {customStatus.text}
-          </p>
-        )}
+          {customStatus && (
+            <p className="text-[13px] text-zinc-400 leading-tight truncate text-center">
+              {customStatus.emoji && <span className="mr-1">{customStatus.emoji}</span>}
+              {customStatus.text}
+            </p>
+          )}
+        </div>
 
         {(showSpotifySection || showActivitySection) && (
           <div className="border border-white/10 rounded-xl p-4">
-            <div className="flex flex-row flex-wrap gap-6 justify-center items-start">
+            <div className="flex flex-col gap-4 items-start">
               <AnimatePresence mode="sync">
                 {showSpotifySection && (
                   <SpotifyCard
