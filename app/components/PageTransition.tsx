@@ -1,20 +1,30 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export default function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    setVisible(false);
+    const raf = requestAnimationFrame(() => {
+      requestAnimationFrame(() => setVisible(true));
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [pathname]);
 
   return (
-    <motion.div
-      key={pathname}
+    <div
       className="h-full"
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(16px)",
+        transition: "opacity 0.35s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1)",
+      }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

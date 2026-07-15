@@ -14,14 +14,28 @@ const SPEED = 0.06;
 export default function DotsBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef(0);
-  const timeRef = useRef(0);
   const dotsRef = useRef<{ x: number; y: number }[]>([]);
+  const gridRef = useRef<Map<string, number[]>>(new Map());
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+
+    function buildGrid() {
+      const grid = new Map<string, number[]>();
+      const dots = dotsRef.current;
+      for (let i = 0; i < dots.length; i++) {
+        const gx = Math.floor(dots[i].x / CONNECT_DISTANCE);
+        const gy = Math.floor(dots[i].y / CONNECT_DISTANCE);
+        const key = `${gx},${gy}`;
+        const arr = grid.get(key);
+        if (arr) arr.push(i);
+        else grid.set(key, [i]);
+      }
+      gridRef.current = grid;
+    }
 
     function resize() {
       const dpr = window.devicePixelRatio || 1;
@@ -42,6 +56,7 @@ export default function DotsBackground() {
         }
       }
       dotsRef.current = dots;
+      buildGrid();
     }
 
     resize();
@@ -56,27 +71,46 @@ export default function DotsBackground() {
       const w = window.innerWidth;
       const h = window.innerHeight;
       const dots = dotsRef.current;
+      const grid = gridRef.current;
       const wavePos = ((t * SPEED) % (w + w * WAVE_WIDTH)) - w * WAVE_WIDTH * 0.5;
       const waveWidth = w * WAVE_WIDTH;
 
       ctx!.clearRect(0, 0, w, h);
 
+      const drawn = new Set<string>();
+
       for (let i = 0; i < dots.length; i++) {
-        for (let j = i + 1; j < dots.length; j++) {
-          const a = dots[i];
-          const b = dots[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          if (dx * dx + dy * dy < CONNECT_DISTANCE * CONNECT_DISTANCE) {
-            const midX = (a.x + b.x) / 2;
-            const g = glow(midX - wavePos, waveWidth);
-            const alpha = (BASE_ALPHA + g * (PEAK_ALPHA - BASE_ALPHA)) * LINE_ALPHA;
-            ctx!.beginPath();
-            ctx!.moveTo(a.x, a.y);
-            ctx!.lineTo(b.x, b.y);
-            ctx!.strokeStyle = `rgba(255,255,255,${alpha})`;
-            ctx!.lineWidth = 1;
-            ctx!.stroke();
+        const a = dots[i];
+        const gx = Math.floor(a.x / CONNECT_DISTANCE);
+        const gy = Math.floor(a.y / CONNECT_DISTANCE);
+
+        for (let dx = -1; dx <= 1; dx++) {
+          for (let dy = -1; dy <= 1; dy++) {
+            const key = `${gx + dx},${gy + dy}`;
+            const cell = grid.get(key);
+            if (!cell) continue;
+            for (let k = 0; k < cell.length; k++) {
+              const j = cell[k];
+              if (j <= i) continue;
+              const b = dots[j];
+              const ddx = a.x - b.x;
+              const ddy = a.y - b.y;
+              if (ddx * ddx + ddy * ddy < CONNECT_DISTANCE * CONNECT_DISTANCE) {
+                const pairKey = i < j ? `${i}:${j}` : `${j}:${i}`;
+                if (!drawn.has(pairKey)) {
+                  drawn.add(pairKey);
+                  const midX = (a.x + b.x) / 2;
+                  const g = glow(midX - wavePos, waveWidth);
+                  const alpha = (BASE_ALPHA + g * (PEAK_ALPHA - BASE_ALPHA)) * LINE_ALPHA;
+                  ctx!.beginPath();
+                  ctx!.moveTo(a.x, a.y);
+                  ctx!.lineTo(b.x, b.y);
+                  ctx!.strokeStyle = `rgba(255,255,255,${alpha})`;
+                  ctx!.lineWidth = 1;
+                  ctx!.stroke();
+                }
+              }
+            }
           }
         }
       }
@@ -93,7 +127,6 @@ export default function DotsBackground() {
     }
 
     function animate(ts: number) {
-      timeRef.current = ts;
       draw(ts);
       rafRef.current = requestAnimationFrame(animate);
     }

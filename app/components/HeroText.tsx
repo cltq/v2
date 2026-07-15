@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 
 const roles = ["Developer", "Photographer", "Normal Person"];
 
@@ -25,24 +24,21 @@ export default function HeroText() {
     <div className="flex items-center justify-center">
       <p className="text-base text-zinc-400">
         I&apos;m a{" "}
-        <motion.span
+        <span
           className="relative inline-flex items-center justify-center h-[1.5em] align-middle overflow-hidden"
-          animate={{ width: textWidth(roles[index]) }}
-          transition={{ duration: 0.25, ease: "easeOut" }}
+          style={{ width: textWidth(roles[index]), transition: "width 0.25s ease-out" }}
         >
-          <AnimatePresence mode="wait">
-            <motion.span
-              key={roles[index]}
-              className="absolute text-white left-1/2 -translate-x-1/2 whitespace-nowrap"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-            >
-              {roles[index]}
-            </motion.span>
-          </AnimatePresence>
-        </motion.span>
+          <span
+            className="absolute text-white left-1/2 -translate-x-1/2 whitespace-nowrap"
+            style={{
+              opacity: 1,
+              transform: "translateX(-50%) translateY(0)",
+              transition: "opacity 0.25s ease-out, transform 0.25s ease-out",
+            }}
+          >
+            {roles[index]}
+          </span>
+        </span>
       </p>
     </div>
   );
