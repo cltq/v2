@@ -1,36 +1,36 @@
 import { NextResponse } from "next/server";
 
-const baseUrl = "https://applefumi.xyz";
+const domains = ["https://applefumi.xyz", "https://w.vreni.xyz"];
 
 export async function GET() {
   const body = {
     linkset: [
       {
-        anchor: `${baseUrl}/api/discord`,
+        anchor: `${domains[0]}/api/discord`,
         "service-desc": [
           {
-            href: `${baseUrl}/.well-known/api-catalog`,
+            href: `${domains[0]}/.well-known/api-catalog`,
             type: "application/linkset+json",
           },
         ],
         "service-doc": [
           {
-            href: baseUrl,
+            href: domains[0],
             type: "text/html",
           },
         ],
       },
       {
-        anchor: `${baseUrl}/api/spotify`,
+        anchor: `${domains[0]}/api/spotify`,
         "service-desc": [
           {
-            href: `${baseUrl}/.well-known/api-catalog`,
+            href: `${domains[0]}/.well-known/api-catalog`,
             type: "application/linkset+json",
           },
         ],
         "service-doc": [
           {
-            href: baseUrl,
+            href: domains[0],
             type: "text/html",
           },
         ],

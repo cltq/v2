@@ -4,6 +4,11 @@
 
 This site supports agent-based access via API keys.
 
+### Domains
+
+- **Primary**: https://applefumi.xyz
+- **Alternate**: https://w.vreni.xyz
+
 ### Registration
 
 To register as an agent, obtain an API key through the registration endpoint:

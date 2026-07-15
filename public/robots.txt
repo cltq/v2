@@ -31,3 +31,4 @@ User-agent: Applebot-Extended
 Disallow: /
 
 Sitemap: https://applefumi.xyz/sitemap.xml
+Sitemap: https://w.vreni.xyz/sitemap.xml
