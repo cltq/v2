@@ -1,46 +1,46 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const roles = ["Developer", "Photographer", "Normal Person"];
-const charWidth = 9.6;
-
-function textWidth(text: string): number {
-  return text.length * charWidth + 8;
-}
 
 export default function HeroText() {
-  const [index, setIndex] = useState(0);
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
+
+  const current = roles[roleIndex];
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % roles.length);
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
+    const speed = deleting ? 50 : 100;
+
+    if (!deleting && charIndex === current.length) {
+      timeoutRef.current = setTimeout(() => setDeleting(true), 1500);
+      return () => clearTimeout(timeoutRef.current!);
+    }
+
+    if (deleting && charIndex === 0) {
+      setDeleting(false);
+      setRoleIndex((prev) => (prev + 1) % roles.length);
+      return;
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      setCharIndex((prev) => prev + (deleting ? -1 : 1));
+    }, speed);
+
+    return () => clearTimeout(timeoutRef.current!);
+  }, [charIndex, deleting, current.length, roleIndex]);
 
   return (
     <div className="flex items-center justify-center">
       <p className="text-base text-zinc-400">
         I&apos;m a{" "}
-        <span
-          className="relative inline-flex items-center justify-center h-[1.5em] align-middle overflow-hidden"
-          style={{
-            width: textWidth(roles[index]),
-            transition: "width 0.25s ease-out",
-          }}
-        >
-          <span
-            key={index}
-            className="absolute text-white left-1/2 whitespace-nowrap"
-            style={{
-              animation: "heroTextIn 0.25s ease-out forwards",
-              transform: "translateX(-50%)",
-            }}
-          >
-            {roles[index]}
-          </span>
+        <span className="text-white font-medium">
+          {current.slice(0, charIndex)}
         </span>
+        <span className="inline-block w-[2px] h-[1.1em] bg-white align-middle ml-0.5 animate-blink" />
       </p>
     </div>
   );

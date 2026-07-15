@@ -19,6 +19,7 @@ html {
   --font-sans: var(--font-geist-mono);
   --font-mono: var(--font-geist-mono);
   --animate-marquee: marquee 30s linear infinite;
+  --animate-blink: blink 1s step-end infinite;
 }
 
 @keyframes marquee {
@@ -85,4 +86,9 @@ body {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
 }
