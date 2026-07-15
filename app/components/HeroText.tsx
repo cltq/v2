@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 
 const roles = ["Developer", "Photographer", "Normal Person"];
-
 const charWidth = 9.6;
 
 function textWidth(text: string): number {
@@ -26,14 +25,17 @@ export default function HeroText() {
         I&apos;m a{" "}
         <span
           className="relative inline-flex items-center justify-center h-[1.5em] align-middle overflow-hidden"
-          style={{ width: textWidth(roles[index]), transition: "width 0.25s ease-out" }}
+          style={{
+            width: textWidth(roles[index]),
+            transition: "width 0.25s ease-out",
+          }}
         >
           <span
-            className="absolute text-white left-1/2 -translate-x-1/2 whitespace-nowrap"
+            key={index}
+            className="absolute text-white left-1/2 whitespace-nowrap"
             style={{
-              opacity: 1,
-              transform: "translateX(-50%) translateY(0)",
-              transition: "opacity 0.25s ease-out, transform 0.25s ease-out",
+              animation: "heroTextIn 0.25s ease-out forwards",
+              transform: "translateX(-50%)",
             }}
           >
             {roles[index]}
