@@ -3,13 +3,16 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const tech = [
-  { name: "Next.js", href: "https://nextjs.org" },
-  { name: "TypeScript", href: "https://typescriptlang.org" },
-  { name: "Tailwind CSS", href: "https://tailwindcss.com" },
-  { name: "Framer Motion", href: "https://framer.com/motion" },
-  { name: "Bun", href: "https://bun.sh" },
-  { name: "Geist Mono", href: "https://vercel.com/font" },
+const projects = [
+  { name: "Next.js", href: "https://nextjs.org", desc: "React framework" },
+  { name: "React", href: "https://react.dev", desc: "UI library" },
+  { name: "TypeScript", href: "https://typescriptlang.org", desc: "Type-safe JavaScript" },
+  { name: "Tailwind CSS", href: "https://tailwindcss.com", desc: "Utility-first CSS" },
+  { name: "Framer Motion", href: "https://framer.com/motion", desc: "Animation library" },
+  { name: "Geist Mono", href: "https://vercel.com/font", desc: "Monospace font" },
+  { name: "Turndown", href: "https://github.com/mixmark-io/turndown", desc: "HTML to Markdown" },
+  { name: "Bun", href: "https://bun.sh", desc: "JavaScript runtime" },
+  { name: "ESLint", href: "https://eslint.org", desc: "Code linter" },
 ];
 
 export default function Footer() {
@@ -27,33 +30,26 @@ export default function Footer() {
   return (
     <>
       <footer className="grid grid-cols-3 items-center px-8 py-4 text-[10px] text-zinc-600">
-        <div className="hidden md:flex items-center gap-2 justify-self-start">
-          <span className="text-zinc-700">//</span>
-          {tech.map((t, i) => (
-            <span key={t.name}>
-              <a
-                href={t.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-zinc-500 hover:text-zinc-300 transition-colors duration-200"
-              >
-                {t.name}
-              </a>
-              {i < tech.length - 1 && <span className="text-zinc-700 ml-2">·</span>}
-            </span>
-          ))}
+        <div className="hidden md:flex items-center justify-self-start">
+          <button
+            ref={btnRef}
+            onClick={() => setOpen(true)}
+            className="flex items-center gap-1 text-zinc-500 hover:text-zinc-300 transition-colors duration-200"
+            aria-label="View all projects"
+          >
+            <span className="text-zinc-700">//</span>
+            <span>Next.js</span>
+          </button>
         </div>
         <div className="flex md:hidden justify-self-start">
           <button
             ref={btnRef}
             onClick={() => setOpen(true)}
-            className="text-zinc-500 hover:text-zinc-300 transition-colors duration-200"
-            aria-label="View sources"
+            className="flex items-center gap-1 text-zinc-500 hover:text-zinc-300 transition-colors duration-200"
+            aria-label="View all projects"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="3" />
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-            </svg>
+            <span className="text-zinc-700">//</span>
+            <span>Next.js</span>
           </button>
         </div>
         <p className="text-center justify-self-center">
@@ -66,7 +62,7 @@ export default function Footer() {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 z-50 md:hidden"
+            className="fixed inset-0 z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -74,8 +70,18 @@ export default function Footer() {
             onClick={() => setOpen(false)}
           >
             <motion.div
-              className="absolute flex flex-col gap-3 rounded-xl border border-white/10 bg-[#0b0b0f]/95 p-6 backdrop-blur-xl min-w-[200px] origin-bottom"
-              style={{ left: pos.left, bottom: "calc(56px + env(safe-area-inset-bottom, 0px) + 50px)", transform: "translateX(-50%)" }}
+              className="absolute flex flex-col gap-3 rounded-xl border border-white/10 bg-[#0b0b0f]/95 p-6 backdrop-blur-xl min-w-[260px] max-w-[320px] origin-bottom"
+              style={{
+                left: typeof window !== "undefined" && window.innerWidth < 768
+                  ? pos.left
+                  : "2rem",
+                bottom: typeof window !== "undefined" && window.innerWidth < 768
+                  ? "calc(56px + env(safe-area-inset-bottom, 0px) + 50px)"
+                  : "calc(52px + env(safe-area-inset-bottom, 0px))",
+                transform: typeof window !== "undefined" && window.innerWidth < 768
+                  ? "translateX(-50%)"
+                  : "none",
+              }}
               initial={{ opacity: 0, scale: 0, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0, y: 20 }}
@@ -83,7 +89,7 @@ export default function Footer() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-1">
-                <span className="text-[13px] text-zinc-400">sources</span>
+                <span className="text-[13px] text-zinc-400">projects</span>
                 <button
                   onClick={() => setOpen(false)}
                   className="text-zinc-600 hover:text-zinc-300 transition-colors duration-200"
@@ -97,15 +103,16 @@ export default function Footer() {
               </div>
               <div className="h-px bg-white/5" />
               <div className="flex flex-col gap-2">
-                {tech.map((t) => (
+                {projects.map((p) => (
                   <a
-                    key={t.name}
-                    href={t.href}
+                    key={p.name}
+                    href={p.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[13px] text-zinc-500 hover:text-zinc-300 transition-colors duration-200"
+                    className="group flex items-baseline justify-between gap-3 text-[13px] text-zinc-500 hover:text-zinc-300 transition-colors duration-200"
                   >
-                    {t.name}
+                    <span>{p.name}</span>
+                    <span className="text-[10px] text-zinc-700 group-hover:text-zinc-500 transition-colors duration-200">{p.desc}</span>
                   </a>
                 ))}
               </div>
