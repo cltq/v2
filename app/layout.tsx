@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import DotsBackground from "@/components/DotsBackground";
 import PageTransition from "@/app/components/PageTransition";
 import ContextMenuGuard from "@/app/components/ContextMenuGuard";
+import WebMCP from "@/app/components/WebMCP";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -39,6 +40,7 @@ export default function RootLayout({
           <Footer />
         </div>
         <ContextMenuGuard />
+        <WebMCP />
       </body>
     </html>
   );

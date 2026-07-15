@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Link",
-            value: '</robots.txt>; rel="robots", </sitemap.xml>; rel="sitemap"',
+            value: '</robots.txt>; rel="robots", </sitemap.xml>; rel="sitemap", </.well-known/api-catalog>; rel="api-catalog", </.well-known/mcp/server-card.json>; rel="mcp-server-card"',
           },
         ],
       },
