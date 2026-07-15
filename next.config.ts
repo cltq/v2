@@ -1,6 +1,19 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async headers() {
+    return [
+      {
+        source: "/",
+        headers: [
+          {
+            key: "Link",
+            value: '</robots.txt>; rel="robots", </sitemap.xml>; rel="sitemap"',
+          },
+        ],
+      },
+    ];
+  },
   async rewrites() {
     return [
       {
