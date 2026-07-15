@@ -10,7 +10,7 @@ const projects = [
   { name: "Tailwind CSS", href: "https://tailwindcss.com", desc: "Utility-first CSS" },
   { name: "Framer Motion", href: "https://framer.com/motion", desc: "Animation library" },
   { name: "Geist Mono", href: "https://vercel.com/font", desc: "Monospace font" },
-  { name: "Turndown", href: "https://github.com/mixmark-io/turndown", desc: "HTML to Markdown" },
+  { name: "Vercel", href: "https://vercel.com", desc: "Hosting platform" },
   { name: "Bun", href: "https://bun.sh", desc: "JavaScript runtime" },
   { name: "ESLint", href: "https://eslint.org", desc: "Code linter" },
 ];
