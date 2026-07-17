@@ -28,11 +28,11 @@ export default function Home() {
   const userId = process.env.DISCORD_USERID ?? "";
 
   return (
-    <main className="relative grid h-full place-items-center">
+    <main className="relative h-full max-md:flex max-md:flex-col max-md:items-center max-md:justify-center md:grid md:place-items-center">
       <div className="absolute top-12 left-0 w-full overflow-hidden pb-2 md:top-16">
         <InfiniteMarquee />
       </div>
-      <div className="flex flex-col items-center gap-6 p-8">
+      <div className="flex flex-col items-center gap-6 max-md:w-full max-md:px-8 md:p-8">
         <DiscordWidget userId={userId} showSpotify={false} />
         <HeroText />
         <SocialIcons />
