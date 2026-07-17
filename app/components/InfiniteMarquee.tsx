@@ -36,11 +36,9 @@ function Clock() {
   );
 }
 
-function Items() {
+function LinkSet() {
   return (
     <span className="flex items-center gap-6 whitespace-nowrap">
-      <Clock />
-      <span className="text-zinc-700">//</span>
       {links.map((link) => (
         <span key={link.label} className="flex items-center gap-1.5">
           <span className="text-zinc-500">{link.label}:</span>
@@ -61,14 +59,20 @@ function Items() {
 
 export default function InfiniteMarquee() {
   return (
-    <div className="group overflow-hidden">
-      <div
-        className="flex w-max items-center animate-marquee group-hover:[animation-play-state:paused] text-[13px] will-change-transform"
-        aria-hidden="true"
-      >
-        {Array.from({ length: 12 }).map((_, i) => (
-          <Items key={i} />
-        ))}
+    <div className="group flex items-center text-[13px]">
+      <span className="shrink-0 pr-4">
+        <Clock />
+        <span className="text-zinc-700 mx-2">//</span>
+      </span>
+      <div className="group overflow-hidden">
+        <div
+          className="flex w-max items-center animate-marquee group-hover:[animation-play-state:paused] will-change-transform"
+          aria-hidden="true"
+        >
+          {Array.from({ length: 12 }).map((_, i) => (
+            <LinkSet key={i} />
+          ))}
+        </div>
       </div>
     </div>
   );
