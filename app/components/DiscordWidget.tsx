@@ -42,7 +42,7 @@ export default function DiscordWidget({
 
   if (loading) {
     return (
-      <div className={`flex items-center gap-4 ${className}`}>
+      <div className={`flex flex-col items-start gap-4 ${className}`}>
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-full bg-zinc-800 animate-pulse shrink-0" />
           <div className="space-y-2">
@@ -56,7 +56,7 @@ export default function DiscordWidget({
 
   if (error || !presence) {
     return (
-      <div className={`flex items-center gap-4 ${className}`}>
+      <div className={`flex flex-col items-center gap-4 ${className}`}>
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 text-lg shrink-0">
             ?
@@ -87,7 +87,7 @@ export default function DiscordWidget({
     <AnimatePresence mode="wait">
       <motion.div
         key={presence.id}
-        className={`flex items-center gap-4 ${className}`}
+        className={`flex flex-col items-center gap-4 ${className}`}
         initial={animated ? { opacity: 0, y: 20 } : undefined}
         animate={animated ? { opacity: 1, y: 0 } : undefined}
         transition={
@@ -138,8 +138,8 @@ export default function DiscordWidget({
         </div>
 
         {(showSpotifySection || showActivitySection) && (
-          <div className="border border-white/10 rounded-xl p-4">
-            <div className="flex flex-col gap-4 items-start">
+          <div className="w-full border border-white/10 rounded-xl p-4">
+            <div className="flex flex-col gap-4 items-center">
               <AnimatePresence mode="sync">
                 {showSpotifySection && (
                   <SpotifyCard

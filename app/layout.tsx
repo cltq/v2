@@ -32,7 +32,7 @@ export default function RootLayout({
     >
       <body className="relative h-full bg-[#0b0b0f] font-sans text-[#9ca3af] md:pt-[72px] max-md:pb-[calc(64px+env(safe-area-inset-bottom,0px))]">
         <DynamicBackgrounds />
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="relative z-10 flex h-full flex-col">
           <div className="flex-1 overflow-y-auto">
             <PageTransition>{children}</PageTransition>

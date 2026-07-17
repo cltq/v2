@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 const links = [
-  { label: "Instagram", handle: "m1yvki_", href: "https://instagram.com/m1yvki_", hover: "hover:text-pink-400" },
+  { label: "Instagram", handle: "lvfumi._", href: "https://instagram.com/lvfumi._", hover: "hover:text-pink-400" },
   { label: "TikTok", handle: "w.fysk_fumi", href: "https://tiktok.com/@w.fysk_fumi", hover: "hover:text-cyan-400" },
   { label: "EasyDonate", handle: "ivnfumi", href: "https://easydonate.app/ivnfumi", hover: "hover:text-emerald-400" },
 ];
