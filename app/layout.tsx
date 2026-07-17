@@ -34,7 +34,7 @@ export default function RootLayout({
         <DynamicBackgrounds />
         {/* <Navbar /> */}
         <div className="relative z-10 flex h-full flex-col">
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto max-md:overflow-hidden">
             <PageTransition>{children}</PageTransition>
           </div>
           <Footer />
