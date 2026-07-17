@@ -93,7 +93,7 @@ function ActivityIcon({ activity, compact = false }: { activity: ActivityData; c
           <img
             src={smallImage}
             alt={smallText}
-            className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full border-2 border-solid border-zinc-700"
+            className="absolute -bottom-1 -right-1 w-5 h-5 max-md:w-4 max-md:h-4 rounded-full border-2 border-solid border-zinc-700"
             loading="lazy"
           />
         )}

@@ -138,8 +138,8 @@ export default function DiscordWidget({
         </div>
 
         {(showSpotifySection || showActivitySection) && (
-          <div className="w-full border border-white/10 rounded-xl p-4">
-            <div className="flex flex-col gap-4 items-center">
+          <div className="w-full border border-white/10 rounded-xl p-4 max-md:p-3 max-md:scale-90 max-md:origin-top">
+            <div className="flex flex-col gap-4 max-md:gap-3 items-center">
               <AnimatePresence mode="sync">
                 {showSpotifySection && (
                   <SpotifyCard
