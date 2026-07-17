@@ -30,7 +30,7 @@ export default function RootLayout({
       lang="en"
       className={`${GeistMono.variable} h-svh antialiased`}
     >
-      <body className="relative h-full bg-[#0b0b0f] font-sans text-[#9ca3af] md:pt-[72px] max-md:pb-[calc(64px+env(safe-area-inset-bottom,0px))]">
+      <body className="relative h-full bg-[#0b0b0f] font-sans text-[#9ca3af] md:pt-[72px]">
         <DynamicBackgrounds />
         {/* <Navbar /> */}
         <div className="relative z-10 flex h-full flex-col">
