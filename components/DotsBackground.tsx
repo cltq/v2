@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from "react";
 
-const SPACING = 48;
-const DOT_RADIUS = 1.2;
+const SPACING = 80;
+const DOT_RADIUS = 1.8;
 const CONNECT_DISTANCE = SPACING * 1.5;
 const BASE_ALPHA = 0.03;
 const PEAK_ALPHA = 0.18;

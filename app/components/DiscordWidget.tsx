@@ -44,7 +44,17 @@ export default function DiscordWidget({
     return (
       <div className={`flex flex-col items-start gap-4 ${className}`}>
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-full bg-zinc-800 animate-pulse shrink-0" />
+          <div className="relative w-12 h-12 shrink-0">
+            <div className="absolute inset-0 rounded-full bg-zinc-800" />
+            <div
+              className="absolute inset-[-2px] rounded-full"
+              style={{
+                background: "conic-gradient(from 0deg, transparent 25%, white 50%, transparent 75%)",
+                animation: "spin-border 1.2s linear infinite",
+              }}
+            />
+            <div className="absolute inset-[1px] rounded-full bg-zinc-800" />
+          </div>
           <div className="space-y-2">
             <div className="h-4 w-28 rounded bg-zinc-800 animate-pulse" />
             <div className="h-3 w-20 rounded bg-zinc-800 animate-pulse" />
