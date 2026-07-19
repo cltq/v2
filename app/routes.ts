@@ -13,5 +13,15 @@ export const appRoutes: AppRoute[] = [
     name: "Music",
     href: "/music",
   },
+];
 
+export interface HomeSection {
+  id: string;
+  name: string;
+}
+
+export const homeSections: HomeSection[] = [
+  { id: "hero", name: "Home" },
+  { id: "music", name: "Music" },
+  { id: "projects", name: "Projects" },
 ];
