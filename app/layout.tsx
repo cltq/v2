@@ -6,6 +6,7 @@ import PageTransition from "@/app/components/PageTransition";
 import ContextMenuGuard from "@/app/components/ContextMenuGuard";
 import WebMCP from "@/app/components/WebMCP";
 import DynamicBackgrounds from "@/app/components/DynamicBackgrounds";
+import SectionSideNav from "@/app/components/SectionSideNav";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -32,6 +33,7 @@ export default function RootLayout({
     >
       <body className="relative h-full bg-[#0b0b0f] font-sans text-[#9ca3af] md:pt-[72px]">
         <DynamicBackgrounds />
+        <SectionSideNav />
         <div className="relative z-10 flex h-full flex-col">
           <div id="scroll-container" className="flex-1 overflow-y-auto">
             <PageTransition>{children}</PageTransition>
