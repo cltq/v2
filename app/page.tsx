@@ -75,10 +75,6 @@ export default function Home() {
         </Reveal>
       </section>
 
-      <div className="mx-auto w-full max-w-4xl px-8 pt-24 pb-8">
-        <div className="border-t border-white/10" />
-      </div>
-
       <Footer />
     </div>
   );
