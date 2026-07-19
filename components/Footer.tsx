@@ -37,7 +37,7 @@ export default function Footer() {
   return (
     <footer className="grid grid-cols-3 items-center px-8 py-6 pb-[calc(24px+env(safe-area-inset-bottom,0px))] text-[13px] text-zinc-600">
       <div />
-      <p className="text-center justify-self-center flex items-center gap-1">
+      <p className="text-center justify-self-center flex items-center gap-2">
         <span>&copy; {new Date().getFullYear()}</span>
         <span className="inline-flex overflow-hidden align-bottom" style={{ height: `${ITEM_HEIGHT_EM}em` }}>
           <span ref={innerRef} className="flex flex-col will-change-transform">
