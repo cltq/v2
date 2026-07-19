@@ -32,12 +32,10 @@ export default function RootLayout({
     >
       <body className="relative h-full bg-[#0b0b0f] font-sans text-[#9ca3af] md:pt-[72px]">
         <DynamicBackgrounds />
-        {/* <Navbar /> */}
         <div className="relative z-10 flex h-full flex-col">
-          <div className="flex-1 overflow-y-auto max-md:overflow-hidden">
+          <div id="scroll-container" className="flex-1 overflow-y-auto">
             <PageTransition>{children}</PageTransition>
           </div>
-          <Footer />
         </div>
         <ContextMenuGuard />
         <WebMCP />
