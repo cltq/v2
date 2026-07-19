@@ -93,7 +93,7 @@ function RepoCard({ repo, index }: { repo: GitHubRepo; index: number }) {
 
 export default function GitHubRepos({
   username,
-  blacklist = [dcutils,docs,dots,builders],
+  blacklist = [],
 }: {
   username: string;
   blacklist?: string[];
@@ -113,7 +113,7 @@ export default function GitHubRepos({
       )
       .catch(() => setRepos([]))
       .finally(() => setLoading(false));
-  }, [username]);
+  }, [username, blacklist]);
 
   if (!username) {
     return (
