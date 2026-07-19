@@ -28,6 +28,8 @@ const nextConfig: NextConfig = {
   },
   env: {
     DISCORD_USERID: process.env.DISCORD_USERID,
+    GITHUB_USERNAME: process.env.GITHUB_USERNAME,
+    GITHUB_BLACKLIST: process.env.GITHUB_BLACKLIST,
   },
   allowedDevOrigins: ['192.168.1.34', '192.168.1.35', '192.168.1.44'],
 };
