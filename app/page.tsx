@@ -75,6 +75,8 @@ export default function Home() {
         </Reveal>
       </section>
 
+      <div className="h-32" />
+
       <Footer />
     </div>
   );
