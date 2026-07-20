@@ -1,9 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { GeistMono } from "geist/font/mono";
+import localFont from "next/font/local";
 import { homeSections } from "@/app/routes";
 import { motion } from "framer-motion";
+
+const geistPixelSquare = localFont({
+  src: "../../node_modules/geist/dist/fonts/geist-pixel/GeistPixel-Square.woff2",
+  variable: "--font-geist-pixel-square",
+});
 
 export default function SectionSideNav() {
   const [activeId, setActiveId] = useState(homeSections[0].id);
@@ -51,7 +56,8 @@ export default function SectionSideNav() {
 
   return (
     <nav
-      className={`${GeistMono.variable} fixed left-0 top-0 z-50 hidden h-full w-48 flex-col justify-center px-8 font-mono md:flex`}
+      className={`${geistPixelSquare.variable} fixed left-0 top-0 z-50 hidden h-full w-48 flex-col justify-center px-8 md:flex`}
+      style={{ fontFamily: "var(--font-geist-pixel-square)" }}
       aria-label="Section navigation"
     >
       <ul className="flex flex-col gap-4">
