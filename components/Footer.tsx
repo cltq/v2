@@ -4,8 +4,8 @@ import { useEffect, useRef } from "react";
 
 const names = ["Yuki", "Fumi", "Reni"];
 const ITEM_HEIGHT_EM = 1.2;
-const HOLD_MS = 2500;
-const SLIDE_MS = 350;
+const HOLD_MS = 1200;
+const SLIDE_MS = 200;
 const CYCLE_MS = (HOLD_MS + SLIDE_MS) * names.length;
 
 export default function Footer() {
