@@ -35,20 +35,23 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="flex items-center justify-between px-8 py-6 pb-[calc(24px+env(safe-area-inset-bottom,0px))] text-[13px] text-zinc-600">
-      <p className="flex items-center gap-2">
-        <span>&copy; {new Date().getFullYear()}</span>
-        <span className="inline-flex overflow-hidden align-bottom" style={{ height: `${ITEM_HEIGHT_EM}em` }}>
-          <span ref={innerRef} className="flex flex-col will-change-transform">
-            {[...names, names[0]].map((name, i) => (
-              <span key={`${name}-${i}`} className="text-white whitespace-nowrap" style={{ height: `${ITEM_HEIGHT_EM}em`, lineHeight: `${ITEM_HEIGHT_EM}em` }}>
-                {name}
-              </span>
-            ))}
+    <footer className="mx-auto w-full max-w-4xl px-8 pt-6 pb-6 pb-[calc(24px+env(safe-area-inset-bottom,0px))] text-[13px] text-zinc-600">
+      <div className="mb-6 h-px w-full bg-white/10" />
+      <div className="flex items-center justify-between">
+        <p className="flex items-center gap-2">
+          <span>&copy; {new Date().getFullYear()}</span>
+          <span className="inline-flex overflow-hidden align-bottom" style={{ height: `${ITEM_HEIGHT_EM}em` }}>
+            <span ref={innerRef} className="flex flex-col will-change-transform">
+              {[...names, names[0]].map((name, i) => (
+                <span key={`${name}-${i}`} className="text-white whitespace-nowrap" style={{ height: `${ITEM_HEIGHT_EM}em`, lineHeight: `${ITEM_HEIGHT_EM}em` }}>
+                  {name}
+                </span>
+              ))}
+            </span>
           </span>
-        </span>
-      </p>
-      <p>All rights reserved. Do not use my informations.</p>
+        </p>
+        <p>All rights reserved. Do not use my informations.</p>
+      </div>
     </footer>
   );
 }
