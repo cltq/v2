@@ -1,7 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { GeistMono } from "geist/font/mono";
-import Navbar from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import PageTransition from "@/app/components/PageTransition";
 import ContextMenuGuard from "@/app/components/ContextMenuGuard";
 import WebMCP from "@/app/components/WebMCP";
