@@ -10,14 +10,8 @@ interface AskModalProps {
 
 export default function AskModal({ open, onClose }: AskModalProps) {
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
-  const [image, setImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [uploadError, setUploadError] = useState(false);
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
 
@@ -40,11 +34,6 @@ export default function AskModal({ open, onClose }: AskModalProps) {
   function reset() {
     setName("");
     setMessage("");
-    setImage(null);
-    setImagePreview(null);
-    setUploadProgress(null);
-    setImageUrl(null);
-    setUploadError(false);
     setSending(false);
     setSent(false);
   }
@@ -54,79 +43,15 @@ export default function AskModal({ open, onClose }: AskModalProps) {
     onClose();
   }
 
-  function uploadImage(file: File) {
-    setUploadProgress(0);
-    setUploadError(false);
-    setImageUrl(null);
-
-    const formData = new FormData();
-    formData.set("image", file);
-
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "/api/ask/upload");
-
-    xhr.upload.onprogress = (e) => {
-      if (e.lengthComputable) {
-        setUploadProgress(Math.round((e.loaded / e.total) * 100));
-      }
-    };
-
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        const data = JSON.parse(xhr.responseText);
-        setImageUrl(data.url);
-        setUploadProgress(100);
-      } else {
-        setUploadError(true);
-        setUploadProgress(null);
-        setImage(null);
-        setImagePreview(null);
-      }
-    };
-
-    xhr.onerror = () => {
-      setUploadError(true);
-      setUploadProgress(null);
-      setImage(null);
-      setImagePreview(null);
-    };
-
-    xhr.send(formData);
-  }
-
-  function handleImageSelect(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (file.size > 8 * 1024 * 1024) return;
-    setImage(file);
-    const reader = new FileReader();
-    reader.onload = () => setImagePreview(reader.result as string);
-    reader.readAsDataURL(file);
-    uploadImage(file);
-  }
-
-  function removeImage() {
-    setImage(null);
-    setImagePreview(null);
-    setUploadProgress(null);
-    setImageUrl(null);
-    setUploadError(false);
-    if (fileInputRef.current) fileInputRef.current.value = "";
-  }
-
   async function handleSubmit() {
-    if (!message.trim() || sending || uploadProgress !== null && uploadProgress < 100) return;
+    if (!message.trim() || sending) return;
     setSending(true);
 
     try {
       const res = await fetch("/api/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          message,
-          imageUrl: imageUrl || undefined,
-        }),
+        body: JSON.stringify({ name, message }),
       });
       if (res.ok) {
         setSent(true);
@@ -137,9 +62,6 @@ export default function AskModal({ open, onClose }: AskModalProps) {
       setSending(false);
     }
   }
-
-  const isUploading = uploadProgress !== null && uploadProgress < 100;
-  const canSend = message.trim() && !sending && !isUploading;
 
   return (
     <AnimatePresence>
@@ -230,102 +152,13 @@ export default function AskModal({ open, onClose }: AskModalProps) {
                     className="w-full resize-none rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3 text-sm leading-relaxed text-white/90 placeholder-zinc-600 outline-none transition-colors focus:border-white/[0.12] focus:bg-white/[0.05]"
                   />
 
-                  <div className="mt-3">
-                    {imagePreview ? (
-                      <div className="space-y-2">
-                        <div className="relative inline-block">
-                          <img
-                            src={imagePreview}
-                            alt="Preview"
-                            className="h-20 rounded-lg object-cover ring-1 ring-white/[0.08]"
-                          />
-                          {uploadProgress === null && (
-                            <button
-                              onClick={removeImage}
-                              className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-zinc-800 text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-white"
-                            >
-                              <svg
-                                className="h-2.5 w-2.5"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              >
-                                <path d="M18 6L6 18M6 6l12 12" />
-                              </svg>
-                            </button>
-                          )}
-                        </div>
-
-                        {uploadProgress !== null && uploadProgress < 100 && (
-                          <div className="h-1 w-full overflow-hidden rounded-full bg-white/[0.06]">
-                            <motion.div
-                              className="h-full rounded-full bg-white/40"
-                              initial={{ width: 0 }}
-                              animate={{ width: `${uploadProgress}%` }}
-                              transition={{ duration: 0.2 }}
-                            />
-                          </div>
-                        )}
-
-                        {uploadError && (
-                          <span className="text-xs text-red-400/80">
-                            upload failed
-                          </span>
-                        )}
-
-                        {uploadProgress === 100 && !uploadError && (
-                          <button
-                            onClick={removeImage}
-                            className="text-xs text-zinc-500 transition-colors hover:text-zinc-300"
-                          >
-                            remove
-                          </button>
-                        )}
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => fileInputRef.current?.click()}
-                        className="flex items-center gap-2 rounded-lg border border-dashed border-white/[0.08] px-3 py-2 text-xs text-zinc-500 transition-colors hover:border-white/[0.15] hover:text-zinc-300"
-                      >
-                        <svg
-                          className="h-3.5 w-3.5"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <rect x="3" y="3" width="18" height="18" rx="2" />
-                          <circle cx="8.5" cy="8.5" r="1.5" />
-                          <path d="M21 15l-5-5L5 21" />
-                        </svg>
-                        แนบรูป
-                      </button>
-                    )}
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={handleImageSelect}
-                    />
-                  </div>
-
                   <div className="mt-4 flex justify-end">
                     <button
                       onClick={handleSubmit}
-                      disabled={!canSend}
+                      disabled={!message.trim() || sending}
                       className="rounded-lg bg-white/[0.08] px-4 py-1.5 text-sm font-medium text-white/90 transition-colors hover:bg-white/[0.14] disabled:pointer-events-none disabled:opacity-30"
                     >
-                      {sending
-                        ? "กำลังส่ง..."
-                        : isUploading
-                          ? "กำลังอัปโหลด..."
-                          : "ส่ง"}
+                      {sending ? "กำลังส่ง..." : "ส่ง"}
                     </button>
                   </div>
                 </motion.div>

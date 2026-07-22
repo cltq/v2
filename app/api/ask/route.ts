@@ -9,7 +9,6 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
   const name = (body.name as string)?.trim() || "Anonymous";
   const message = (body.message as string)?.trim();
-  const imageUrl = (body.imageUrl as string) || undefined;
 
   if (!message) {
     return NextResponse.json({ error: "Message is required" }, { status: 400 });
@@ -22,10 +21,6 @@ export async function POST(request: NextRequest) {
     author: { name },
     timestamp: new Date().toISOString(),
   };
-
-  if (imageUrl) {
-    embed.image = { url: imageUrl };
-  }
 
   const res = await fetch(webhookUrl, {
     method: "POST",
