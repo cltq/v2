@@ -43,7 +43,7 @@ export default function RootLayout({
       <head>
         <title>fumi</title>
       </head>
-      <body className="relative h-full bg-black font-sans text-[#9ca3af] md:pt-[72px]">
+      <body className="relative h-full bg-black font-sans text-[#9ca3af]">
         <DynamicBackgrounds />
         <SectionSideNav />
         <div className="relative z-10 flex h-full flex-col">
