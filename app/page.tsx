@@ -49,6 +49,21 @@ export default function Home() {
           <HeroText />
           <SocialIcons />
         </div>
+        <div className="absolute bottom-8 right-8 flex items-center gap-2 text-xs text-zinc-600 max-md:hidden">
+          <span>scroll</span>
+          <svg
+            className="size-3"
+            style={{ animation: "bounce-down 1.5s ease-in-out infinite" }}
+            viewBox="0 0 12 12"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M6 2v8M2.5 6.5L6 10l3.5-3.5" />
+          </svg>
+        </div>
       </section>
 
       {/* Music */}
