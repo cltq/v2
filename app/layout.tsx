@@ -41,7 +41,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistMono.variable} h-svh antialiased`}>
       <head>
-        <title>fumi</title>
+        <title>Maple</title>
       </head>
       <body className="relative h-full bg-black font-sans text-[#9ca3af] md:pt-[72px]">
         <DynamicBackgrounds />
