@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const NAME = "fumi";
+const NAME = "maple";
 
 export default function TitleUpdater() {
   const [host, setHost] = useState("");

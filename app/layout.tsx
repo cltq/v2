@@ -55,6 +55,7 @@ export default function RootLayout({
         <WebMCP />
         <SpeedInsights />
         <Analytics />
+        <TitleUpdater />
       </body>
     </html>
   );
