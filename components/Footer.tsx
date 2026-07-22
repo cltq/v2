@@ -37,7 +37,7 @@ export default function Footer() {
   return (
     <footer className="mx-auto w-full max-w-4xl px-8 pt-6 pb-6 pb-[calc(24px+env(safe-area-inset-bottom,0px))] text-[13px] text-zinc-600">
       <div className="mb-6 h-px w-full bg-white/10" />
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-center">
         <p className="flex items-center gap-2">
           <span>&copy; {new Date().getFullYear()}</span>
           <span className="inline-flex overflow-hidden align-bottom" style={{ height: `${ITEM_HEIGHT_EM}em` }}>
@@ -50,7 +50,6 @@ export default function Footer() {
             </span>
           </span>
         </p>
-        <p>All rights reserved. Do not use my informations.</p>
       </div>
     </footer>
   );
