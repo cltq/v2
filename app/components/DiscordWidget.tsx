@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useDiscordPresence } from "@/app/hooks/useDiscordPresence";
 import { useSpotify } from "@/app/hooks/useSpotify";
+import { useModalOpen } from "@/app/components/ModalOpenContext";
 import { StatusBadge } from "@/app/components/discord/StatusBadge";
 import { SpotifyCard } from "@/app/components/discord/SpotifyCard";
 import { ActivityCycle } from "@/app/components/discord/ActivityCard";
@@ -33,10 +34,12 @@ export default function DiscordWidget({
   className = "",
   apiBaseUrl,
 }: DiscordWidgetProps) {
+  const modalOpen = useModalOpen();
   const { presence, loading, error } = useDiscordPresence({
     apiBaseUrl,
+    paused: modalOpen,
   });
-  const { spotify: spotifyData } = useSpotify(15000, showSpotify);
+  const { spotify: spotifyData } = useSpotify(15000, showSpotify && !modalOpen);
 
   if (loading) {
     return (

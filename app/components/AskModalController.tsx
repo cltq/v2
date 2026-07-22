@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback } from "react";
 import AskModal from "@/components/AskModal";
+import { ModalOpenProvider } from "@/app/components/ModalOpenContext";
 
 export default function AskModalController() {
   const pathname = usePathname();
@@ -13,5 +14,9 @@ export default function AskModalController() {
     router.push("/");
   }, [router]);
 
-  return <AskModal open={isOpen} onClose={close} />;
+  return (
+    <ModalOpenProvider value={isOpen}>
+      <AskModal open={isOpen} onClose={close} />
+    </ModalOpenProvider>
+  );
 }

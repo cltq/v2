@@ -8,6 +8,7 @@ import { SSEManager } from "@/app/lib/discord/sse";
 interface UseDiscordPresenceOptions {
   apiBaseUrl?: string;
   pollInterval?: number;
+  paused?: boolean;
 }
 
 interface UseDiscordPresenceReturn {
@@ -51,6 +52,8 @@ export function useDiscordPresence(
   }, [fetchInitial]);
 
   useEffect(() => {
+    if (options.paused) return;
+
     let aborted = false;
     const abortController = new AbortController();
 
@@ -94,7 +97,7 @@ export function useDiscordPresence(
       sseRef.current = null;
       clearInterval(pollTimer);
     };
-  }, [baseUrl, fetchInitial, options.pollInterval]);
+  }, [baseUrl, fetchInitial, options.pollInterval, options.paused]);
 
   return { presence, loading, error, refetch };
 }
