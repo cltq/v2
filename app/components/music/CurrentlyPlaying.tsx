@@ -11,15 +11,9 @@ export default function CurrentlyPlaying() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const userId = process.env.DISCORD_USERID || "";
-    if (!userId) {
-      setLoading(false);
-      return;
-    }
-
     const fetch = async () => {
       try {
-        const data = await fetchDiscordPresence(userId);
+        const data = await fetchDiscordPresence();
         setSpotify(data.spotify ?? null);
       } catch {
         setSpotify(null);

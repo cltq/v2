@@ -13,11 +13,13 @@ export class SSEManager<T = unknown> {
   private retryCount: number = 0;
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
   private destroyed: boolean = false;
+  private eventName: string | null = null;
 
-  connect(url: string, callbacks: SSECallbacks<T>): void {
+  connect(url: string, callbacks: SSECallbacks<T>, eventName?: string): void {
     this.url = url;
     this.callbacks = callbacks;
     this.destroyed = false;
+    this.eventName = eventName ?? null;
     this.createConnection();
   }
 
@@ -35,7 +37,7 @@ export class SSEManager<T = unknown> {
         this.callbacks?.onOpen?.();
       };
 
-      this.eventSource.onmessage = (event: MessageEvent) => {
+      const handler = (event: MessageEvent) => {
         try {
           const parsed = JSON.parse(event.data) as T;
           this.callbacks?.onMessage(parsed);
@@ -43,6 +45,12 @@ export class SSEManager<T = unknown> {
           this.callbacks?.onMessage(event.data as unknown as T);
         }
       };
+
+      if (this.eventName) {
+        this.eventSource.addEventListener(this.eventName, handler);
+      } else {
+        this.eventSource.onmessage = handler;
+      }
 
       this.eventSource.onerror = (event: Event) => {
         this.callbacks?.onError?.(event);

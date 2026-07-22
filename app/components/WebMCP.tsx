@@ -16,16 +16,10 @@ export default function WebMCP() {
       description: "Get the current Discord presence and activity status",
       inputSchema: {
         type: "object",
-        properties: {
-          userId: {
-            type: "string",
-            description: "Discord user ID (defaults to configured user)",
-          },
-        },
+        properties: {},
       },
-      execute: async (input: { userId?: string }) => {
-        const userId = input?.userId || process.env.NEXT_PUBLIC_DISCORD_USERID || "";
-        const res = await fetch(`/api/discord/users/${userId}`);
+      execute: async () => {
+        const res = await fetch(`/api/discord/`);
         return res.json();
       },
       signal: controller.signal,

@@ -25,7 +25,6 @@ function parseCustomStatus(
 }
 
 export default function DiscordWidget({
-  userId: userIdProp,
   showSpotify = true,
   showActivities = true,
   showCustomStatus = true,
@@ -34,8 +33,7 @@ export default function DiscordWidget({
   className = "",
   apiBaseUrl,
 }: DiscordWidgetProps) {
-  const userId = (userIdProp || process.env.DISCORD_USERID || "").trim();
-  const { presence, loading, error } = useDiscordPresence(userId, {
+  const { presence, loading, error } = useDiscordPresence({
     apiBaseUrl,
   });
   const { spotify: spotifyData } = useSpotify(15000, showSpotify);

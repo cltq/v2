@@ -18,7 +18,6 @@ interface UseDiscordPresenceReturn {
 }
 
 export function useDiscordPresence(
-  userId: string,
   options: UseDiscordPresenceOptions = {},
 ): UseDiscordPresenceReturn {
   const [presence, setPresence] = useState<DiscordPresence | null>(null);
@@ -26,15 +25,13 @@ export function useDiscordPresence(
   const [error, setError] = useState<Error | null>(null);
 
   const sseRef = useRef<SSEManager<DiscordPresence> | null>(null);
-  const userIdRef = useRef<string>(userId);
-  userIdRef.current = userId;
 
   const baseUrl = options.apiBaseUrl;
 
   const fetchInitial = useCallback(
     async (signal?: AbortSignal) => {
       try {
-        const data = await fetchDiscordPresence(userIdRef.current, baseUrl, signal);
+        const data = await fetchDiscordPresence(baseUrl, signal);
         setPresence(data);
         setError(null);
         return data;
@@ -66,19 +63,22 @@ export function useDiscordPresence(
       }
     });
 
-    const sse = new SSEManager<DiscordPresence | { success: boolean; data: DiscordPresence }>();
+    const sse = new SSEManager<DiscordPresence>();
     sseRef.current = sse;
 
-    const sseUrl = `${getBaseUrl(baseUrl)}/users/${userId}/live`;
+    const sseUrl = `${getBaseUrl(baseUrl)}/live`;
 
-    sse.connect(sseUrl, {
-      onMessage: (data) => {
-        const presenceData = "data" in data ? data.data : data;
-        setPresence(presenceData);
-        setError(null);
+    sse.connect(
+      sseUrl,
+      {
+        onMessage: (data) => {
+          setPresence(data);
+          setError(null);
+        },
+        onError: () => {},
       },
-      onError: () => {},
-    });
+      "presence_update",
+    );
 
     const pollInterval = options.pollInterval ?? 5000;
     const pollTimer = setInterval(() => {
@@ -94,7 +94,7 @@ export function useDiscordPresence(
       sseRef.current = null;
       clearInterval(pollTimer);
     };
-  }, [userId, baseUrl, fetchInitial, options.pollInterval]);
+  }, [baseUrl, fetchInitial, options.pollInterval]);
 
   return { presence, loading, error, refetch };
 }

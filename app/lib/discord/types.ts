@@ -7,11 +7,6 @@ export interface ApiResponse<T> {
   data: T;
 }
 
-export interface DiscordAvatar {
-  href: string;
-  blurhash?: string;
-}
-
 export interface DiscordCustomStatus {
   text: string;
   emoji?: {
@@ -80,11 +75,25 @@ export interface ActivityData {
   party?: ActivityParty;
 }
 
-export interface DiscordPrimaryGuild {
-  identityGuildId: string;
-  identityEnabled: boolean;
+export interface DiscordBadge {
+  id: string;
+  description: string;
+}
+
+export interface DiscordGuild {
   tag: string;
   badge: string;
+}
+
+export interface DiscordProfile {
+  id: string;
+  username: string;
+  displayName: string;
+  avatar: string;
+  banner?: string;
+  accentColor?: number;
+  badges?: DiscordBadge[];
+  guild?: DiscordGuild;
 }
 
 export interface DiscordPresence {
@@ -98,12 +107,16 @@ export interface DiscordPresence {
   customStatus?: string | DiscordCustomStatus | null;
   spotify?: SpotifyData | null;
   activities: ActivityData[];
-  primaryGuild?: DiscordPrimaryGuild;
-  updatedAt: number;
+  primaryGuild?: DiscordGuild;
+  updatedAt?: number;
+}
+
+export interface DiscordStatusData {
+  id: string;
+  status: DiscordStatus;
 }
 
 export interface DiscordWidgetProps {
-  userId?: string;
   theme?: WidgetTheme;
   showSpotify?: boolean;
   showActivities?: boolean;

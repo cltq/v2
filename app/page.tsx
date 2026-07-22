@@ -30,7 +30,6 @@ import GitHubContributions from "@/app/components/GitHubContributions";
 import Footer from "@/components/Footer";
 
 export default function Home() {
-  const userId = process.env.DISCORD_USERID ?? "";
   const githubUser = process.env.GITHUB_USERNAME ?? "";
   const githubBlacklist =
     process.env.GITHUB_BLACKLIST?.split(",")
@@ -48,7 +47,7 @@ export default function Home() {
           <InfiniteMarquee />
         </div>
         <div className="flex flex-col items-center gap-6">
-          <DiscordWidget userId={userId} showSpotify={false} />
+          <DiscordWidget showSpotify={false} />
           <HeroText />
           <SocialIcons />
         </div>
