@@ -50,7 +50,7 @@ export default function SectionSideNav() {
 
   return (
     <nav
-      className="fixed top-0 left-0 z-50 hidden h-full w-48 flex-col justify-center px-8 font-mono md:flex"
+      className="fixed top-0 left-0 z-30 hidden h-full w-48 flex-col justify-center px-8 font-mono md:flex"
       aria-label="Section navigation"
     >
       <ul className="flex flex-col gap-4">

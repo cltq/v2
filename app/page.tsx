@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { Suspense } from "react";
 
 const DiscordWidget = dynamic(() => import("@/app/components/DiscordWidget"), {
   ssr: false,
@@ -28,6 +29,7 @@ import Reveal from "@/app/components/Reveal";
 import TechStack from "@/app/components/TechStack";
 import GitHubContributions from "@/app/components/GitHubContributions";
 import Footer from "@/components/Footer";
+import AskModalController from "@/app/components/AskModalController";
 
 export default function Home() {
   const githubUser = process.env.GITHUB_USERNAME ?? "";
@@ -134,6 +136,10 @@ export default function Home() {
       <div className="h-32" />
 
       <Footer />
+
+      <Suspense>
+        <AskModalController />
+      </Suspense>
     </div>
   );
 }

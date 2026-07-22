@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { GeistMono } from "geist/font/mono";
+import { Chakra_Petch } from "next/font/google";
 import PageTransition from "@/app/components/PageTransition";
 import ContextMenuGuard from "@/app/components/ContextMenuGuard";
 import WebMCP from "@/app/components/WebMCP";
@@ -9,6 +10,13 @@ import TitleUpdater from "@/app/components/TitleUpdater";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+
+const chakraPetch = Chakra_Petch({
+  subsets: ["thai", "latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-chakra-petch",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   description: "Fumi/Maple's Portfolio/Personal Website",
@@ -39,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${GeistMono.variable} h-svh antialiased`}>
+    <html lang="en" className={`${GeistMono.variable} ${chakraPetch.variable} h-svh antialiased`}>
       <head>
         <title>fumi</title>
       </head>

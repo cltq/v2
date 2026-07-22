@@ -29,6 +29,7 @@ const nextConfig: NextConfig = {
   },
   env: {
     DISCORD_USERID: process.env.DISCORD_USERID,
+    DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL,
     GITHUB_USERNAME: process.env.GITHUB_USERNAME,
     GITHUB_BLACKLIST: process.env.GITHUB_BLACKLIST,
   },
