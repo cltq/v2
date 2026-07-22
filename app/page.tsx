@@ -42,8 +42,8 @@ export default function Home() {
     <div className="flex flex-col">
       {/* Hero */}
       <section
-        id="hero"
-        className="relative flex min-h-svh flex-col items-center justify-center px-6 sm:px-8"
+        id="root"
+        className="relative flex h-svh flex-col items-center justify-center px-6 sm:px-8"
       >
         <div className="absolute top-12 left-0 w-full overflow-hidden pb-2 md:top-16">
           <InfiniteMarquee />
@@ -103,7 +103,7 @@ export default function Home() {
       {/* Development */}
       <section
         id="development"
-        className="flex min-h-svh items-center justify-center px-4 py-16 sm:px-8"
+        className="flex h-svh items-center justify-center overflow-y-auto px-4 py-16 sm:px-8"
       >
         <Reveal className="flex w-full max-w-4xl flex-col items-center gap-12 sm:gap-16">
           <h2 className="text-xl font-semibold tracking-tight text-white sm:text-2xl">
@@ -131,11 +131,9 @@ export default function Home() {
             <GitHubRepos username={githubUser} blacklist={githubBlacklist} />
           </div>
         </Reveal>
+        <div className="h-16" />
+        <Footer />
       </section>
-
-      <div className="h-32" />
-
-      <Footer />
 
       <Suspense>
         <AskModalController />
