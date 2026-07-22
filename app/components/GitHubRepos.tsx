@@ -159,14 +159,6 @@ export default function GitHubRepos({
           ))}
         </div>
       )}
-      <a
-        href={`https://github.com/${username}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-4 inline-block text-xs text-zinc-600 transition-colors duration-200 hover:text-zinc-400"
-      >
-        view all on github
-      </a>
     </div>
   );
 }

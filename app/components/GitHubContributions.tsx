@@ -17,8 +17,8 @@ export default function GitHubContributions({ username }: { username: string }) 
     hide_title: "true",
     custom_title: "Contributions",
     radius: "8",
-    height: "300",
-    days: "30",
+    height: "250",
+    days: "20",
   });
 
   return (
@@ -31,18 +31,9 @@ export default function GitHubContributions({ username }: { username: string }) 
         <img
           src={`https://github-readme-activity-graph.vercel.app/graph?${params.toString()}`}
           alt={`${username}'s contribution graph`}
-          className="w-full rounded-xl"
+          className="w-full overflow-hidden rounded-xl"
         />
       </motion.div>
-
-      <a
-        href={`https://github.com/${username}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-xs text-zinc-600 transition-colors duration-200 hover:text-zinc-400"
-      >
-        view full profile on github
-      </a>
     </div>
   );
 }

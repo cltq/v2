@@ -42,7 +42,7 @@ export default function Home() {
       {/* Hero */}
       <section
         id="hero"
-        className="relative flex min-h-svh flex-col items-center justify-center max-md:px-8 md:px-8"
+        className="relative flex min-h-svh flex-col items-center justify-center px-6 sm:px-8"
       >
         <div className="absolute top-12 left-0 w-full overflow-hidden pb-2 md:top-16">
           <InfiniteMarquee />
@@ -100,24 +100,33 @@ export default function Home() {
       </section> */}
 
       {/* Development */}
-      <section id="development" className="flex items-center justify-center px-8 pt-16 pb-16">
-        <Reveal className="flex w-full max-w-4xl flex-col items-center gap-16">
-          <h2 className="text-2xl font-semibold tracking-tight text-white">Development</h2>
+      <section
+        id="development"
+        className="flex items-center justify-center px-4 pt-12 pb-16 sm:px-8"
+      >
+        <Reveal className="flex w-full max-w-4xl flex-col items-center gap-12 sm:gap-16">
+          <h2 className="text-xl font-semibold tracking-tight text-white sm:text-2xl">
+            Development
+          </h2>
 
-          <div className="flex w-full flex-col items-center gap-4">
-            <h3 className="text-sm font-medium tracking-wide text-zinc-400 uppercase">Stacks</h3>
+          <div className="flex w-full flex-col items-center gap-3 sm:gap-4">
+            <h3 className="text-xs font-medium tracking-wide text-zinc-400 uppercase sm:text-sm">
+              Stacks
+            </h3>
             <TechStack />
           </div>
 
-          <div className="flex w-full flex-col items-center gap-6">
-            <h3 className="text-sm font-medium tracking-wide text-zinc-400 uppercase">
+          <div className="flex w-full flex-col items-center gap-4 sm:gap-6">
+            <h3 className="text-xs font-medium tracking-wide text-zinc-400 uppercase sm:text-sm">
               Contributions
             </h3>
             <GitHubContributions username={githubUser} />
           </div>
 
-          <div className="flex w-full flex-col items-center gap-6">
-            <h3 className="text-sm font-medium tracking-wide text-zinc-400 uppercase">Projects</h3>
+          <div className="flex w-full flex-col items-center gap-4 sm:gap-6">
+            <h3 className="text-xs font-medium tracking-wide text-zinc-400 uppercase sm:text-sm">
+              Projects
+            </h3>
             <GitHubRepos username={githubUser} blacklist={githubBlacklist} />
           </div>
         </Reveal>
