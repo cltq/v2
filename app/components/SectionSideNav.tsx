@@ -8,13 +8,17 @@ export default function SectionSideNav() {
   const [activeId, setActiveId] = useState(homeSections[0].id);
 
   useEffect(() => {
-    const observers: IntersectionObserver[] = [];
     const root = document.getElementById("scroll-container");
+    if (!root) return;
+
+    const observers: IntersectionObserver[] = [];
 
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
-          setActiveId(entry.target.id);
+          const id = entry.target.id;
+          setActiveId(id);
+          history.replaceState(null, "", `/#${id}`);
         }
       }
     };
@@ -24,7 +28,7 @@ export default function SectionSideNav() {
       if (!el) continue;
       const observer = new IntersectionObserver(handleIntersect, {
         root,
-        threshold: 0.4,
+        threshold: 0.6,
       });
       observer.observe(el);
       observers.push(observer);
@@ -38,14 +42,8 @@ export default function SectionSideNav() {
   function scrollTo(id: string) {
     const el = document.getElementById(id);
     if (!el) return;
-    const root = document.getElementById("scroll-container");
-    if (!root) return;
-    const rootRect = root.getBoundingClientRect();
-    const elRect = el.getBoundingClientRect();
-    root.scrollTo({
-      top: root.scrollTop + (elRect.top - rootRect.top),
-      behavior: "smooth",
-    });
+    el.scrollIntoView({ behavior: "smooth" });
+    history.pushState(null, "", `/#${id}`);
   }
 
   return (
