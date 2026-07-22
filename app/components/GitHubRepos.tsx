@@ -27,7 +27,7 @@ const LANGUAGE_COLORS: Record<string, string> = {
 };
 
 function RepoCard({ repo, index }: { repo: GitHubRepo; index: number }) {
-  const color = repo.language ? LANGUAGE_COLORS[repo.language] ?? "#9ca3af" : "#9ca3af";
+  const color = repo.language ? (LANGUAGE_COLORS[repo.language] ?? "#9ca3af") : "#9ca3af";
 
   return (
     <motion.a
@@ -37,21 +37,21 @@ function RepoCard({ repo, index }: { repo: GitHubRepo; index: number }) {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.06 }}
-      className="group flex flex-col justify-between rounded-xl border border-white/10 p-5 transition-colors duration-200 hover:border-white/20"
+      className="group flex flex-col justify-between rounded-xl border border-white/10 p-5 transition-all duration-200 hover:border-white/60 hover:shadow-[0_0_15px_rgba(255,255,255,0.15)]"
     >
       <div>
-        <p className="text-[15px] text-white font-medium truncate group-hover:text-blue-400 transition-colors duration-200">
+        <p className="truncate text-[15px] font-medium text-white transition-colors duration-200 group-hover:text-white">
           {repo.name}
         </p>
-        <p className="text-[13px] text-zinc-500 mt-1.5 line-clamp-2 min-h-[2.6em]">
+        <p className="mt-1.5 line-clamp-2 min-h-[2.6em] text-[13px] text-zinc-500">
           {repo.description ?? "No description"}
         </p>
       </div>
-      <div className="flex items-center gap-4 mt-3 text-[12px] text-zinc-600">
+      <div className="mt-3 flex items-center gap-4 text-[12px] text-zinc-600">
         {repo.language && (
           <span className="flex items-center gap-1.5">
             <span
-              className="w-2.5 h-2.5 rounded-full shrink-0"
+              className="h-2.5 w-2.5 shrink-0 rounded-full"
               style={{ backgroundColor: color }}
             />
             {repo.language}
@@ -59,7 +59,14 @@ function RepoCard({ repo, index }: { repo: GitHubRepo; index: number }) {
         )}
         {repo.stargazers_count > 0 && (
           <span className="flex items-center gap-1">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
             </svg>
             {repo.stargazers_count}
@@ -67,7 +74,16 @@ function RepoCard({ repo, index }: { repo: GitHubRepo; index: number }) {
         )}
         {repo.forks_count > 0 && (
           <span className="flex items-center gap-1">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <circle cx="12" cy="18" r="3" />
               <circle cx="6" cy="6" r="3" />
               <circle cx="18" cy="6" r="3" />
@@ -78,9 +94,12 @@ function RepoCard({ repo, index }: { repo: GitHubRepo; index: number }) {
           </span>
         )}
         {repo.topics.length > 0 && (
-          <span className="flex gap-1 ml-auto overflow-hidden">
+          <span className="ml-auto flex gap-1 overflow-hidden">
             {repo.topics.slice(0, 2).map((t) => (
-              <span key={t} className="rounded-full bg-white/5 px-2 py-0.5 text-[11px] text-zinc-500 whitespace-nowrap">
+              <span
+                key={t}
+                className="rounded-full bg-white/5 px-2 py-0.5 text-[11px] whitespace-nowrap text-zinc-500"
+              >
                 {t}
               </span>
             ))}
@@ -108,9 +127,7 @@ export default function GitHubRepos({
     }
 
     fetchPublicRepos(username, 12)
-      .then((all) =>
-        setRepos(all.filter((r) => !blacklist.includes(r.name)).slice(0, 6))
-      )
+      .then((all) => setRepos(all.filter((r) => !blacklist.includes(r.name)).slice(0, 6)))
       .catch(() => setRepos([]))
       .finally(() => setLoading(false));
   }, [username, blacklist]);
@@ -126,17 +143,17 @@ export default function GitHubRepos({
   return (
     <div>
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="rounded-xl border border-white/10 p-5 space-y-3">
-              <div className="h-4 w-32 rounded bg-zinc-800 animate-pulse" />
-              <div className="h-3 w-full rounded bg-zinc-800 animate-pulse" />
-              <div className="h-3 w-20 rounded bg-zinc-800 animate-pulse" />
+            <div key={i} className="space-y-3 rounded-xl border border-white/10 p-5">
+              <div className="h-4 w-32 animate-pulse rounded bg-zinc-800" />
+              <div className="h-3 w-full animate-pulse rounded bg-zinc-800" />
+              <div className="h-3 w-20 animate-pulse rounded bg-zinc-800" />
             </div>
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {repos.map((repo, i) => (
             <RepoCard key={repo.id} repo={repo} index={i} />
           ))}
@@ -146,7 +163,7 @@ export default function GitHubRepos({
         href={`https://github.com/${username}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-4 inline-block text-xs text-zinc-600 hover:text-zinc-400 transition-colors duration-200"
+        className="mt-4 inline-block text-xs text-zinc-600 transition-colors duration-200 hover:text-zinc-400"
       >
         view all on github
       </a>

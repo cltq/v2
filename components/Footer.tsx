@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-const names = ["Yuki", "Fumi", "Reni"];
+const names = ["Yuki", "Fumi", "Reni", "Maple"];
 const ITEM_HEIGHT_EM = 1.2;
 const HOLD_MS = 1200;
 const SLIDE_MS = 200;
@@ -22,9 +22,7 @@ export default function Footer() {
       const elapsed = (now - startRef.current) % CYCLE_MS;
       const index = Math.floor(elapsed / (HOLD_MS + SLIDE_MS));
       const phaseElapsed = elapsed - index * (HOLD_MS + SLIDE_MS);
-      const offset = phaseElapsed > HOLD_MS
-        ? (phaseElapsed - HOLD_MS) / SLIDE_MS
-        : 0;
+      const offset = phaseElapsed > HOLD_MS ? (phaseElapsed - HOLD_MS) / SLIDE_MS : 0;
       const y = -(index + Math.min(offset, 1)) * ITEM_HEIGHT_EM;
       el!.style.transform = `translateY(${y}em)`;
       rafRef.current = requestAnimationFrame(tick);
@@ -40,10 +38,17 @@ export default function Footer() {
       <div className="flex items-center justify-center">
         <p className="flex items-center gap-2">
           <span>&copy; {new Date().getFullYear()}</span>
-          <span className="inline-flex overflow-hidden align-bottom" style={{ height: `${ITEM_HEIGHT_EM}em` }}>
+          <span
+            className="inline-flex overflow-hidden align-bottom"
+            style={{ height: `${ITEM_HEIGHT_EM}em` }}
+          >
             <span ref={innerRef} className="flex flex-col will-change-transform">
               {[...names, names[0]].map((name, i) => (
-                <span key={`${name}-${i}`} className="text-white whitespace-nowrap" style={{ height: `${ITEM_HEIGHT_EM}em`, lineHeight: `${ITEM_HEIGHT_EM}em` }}>
+                <span
+                  key={`${name}-${i}`}
+                  className="whitespace-nowrap text-white"
+                  style={{ height: `${ITEM_HEIGHT_EM}em`, lineHeight: `${ITEM_HEIGHT_EM}em` }}
+                >
                   {name}
                 </span>
               ))}

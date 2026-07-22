@@ -1,18 +1,16 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import CurrentlyPlaying from "@/app/components/music/CurrentlyPlaying";
-import LastFmSection from "@/app/components/music/LastFmSection";
 
 const DiscordWidget = dynamic(() => import("@/app/components/DiscordWidget"), {
   ssr: false,
   loading: () => (
-    <div className="flex flex-col md:flex-row gap-4">
+    <div className="flex flex-col gap-4 md:flex-row">
       <div className="flex items-center gap-3">
-        <div className="w-12 h-12 rounded-full bg-zinc-800 animate-pulse shrink-0" />
+        <div className="h-12 w-12 shrink-0 animate-pulse rounded-full bg-zinc-800" />
         <div className="space-y-2">
-          <div className="h-4 w-28 rounded bg-zinc-800 animate-pulse" />
-          <div className="h-3 w-20 rounded bg-zinc-800 animate-pulse" />
+          <div className="h-4 w-28 animate-pulse rounded bg-zinc-800" />
+          <div className="h-3 w-20 animate-pulse rounded bg-zinc-800" />
         </div>
       </div>
     </div>
@@ -27,19 +25,24 @@ import HeroText from "@/app/components/HeroText";
 import SocialIcons from "@/app/components/SocialIcons";
 import GitHubRepos from "@/app/components/GitHubRepos";
 import Reveal from "@/app/components/Reveal";
+import TechStack from "@/app/components/TechStack";
+import GitHubContributions from "@/app/components/GitHubContributions";
 import Footer from "@/components/Footer";
 
 export default function Home() {
   const userId = process.env.DISCORD_USERID ?? "";
   const githubUser = process.env.GITHUB_USERNAME ?? "";
-  const githubBlacklist = process.env.GITHUB_BLACKLIST?.split(",").map((s) => s.trim()).filter(Boolean) ?? [];
+  const githubBlacklist =
+    process.env.GITHUB_BLACKLIST?.split(",")
+      .map((s) => s.trim())
+      .filter(Boolean) ?? [];
 
   return (
     <div className="flex flex-col">
       {/* Hero */}
       <section
         id="hero"
-        className="relative min-h-svh flex flex-col items-center justify-center max-md:px-8 md:px-8"
+        className="relative flex min-h-svh flex-col items-center justify-center max-md:px-8 md:px-8"
       >
         <div className="absolute top-12 left-0 w-full overflow-hidden pb-2 md:top-16">
           <InfiniteMarquee />
@@ -49,7 +52,8 @@ export default function Home() {
           <HeroText />
           <SocialIcons />
         </div>
-        <div className="absolute bottom-8 right-8 flex items-center gap-2 text-xs text-zinc-600 max-md:hidden">
+        {/* Desktop: horizontal at center bottom */}
+        <div className="fixed bottom-8 left-1/2 z-20 hidden -translate-x-1/2 items-center gap-2 text-xs text-zinc-400 md:flex">
           <span>scroll</span>
           <svg
             className="size-3"
@@ -64,10 +68,28 @@ export default function Home() {
             <path d="M6 2v8M2.5 6.5L6 10l3.5-3.5" />
           </svg>
         </div>
+        {/* Mobile: vertical on right */}
+        <div className="fixed top-1/2 right-3 z-20 flex -translate-y-1/2 flex-col items-center gap-3 text-[11px] text-zinc-400 md:hidden">
+          <svg
+            className="size-3"
+            style={{ animation: "bounce-down 1.5s ease-in-out infinite" }}
+            viewBox="0 0 12 12"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M6 2v8M2.5 6.5L6 10l3.5-3.5" />
+          </svg>
+          <span className="tracking-widest uppercase" style={{ writingMode: "vertical-rl" }}>
+            scroll
+          </span>
+        </div>
       </section>
 
       {/* Music */}
-      <section
+      {/* <section
         id="music"
         className="min-h-svh flex items-center justify-center px-8"
       >
@@ -75,18 +97,29 @@ export default function Home() {
           <CurrentlyPlaying />
           <LastFmSection username="" />
         </Reveal>
-      </section>
+      </section> */}
 
-      {/* Projects */}
-      <section
-        id="projects"
-        className="flex items-center justify-center px-16 pt-4 pb-2"
-      >
-        <Reveal className="flex flex-col items-center gap-15 max-w-4xl w-full">
-          <h2 className="text-2xl font-semibold tracking-tight text-white">
-            Projects
-          </h2>
-          <GitHubRepos username={githubUser} blacklist={githubBlacklist} />
+      {/* Development */}
+      <section id="development" className="flex items-center justify-center px-8 pt-16 pb-16">
+        <Reveal className="flex w-full max-w-4xl flex-col items-center gap-16">
+          <h2 className="text-2xl font-semibold tracking-tight text-white">Development</h2>
+
+          <div className="flex w-full flex-col items-center gap-4">
+            <h3 className="text-sm font-medium tracking-wide text-zinc-400 uppercase">Stacks</h3>
+            <TechStack />
+          </div>
+
+          <div className="flex w-full flex-col items-center gap-6">
+            <h3 className="text-sm font-medium tracking-wide text-zinc-400 uppercase">
+              Contributions
+            </h3>
+            <GitHubContributions username={githubUser} />
+          </div>
+
+          <div className="flex w-full flex-col items-center gap-6">
+            <h3 className="text-sm font-medium tracking-wide text-zinc-400 uppercase">Projects</h3>
+            <GitHubRepos username={githubUser} blacklist={githubBlacklist} />
+          </div>
         </Reveal>
       </section>
 

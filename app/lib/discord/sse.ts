@@ -58,10 +58,7 @@ export class SSEManager<T = unknown> {
 
     if (this.destroyed) return;
 
-    const delay = Math.min(
-      this.retryDelay * Math.pow(2, this.retryCount),
-      this.maxRetryDelay
-    );
+    const delay = Math.min(this.retryDelay * Math.pow(2, this.retryCount), this.maxRetryDelay);
     this.retryCount++;
 
     const jitter = delay * (0.5 + Math.random() * 0.5);

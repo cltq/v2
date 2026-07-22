@@ -1,9 +1,24 @@
 "use client";
 
 const links = [
-  { label: "Instagram", handle: "lvfumi._", href: "https://instagram.com/lvfumi._", hover: "hover:text-pink-400" },
-  { label: "TikTok", handle: "w.fysk_fumi", href: "https://tiktok.com/@w.fysk_fumi", hover: "hover:text-cyan-400" },
-  { label: "EasyDonate", handle: "ivnfumi", href: "https://easydonate.app/ivnfumi", hover: "hover:text-emerald-400" },
+  {
+    label: "Instagram",
+    handle: "lvfumi._",
+    href: "https://instagram.com/lvfumi._",
+    hover: "hover:text-pink-400",
+  },
+  {
+    label: "TikTok",
+    handle: "w.fysk_fumi",
+    href: "https://tiktok.com/@w.fysk_fumi",
+    hover: "hover:text-cyan-400",
+  },
+  {
+    label: "EasyDonate",
+    handle: "ivnfumi",
+    href: "https://easydonate.app/ivnfumi",
+    hover: "hover:text-emerald-400",
+  },
 ];
 
 function LinkSet() {
@@ -22,7 +37,7 @@ function LinkSet() {
           </a>
         </span>
       ))}
-      <span className="text-zinc-700 text-xs">+</span>
+      <span className="text-xs text-zinc-700">+</span>
     </span>
   );
 }
@@ -31,7 +46,7 @@ export default function InfiniteMarquee() {
   return (
     <div className="group overflow-hidden">
       <div
-        className="flex w-max items-center animate-marquee group-hover:[animation-play-state:paused] text-[13px] will-change-transform"
+        className="animate-marquee flex w-max items-center text-[13px] will-change-transform group-hover:[animation-play-state:paused]"
         aria-hidden="true"
       >
         {Array.from({ length: 12 }).map((_, i) => (

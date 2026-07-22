@@ -5,8 +5,7 @@ import { useEffect } from "react";
 export default function WebMCP() {
   useEffect(() => {
     const mcp = (navigator as unknown as Record<string, unknown>).modelContext as
-      | { registerTool?: (tool: unknown) => void }
-      | undefined;
+      { registerTool?: (tool: unknown) => void } | undefined;
 
     if (!mcp?.registerTool) return;
 

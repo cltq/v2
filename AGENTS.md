@@ -99,6 +99,7 @@ Configured in `next.config.ts` via rewrites — no route handler:
 ### Environment Variables
 
 `.env.local`:
+
 ```
 DISCORD_USERID=969088519161139270
 ```

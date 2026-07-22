@@ -31,22 +31,33 @@ const STATUS_ICONS: Record<DiscordStatus, ((s: number) => React.ReactNode) | nul
     </svg>
   ),
   dnd: (s) => (
-    <svg width={s * 0.5} height={s * 0.5} viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth={3.5} strokeLinecap="round">
+    <svg
+      width={s * 0.5}
+      height={s * 0.5}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#000"
+      strokeWidth={3.5}
+      strokeLinecap="round"
+    >
       <line x1="3" y1="12" x2="21" y2="12" />
     </svg>
   ),
   offline: (s) => (
-    <svg width={s * 0.55} height={s * 0.55} viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2.5}>
+    <svg
+      width={s * 0.55}
+      height={s * 0.55}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="white"
+      strokeWidth={2.5}
+    >
       <circle cx="12" cy="12" r="8.5" />
     </svg>
   ),
 };
 
-export function StatusBadge({
-  status,
-  animated = true,
-  size = 16,
-}: StatusBadgeProps) {
+export function StatusBadge({ status, animated = true, size = 16 }: StatusBadgeProps) {
   const color = STATUS_COLORS[status];
   const iconSize = size * 0.55;
   const StatusIcon = STATUS_ICONS[status];
@@ -59,7 +70,7 @@ export function StatusBadge({
         aria-label={STATUS_LABELS[status]}
       >
         <span
-          className="absolute rounded-full flex items-center justify-center"
+          className="absolute flex items-center justify-center rounded-full"
           style={{
             backgroundColor: color,
             width: size,
@@ -82,7 +93,7 @@ export function StatusBadge({
       aria-label={STATUS_LABELS[status]}
     >
       <motion.span
-        className="absolute rounded-full flex items-center justify-center"
+        className="absolute flex items-center justify-center rounded-full"
         style={{
           backgroundColor: color,
           width: size,
@@ -103,15 +114,11 @@ export function StatusBadge({
       >
         {StatusIcon?.(iconSize)}
       </motion.span>
-
     </span>
   );
 }
 
-export function statusTransition(
-  prevStatus: DiscordStatus,
-  nextStatus: DiscordStatus
-) {
+export function statusTransition(prevStatus: DiscordStatus, nextStatus: DiscordStatus) {
   const colors = STATUS_COLORS;
   return {
     backgroundColor: [colors[prevStatus], colors[nextStatus]],

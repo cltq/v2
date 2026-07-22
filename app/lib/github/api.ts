@@ -2,10 +2,7 @@ import type { GitHubRepo } from "@/app/lib/github/types";
 
 const BASE_URL = "https://api.github.com";
 
-export async function fetchPublicRepos(
-  username: string,
-  limit: number = 6
-): Promise<GitHubRepo[]> {
+export async function fetchPublicRepos(username: string, limit: number = 6): Promise<GitHubRepo[]> {
   const url = `${BASE_URL}/users/${username}/repos?sort=updated&per_page=${limit * 2}`;
   const res = await fetch(url, {
     headers: { Accept: "application/vnd.github+json" },

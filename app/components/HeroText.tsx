@@ -36,11 +36,8 @@ export default function HeroText() {
   return (
     <div className="flex items-center justify-center">
       <p className="text-base text-zinc-400">
-        I&apos;m a{" "}
-        <span className="text-white font-medium">
-          {current.slice(0, charIndex)}
-        </span>
-        <span className="inline-block w-[2px] h-[1.1em] bg-white align-middle ml-0.5 animate-blink" />
+        I&apos;m a <span className="font-medium text-white">{current.slice(0, charIndex)}</span>
+        <span className="animate-blink ml-0.5 inline-block h-[1.1em] w-[2px] bg-white align-middle" />
       </p>
     </div>
   );

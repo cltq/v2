@@ -35,14 +35,14 @@ export default function CurrentlyPlaying() {
 
   return (
     <div>
-      <p className="text-base text-zinc-500 mb-3">Currently playing song on Spotify</p>
+      <p className="mb-3 text-base text-zinc-500">Currently playing song on Spotify</p>
       <div className="rounded-xl border border-white/10 p-4">
         {loading ? (
           <div className="flex items-center gap-3">
-            <div className="w-16 h-16 rounded-lg bg-zinc-800 animate-pulse shrink-0" />
+            <div className="h-16 w-16 shrink-0 animate-pulse rounded-lg bg-zinc-800" />
             <div className="space-y-2">
-              <div className="h-4 w-32 rounded bg-zinc-800 animate-pulse" />
-              <div className="h-3 w-24 rounded bg-zinc-800 animate-pulse" />
+              <div className="h-4 w-32 animate-pulse rounded bg-zinc-800" />
+              <div className="h-3 w-24 animate-pulse rounded bg-zinc-800" />
             </div>
           </div>
         ) : spotify ? (

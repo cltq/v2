@@ -41,10 +41,10 @@ export default function SectionIsland() {
 
   return (
     <nav
-      className={`${GeistMono.variable} fixed left-1/2 top-4 z-50 -translate-x-1/2 font-mono hidden md:block`}
+      className={`${GeistMono.variable} fixed top-4 left-1/2 z-50 hidden -translate-x-1/2 font-mono md:block`}
     >
       <div className="flex items-center gap-3 rounded-full border border-white/10 bg-[#0b0b0f]/80 px-5 py-2 backdrop-blur-xl">
-        <img src="/icon.png" alt="Fumi" className="w-6 h-6 rounded-full shrink-0" />
+        <img src="/icon.png" alt="Fumi" className="h-6 w-6 shrink-0 rounded-full" />
         <div className="relative h-5 overflow-hidden">
           <AnimatePresence mode="popLayout">
             <motion.span
@@ -53,7 +53,7 @@ export default function SectionIsland() {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -16, opacity: 0 }}
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              className="absolute inset-x-0 text-sm text-white whitespace-nowrap"
+              className="absolute inset-x-0 text-sm whitespace-nowrap text-white"
             >
               {active.name}
             </motion.span>

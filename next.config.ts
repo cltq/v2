@@ -8,7 +8,8 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Link",
-            value: '</robots.txt>; rel="robots", </sitemap.xml>; rel="sitemap", </.well-known/api-catalog>; rel="api-catalog", </.well-known/mcp/server-card.json>; rel="mcp-server-card"',
+            value:
+              '</robots.txt>; rel="robots", </sitemap.xml>; rel="sitemap", </.well-known/api-catalog>; rel="api-catalog", </.well-known/mcp/server-card.json>; rel="mcp-server-card"',
           },
         ],
       },
@@ -31,8 +32,7 @@ const nextConfig: NextConfig = {
     GITHUB_USERNAME: process.env.GITHUB_USERNAME,
     GITHUB_BLACKLIST: process.env.GITHUB_BLACKLIST,
   },
-  allowedDevOrigins: ['192.168.1.34', '192.168.1.35', '192.168.1.44'],
+  allowedDevOrigins: ["192.168.1.34", "192.168.1.35", "192.168.1.44"],
 };
 
 export default nextConfig;
-

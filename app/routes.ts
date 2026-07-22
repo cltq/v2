@@ -9,10 +9,10 @@ export const appRoutes: AppRoute[] = [
     name: "Home",
     href: "/",
   },
-  {
-    name: "Music",
-    href: "/music",
-  },
+  // {
+  //   name: "Music",
+  //   href: "/music",
+  // },
 ];
 
 export interface HomeSection {
@@ -22,6 +22,5 @@ export interface HomeSection {
 
 export const homeSections: HomeSection[] = [
   { id: "hero", name: "Home" },
-  { id: "music", name: "Music" },
-  { id: "projects", name: "Projects" },
+  { id: "development", name: "Development" },
 ];

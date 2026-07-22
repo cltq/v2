@@ -28,7 +28,7 @@ async function fetchJson<T>(url: string, signal?: AbortSignal): Promise<T> {
 export async function fetchDiscordPresence(
   userId: string,
   baseUrl?: string,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<DiscordPresence> {
   const url = `${getBaseUrl(baseUrl)}/users/${userId}`;
   const json = await fetchJson<ApiResponse<DiscordPresence>>(url, signal);
@@ -38,7 +38,7 @@ export async function fetchDiscordPresence(
 export async function fetchDiscordProfile(
   userId: string,
   baseUrl?: string,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<{
   id: string;
   username: string;
@@ -46,19 +46,21 @@ export async function fetchDiscordProfile(
   avatar: string;
 }> {
   const url = `${getBaseUrl(baseUrl)}/users/${userId}/profile`;
-  const json = await fetchJson<ApiResponse<{
-    id: string;
-    username: string;
-    displayName: string;
-    avatar: string;
-  }>>(url, signal);
+  const json = await fetchJson<
+    ApiResponse<{
+      id: string;
+      username: string;
+      displayName: string;
+      avatar: string;
+    }>
+  >(url, signal);
   return json.data;
 }
 
 export async function fetchDiscordActivities(
   userId: string,
   baseUrl?: string,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<ActivityData[]> {
   const url = `${getBaseUrl(baseUrl)}/users/${userId}/activities`;
   const json = await fetchJson<ApiResponse<ActivityData[]>>(url, signal);
@@ -68,7 +70,7 @@ export async function fetchDiscordActivities(
 export async function fetchDiscordSpotify(
   userId: string,
   baseUrl?: string,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<SpotifyData | null> {
   const url = `${getBaseUrl(baseUrl)}/users/${userId}/spotify`;
   const json = await fetchJson<ApiResponse<SpotifyData | null>>(url, signal);
@@ -78,7 +80,7 @@ export async function fetchDiscordSpotify(
 export async function fetchDiscordCustomStatus(
   userId: string,
   baseUrl?: string,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<DiscordCustomStatus | null> {
   const url = `${getBaseUrl(baseUrl)}/users/${userId}/status`;
   const json = await fetchJson<ApiResponse<DiscordCustomStatus | null>>(url, signal);
@@ -88,7 +90,7 @@ export async function fetchDiscordCustomStatus(
 export async function fetchDiscordAvatar(
   userId: string,
   baseUrl?: string,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<DiscordAvatar> {
   const url = `${getBaseUrl(baseUrl)}/users/${userId}/avatar`;
   const json = await fetchJson<ApiResponse<DiscordAvatar>>(url, signal);
@@ -98,7 +100,7 @@ export async function fetchDiscordAvatar(
 export async function fetchDiscordPresenceSummary(
   userId: string,
   baseUrl?: string,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<DiscordPresence> {
   const url = `${getBaseUrl(baseUrl)}/users/${userId}/presence`;
   const json = await fetchJson<ApiResponse<DiscordPresence>>(url, signal);
@@ -107,7 +109,7 @@ export async function fetchDiscordPresenceSummary(
 
 export async function fetchDiscordHealth(
   baseUrl?: string,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<{ status: string }> {
   const url = `${getBaseUrl(baseUrl)}/health`;
   const json = await fetchJson<ApiResponse<{ status: string }>>(url, signal);

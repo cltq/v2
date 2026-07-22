@@ -39,36 +39,42 @@ const TYPE_COLORS: Record<string, string> = {
   Competing: "#FAA61A",
 };
 
-function ActivityIcon({ activity, compact = false }: { activity: ActivityData; compact?: boolean }) {
+function ActivityIcon({
+  activity,
+  compact = false,
+}: {
+  activity: ActivityData;
+  compact?: boolean;
+}) {
   const a = activity as unknown as Record<string, string | undefined>;
   const iconUrl = String(
     activity.icon ||
-    activity.largeImage ||
-    a["large_image"] ||
-    activity.assets?.largeImage ||
-    activity.assets?.large_image ||
-    ""
+      activity.largeImage ||
+      a["large_image"] ||
+      activity.assets?.largeImage ||
+      activity.assets?.large_image ||
+      "",
   );
   const smallImageUrl = String(
     activity.smallImage ||
-    a["small_image"] ||
-    activity.assets?.smallImage ||
-    activity.assets?.small_image ||
-    ""
+      a["small_image"] ||
+      activity.assets?.smallImage ||
+      activity.assets?.small_image ||
+      "",
   );
   const largeText = String(
     activity.largeText ||
-    a["large_text"] ||
-    activity.assets?.largeText ||
-    activity.assets?.large_text ||
-    activity.name
+      a["large_text"] ||
+      activity.assets?.largeText ||
+      activity.assets?.large_text ||
+      activity.name,
   );
   const smallText = String(
     activity.smallText ||
-    a["small_text"] ||
-    activity.assets?.smallText ||
-    activity.assets?.small_text ||
-    ""
+      a["small_text"] ||
+      activity.assets?.smallText ||
+      activity.assets?.small_text ||
+      "",
   );
   const largeImage = normalizeDiscordCdnUrl(iconUrl);
   const smallImage = normalizeDiscordCdnUrl(smallImageUrl);
@@ -79,13 +85,11 @@ function ActivityIcon({ activity, compact = false }: { activity: ActivityData; c
 
   if (largeImage && !imgError) {
     return (
-      <div className="relative shrink-0"
-        style={{ width: iconSize, height: iconSize }}
-      >
+      <div className="relative shrink-0" style={{ width: iconSize, height: iconSize }}>
         <img
           src={largeImage}
           alt={largeText}
-          className="w-full h-full rounded-lg object-cover"
+          className="h-full w-full rounded-lg object-cover"
           loading="lazy"
           onError={() => setImgError(true)}
         />
@@ -93,19 +97,24 @@ function ActivityIcon({ activity, compact = false }: { activity: ActivityData; c
           <img
             src={smallImage}
             alt={smallText}
-            className="absolute -bottom-1 -right-1 w-5 h-5 max-md:w-4 max-md:h-4 rounded-full border-2 border-solid border-zinc-700"
+            className="absolute -right-1 -bottom-1 h-5 w-5 rounded-full border-2 border-solid border-zinc-700 max-md:h-4 max-md:w-4"
             loading="lazy"
           />
         )}
-        <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-lg" />
+        <div className="absolute inset-0 rounded-lg ring-1 ring-white/10 ring-inset" />
       </div>
     );
   }
 
   return (
     <div
-      className="relative shrink-0 rounded-lg flex items-center justify-center text-white font-bold"
-      style={{ backgroundColor: fallbackColor, width: iconSize, height: iconSize, fontSize: compact ? 13 : 20 }}
+      className="relative flex shrink-0 items-center justify-center rounded-lg font-bold text-white"
+      style={{
+        backgroundColor: fallbackColor,
+        width: iconSize,
+        height: iconSize,
+        fontSize: compact ? 13 : 20,
+      }}
     >
       <span className="select-none">
         {activity.emoji?.name || activity.name.charAt(0).toUpperCase()}
@@ -121,47 +130,45 @@ export function ActivityCard({ activity, animated = true, compact = false }: Act
     <div className={`flex items-start ${compact ? "gap-2" : "gap-3"}`}>
       <ActivityIcon activity={activity} compact={compact} />
 
-      <div className="flex-1 min-w-0">
+      <div className="min-w-0 flex-1">
         {!compact && (
-          <p className="text-[12px] font-medium text-zinc-500 uppercase tracking-wider">
-            {label}
-          </p>
+          <p className="text-[12px] font-medium tracking-wider text-zinc-500 uppercase">{label}</p>
         )}
-        <p className={`${compact ? "text-[13px]" : "text-[15px]"} font-semibold text-white truncate leading-tight`}>
+        <p
+          className={`${compact ? "text-[13px]" : "text-[15px]"} truncate leading-tight font-semibold text-white`}
+        >
           {activity.emoji && (
             <span className="mr-1">
               {activity.emoji.animated ? (
                 <img
                   src={`https://cdn.discordapp.com/emojis/${activity.emoji.id}.gif`}
                   alt={activity.emoji.name}
-                  className="w-4 h-4 inline align-text-bottom"
+                  className="inline h-4 w-4 align-text-bottom"
                 />
               ) : (
-                <span className="inline-block align-text-bottom">
-                  {activity.emoji.name}
-                </span>
+                <span className="inline-block align-text-bottom">{activity.emoji.name}</span>
               )}
             </span>
           )}
           {activity.name}
         </p>
-        {(compact ? activity.details : (activity.details || activity.state)) && (
-          <p className={`${compact ? "text-[12px]" : "text-[14px]"} text-zinc-400 truncate leading-tight`}>
-            {compact ? activity.details : (activity.details || activity.state)}
+        {(compact ? activity.details : activity.details || activity.state) && (
+          <p
+            className={`${compact ? "text-[12px]" : "text-[14px]"} truncate leading-tight text-zinc-400`}
+          >
+            {compact ? activity.details : activity.details || activity.state}
           </p>
         )}
         {!compact && activity.state && activity.details && (
-          <p className="text-[14px] text-zinc-400 truncate">
-            {activity.state}
-          </p>
+          <p className="truncate text-[14px] text-zinc-400">{activity.state}</p>
         )}
         {!compact && activity.timestamps?.end && (
-          <p className="text-[13px] text-zinc-500 mt-0.5 tabular-nums">
+          <p className="mt-0.5 text-[13px] text-zinc-500 tabular-nums">
             {formatActivityTime(activity.timestamps.end)}
           </p>
         )}
         {!compact && activity.party && (
-          <p className="text-[13px] text-zinc-500 mt-0.5">
+          <p className="mt-0.5 text-[13px] text-zinc-500">
             {activity.party.size}/{activity.party.max}
           </p>
         )}

@@ -16,30 +16,31 @@ export function SpotifyCard({ spotify, animated = true, compact = false }: Spoti
 
   const content = (
     <div className={`flex items-start ${compact ? "gap-2" : "gap-3"}`}>
-      <div className={`relative shrink-0 rounded-lg overflow-hidden`}
+      <div
+        className={`relative shrink-0 overflow-hidden rounded-lg`}
         style={{ width: iconSize, height: iconSize }}
       >
         <img
-            src={albumArt}
+          src={albumArt}
           alt={`${spotify.album} album art`}
-          className="w-full h-full object-cover"
+          className="h-full w-full object-cover"
           loading="lazy"
         />
-        <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-lg" />
+        <div className="absolute inset-0 rounded-lg ring-1 ring-white/10 ring-inset" />
       </div>
 
-      <div className="flex-1 min-w-0">
-        <p className={`${compact ? "text-[13px]" : "text-[15px]"} font-semibold text-white truncate leading-tight`}>
+      <div className="min-w-0 flex-1">
+        <p
+          className={`${compact ? "text-[13px]" : "text-[15px]"} truncate leading-tight font-semibold text-white`}
+        >
           {spotify.song}
         </p>
-        <p className={`${compact ? "text-[12px]" : "text-[14px]"} text-zinc-400 truncate leading-tight`}>
+        <p
+          className={`${compact ? "text-[12px]" : "text-[14px]"} truncate leading-tight text-zinc-400`}
+        >
           {spotify.artist}
         </p>
-        {!compact && (
-          <p className="text-[13px] text-zinc-500 truncate mt-0.5">
-            {spotify.album}
-          </p>
-        )}
+        {!compact && <p className="mt-0.5 truncate text-[13px] text-zinc-500">{spotify.album}</p>}
       </div>
     </div>
   );
@@ -47,12 +48,7 @@ export function SpotifyCard({ spotify, animated = true, compact = false }: Spoti
   if (!animated) {
     if (spotify.trackUrl) {
       return (
-        <a
-          href={spotify.trackUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block"
-        >
+        <a href={spotify.trackUrl} target="_blank" rel="noopener noreferrer" className="block">
           {content}
         </a>
       );
@@ -78,7 +74,7 @@ export function SpotifyCard({ spotify, animated = true, compact = false }: Spoti
         href={spotify.trackUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="block hover:opacity-80 transition-opacity duration-200"
+        className="block transition-opacity duration-200 hover:opacity-80"
       >
         {motionCard}
       </a>

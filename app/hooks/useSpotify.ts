@@ -10,10 +10,7 @@ interface UseSpotifyReturn {
   error: Error | null;
 }
 
-export function useSpotify(
-  pollInterval = 15000,
-  enabled = true
-): UseSpotifyReturn {
+export function useSpotify(pollInterval = 15000, enabled = true): UseSpotifyReturn {
   const [spotify, setSpotify] = useState<SpotifyData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);

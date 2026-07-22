@@ -44,7 +44,11 @@ export async function GET(request: NextRequest) {
     const cached = cacheGet(`img:${imgUrl}`);
     if (cached) {
       return new NextResponse(cached.buffer, {
-        headers: { ...headers, "Content-Type": cached.type, "Cache-Control": "public, max-age=86400" },
+        headers: {
+          ...headers,
+          "Content-Type": cached.type,
+          "Cache-Control": "public, max-age=86400",
+        },
       });
     }
     try {
@@ -54,7 +58,11 @@ export async function GET(request: NextRequest) {
       const buffer = await res.arrayBuffer();
       cacheSet(`img:${imgUrl}`, { buffer: new Uint8Array(buffer), type: contentType });
       return new NextResponse(buffer, {
-        headers: { ...headers, "Content-Type": contentType, "Cache-Control": "public, max-age=86400" },
+        headers: {
+          ...headers,
+          "Content-Type": contentType,
+          "Cache-Control": "public, max-age=86400",
+        },
       });
     } catch {
       return new NextResponse(null, { status: 404, headers });
@@ -97,14 +105,14 @@ export async function GET(request: NextRequest) {
                 artist: track.artist.name,
                 track: track.name,
                 user,
-              })
+              }),
             );
             if (infoRes.ok) {
               const info = await infoRes.json();
               const album = info.track?.album;
               if (album?.image) {
                 const realImages = album.image.filter(
-                  (i: any) => i["#text"] && !isAlbumPlaceholder(i["#text"])
+                  (i: any) => i["#text"] && !isAlbumPlaceholder(i["#text"]),
                 );
                 if (realImages.length > 0) {
                   return { ...track, image: album.image };
@@ -113,7 +121,7 @@ export async function GET(request: NextRequest) {
             }
           } catch {}
           return track;
-        })
+        }),
       );
       data.toptracks.track = enriched;
     }
@@ -123,14 +131,14 @@ export async function GET(request: NextRequest) {
         data.topartists.artist.map(async (artist: any) => {
           try {
             const infoRes = await fetch(
-              lastfmUrl("artist.getInfo", apiKey, { artist: artist.name, user })
+              lastfmUrl("artist.getInfo", apiKey, { artist: artist.name, user }),
             );
             if (infoRes.ok) {
               const info = await infoRes.json();
               const artistInfo = info.artist;
               if (artistInfo?.image) {
                 const realImages = artistInfo.image.filter(
-                  (i: any) => i["#text"] && !isAlbumPlaceholder(i["#text"])
+                  (i: any) => i["#text"] && !isAlbumPlaceholder(i["#text"]),
                 );
                 if (realImages.length > 0) {
                   return { ...artist, image: artistInfo.image };
@@ -139,7 +147,7 @@ export async function GET(request: NextRequest) {
             }
           } catch {}
           return artist;
-        })
+        }),
       );
       data.topartists.artist = enriched;
     }

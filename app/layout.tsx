@@ -5,12 +5,25 @@ import ContextMenuGuard from "@/app/components/ContextMenuGuard";
 import WebMCP from "@/app/components/WebMCP";
 import DynamicBackgrounds from "@/app/components/DynamicBackgrounds";
 import SectionSideNav from "@/app/components/SectionSideNav";
+import TitleUpdater from "@/app/components/TitleUpdater";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Fumi",
   description: "Fumi's Portfolio/Personal Website",
   icons: { icon: "/favicon.png" },
+  openGraph: {
+    title: "Fumi",
+    description: "Fumi's Portfolio/Personal Website",
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Fumi",
+    description: "Fumi's Portfolio/Personal Website",
+    images: ["/og-image.png"],
+  },
 };
 
 export const viewport: Viewport = {
@@ -25,11 +38,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${GeistMono.variable} h-svh antialiased`}
-    >
-      <body className="relative h-full bg-[#0b0b0f] font-sans text-[#9ca3af] md:pt-[72px]">
+    <html lang="en" className={`${GeistMono.variable} h-svh antialiased`}>
+      <body className="relative h-full bg-black font-sans text-[#9ca3af] md:pt-[72px]">
         <DynamicBackgrounds />
         <SectionSideNav />
         <div className="relative z-10 flex h-full flex-col">

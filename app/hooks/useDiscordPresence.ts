@@ -19,7 +19,7 @@ interface UseDiscordPresenceReturn {
 
 export function useDiscordPresence(
   userId: string,
-  options: UseDiscordPresenceOptions = {}
+  options: UseDiscordPresenceOptions = {},
 ): UseDiscordPresenceReturn {
   const [presence, setPresence] = useState<DiscordPresence | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -31,18 +31,21 @@ export function useDiscordPresence(
 
   const baseUrl = options.apiBaseUrl;
 
-  const fetchInitial = useCallback(async (signal?: AbortSignal) => {
-    try {
-      const data = await fetchDiscordPresence(userIdRef.current, baseUrl, signal);
-      setPresence(data);
-      setError(null);
-      return data;
-    } catch (err) {
-      if (err instanceof DOMException && err.name === "AbortError") return null;
-      setError(err instanceof Error ? err : new Error(String(err)));
-      return null;
-    }
-  }, [baseUrl]);
+  const fetchInitial = useCallback(
+    async (signal?: AbortSignal) => {
+      try {
+        const data = await fetchDiscordPresence(userIdRef.current, baseUrl, signal);
+        setPresence(data);
+        setError(null);
+        return data;
+      } catch (err) {
+        if (err instanceof DOMException && err.name === "AbortError") return null;
+        setError(err instanceof Error ? err : new Error(String(err)));
+        return null;
+      }
+    },
+    [baseUrl],
+  );
 
   const refetch = useCallback(async () => {
     setLoading(true);

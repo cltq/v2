@@ -1,14 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import localFont from "next/font/local";
 import { homeSections } from "@/app/routes";
 import { motion } from "framer-motion";
-
-const geistPixelSquare = localFont({
-  src: "../../node_modules/geist/dist/fonts/geist-pixel/GeistPixel-Square.woff2",
-  variable: "--font-geist-pixel-square",
-});
 
 export default function SectionSideNav() {
   const [activeId, setActiveId] = useState(homeSections[0].id);
@@ -56,8 +50,7 @@ export default function SectionSideNav() {
 
   return (
     <nav
-      className={`${geistPixelSquare.variable} fixed left-0 top-0 z-50 hidden h-full w-48 flex-col justify-center px-8 md:flex`}
-      style={{ fontFamily: "var(--font-geist-pixel-square)" }}
+      className="fixed top-0 left-0 z-50 hidden h-full w-48 flex-col justify-center px-8 font-mono md:flex"
       aria-label="Section navigation"
     >
       <ul className="flex flex-col gap-4">
@@ -68,16 +61,12 @@ export default function SectionSideNav() {
               <button
                 onClick={() => scrollTo(section.id)}
                 className={`group flex items-center gap-2 text-sm transition-colors duration-200 ${
-                  active
-                    ? "text-white"
-                    : "text-zinc-500 hover:text-zinc-300"
+                  active ? "text-white" : "text-zinc-500 hover:text-zinc-300"
                 }`}
               >
                 <motion.span
                   className={`transition-colors duration-200 ${
-                    active
-                      ? "text-white"
-                      : "text-zinc-700 group-hover:text-zinc-300"
+                    active ? "text-white" : "text-zinc-700 group-hover:text-zinc-300"
                   }`}
                   animate={active ? { x: 2 } : { x: 0 }}
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
