@@ -38,14 +38,6 @@ body {
   overscroll-behavior: none;
 }
 
-#scroll-container {
-  scroll-snap-type: y mandatory;
-}
-
-section[id] {
-  scroll-snap-align: start;
-}
-
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
